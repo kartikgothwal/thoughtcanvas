@@ -1,22 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { ModeToggle } from "@/components/toogle-mode";
-import { NavigationMenuDemo } from "@/components/lib";
 import {NextFontWithVariable} from "@next/font";
+import Provider from "@/app/Provider";
 
 
-const geistSans:NextFontWithVariable = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono:NextFontWithVariable = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 const gtSuper:NextFontWithVariable = localFont({
     src: "./fonts/gtsuper.woff",
     variable: "--font-gtsuper",
@@ -33,21 +21,15 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>):JSX.Element {
   return (
     <html lang="en">
       <body
         className={`${gtSuper.variable} ${gtSuper.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-         <ModeToggle />
+        <Provider>
           {children}
-        </ThemeProvider>
+        </Provider>
       </body>
     </html>
   );
