@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import {NextFontWithVariable} from "@next/font";
 import Provider from "@/app/Provider";
+import { ModeToggle } from "@/components/toogle-mode";
+import { signOut } from "next-auth/react";
 
 
 const gtSuper:NextFontWithVariable = localFont({
@@ -28,6 +30,7 @@ export default function RootLayout({
         className={`${gtSuper.variable} ${gtSuper.variable} antialiased`}
       >
         <Provider>
+          <ModeToggle />
           {children}
         </Provider>
       </body>
