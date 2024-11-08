@@ -12,8 +12,8 @@ import { Button } from "@/components/ui/button";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const SignupForm = () => {
-  const { data: session, status } = useSession();
-  console.log("🚀 ~ SignupForm ~ session:", session)
+  const { data: session, status} = useSession();
+  console.log("🚀 ~ SignupForm ~ session:", session,status)
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted");
