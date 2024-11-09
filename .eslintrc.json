@@ -1,0 +1,21 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "indent": ["error", 2, 4],
+    "object-curly-spacing": ["error", "always"],
+    "keyword-spacing": ["error", { "before": true, "after": true }],
+    "space-before-function-paren": ["error", "always"],
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
+    "no-trailing-spaces": "error",
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "no-var": "error",
+    "eqeqeq": ["error", "always"],
+    "no-unused-vars": ["warn", { "args": "none", "ignoreRestSiblings": true }],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      { "selector": "variableLike", "format": ["camelCase"] },
+      { "selector": "interface", "format": ["PascalCase"], "prefix": ["I"] }
+    ]
+  }
+}
