@@ -1,30 +1,47 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { cn } from "@/lib/utils";
-import {
-  IconBrandGithub,
-  IconBrandGoogle,
-} from "@tabler/icons-react";
+import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, SignInResponse, signOut, useSession } from "next-auth/react";
+import { login } from "@/utils/authApiFunctions";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
-const SignupForm = () => {
-  const { data: session, status} = useSession();
-  console.log("🚀 ~ SignupForm ~ session:", session,status)
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+const SignupForm = (): React.ReactNode => {
+  const { data: session, status } = useSession();
+  const { toast } = useToast();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     console.log("Form submitted");
   };
-  const handleGithubSignIn = () => {
-    console.log("inside")
-    signIn("github");
+  const handleGithubSignIn = async () => {
+    try {
+      await signIn("github");
+    } catch (error: { message: string }) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error.message,
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    }
   };
-  const handleGoogleSignIn = () => {
-    console.log("inside")
-    signIn("google");
+  const handleGoogleSignIn = async () => {
+    try {
+      await signIn("google");
+    } catch (error: { message: string }) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error.message,
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    }
   };
   return (
     <DialogContent className="border-none">
@@ -88,16 +105,14 @@ const SignupForm = () => {
             </span>
             <BottomGradient />
           </button>
-
         </div>
-        <button onClick={()=>signOut()}>sign out</button>
-
+        <button onClick={() => signOut()}>sign out</button>
       </div>
     </DialogContent>
   );
-}
+};
 
-const BottomGradient = () => {
+const BottomGradient = (): React.ReactNode => {
   return (
     <>
       <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
@@ -112,7 +127,7 @@ const LabelInputContainer = ({
 }: {
   children: React.ReactNode;
   className?: string;
-}) => {
+}): JSX.Element => {
   return (
     <div className={cn("flex flex-col space-y-2 w-full", className)}>
       {children}
