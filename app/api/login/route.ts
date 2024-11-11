@@ -7,6 +7,8 @@ export const POST=TryCatch( async(request: Request): Promise<any> => {
                console.log(">>",data)
                const isPresent = await Users.findOne({email:data.email})
                console.log(isPresent)
-               return NextResponse.json({isPresent:isPresent});
-
+                if (!isPresent) {
+                return NextResponse.json({ error: "User not found" }, { status: 404 });
+                }
+               return NextResponse.json({isPresent:isPresent}, { status: 200 });
 });
