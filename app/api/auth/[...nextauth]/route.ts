@@ -20,10 +20,14 @@ const handler: any = NextAuth({
   callbacks: {
     async signIn({ user, account, profile }): Promise<boolean> {
       try {
-        const response: AxiosResponse<any> = await axios.post(USER_LOGIN, {
-          email: user.email,
-          password: 123456,
-        });
+        console.log("🚀 ~ signIn ~ user:", user);
+        const response: AxiosResponse<any> = await axios.post(
+          `${process.env.APP_URL}${USER_LOGIN}`,
+          {
+            ...user,
+            providerSignIn:true
+          }
+        );
         console.log(">>>>", response);
         return true;
       } catch (error) {

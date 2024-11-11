@@ -7,14 +7,13 @@ import { Input } from "@/components/ui/input";
 import { DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { signIn, SignInResponse, signOut, useSession } from "next-auth/react";
-import { login } from "@/utils/authApiFunctions";
+import { login } from "@/utils/AuthApiFunctions";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 
 const SignupForm = (): React.ReactNode => {
   const { data: session, status } = useSession();
   const { toast } = useToast();
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     console.log("Form submitted");
@@ -34,7 +33,7 @@ const SignupForm = (): React.ReactNode => {
   const handleGoogleSignIn = async () => {
     try {
       await signIn("google");
-    } catch (error: { message: string }) {
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
