@@ -1,3 +1,3 @@
-import { getAllUsers } from "./usersApiFunctions";
+import { generateJwtToken } from "./JwtToken";
 
-export {getAllUsers};
+export { generateJwtToken };
