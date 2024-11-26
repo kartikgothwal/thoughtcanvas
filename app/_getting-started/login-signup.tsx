@@ -1,18 +1,20 @@
 "use client";
 import React, { useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { signIn, SignInResponse, signOut, useSession } from "next-auth/react";
-import { login } from "@/utils/AuthApiFunctions";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { login } from "@/utils/authApiFunctions";
+import { FaGithub } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 
 const SignupForm = (): React.ReactNode => {
   const { data: session, status } = useSession();
+  console.log("🚀 ~ SignupForm ~ data:", session, status);
   const { toast } = useToast();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -21,11 +23,11 @@ const SignupForm = (): React.ReactNode => {
   const handleGithubSignIn = async () => {
     try {
       await signIn("github");
-    } catch (error: { message: string }) {
+    } catch (error) {
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
-        description: error.message,
+        description: error?.message,
         action: <ToastAction altText="Try again">Try again</ToastAction>,
       });
     }
@@ -88,20 +90,20 @@ const SignupForm = (): React.ReactNode => {
             className=" relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
             onClick={handleGithubSignIn}
           >
-            <IconBrandGithub className="h-8 w-8 text-neutral-800 dark:text-neutral-300" />
             <span className="text-neutral-700 dark:text-neutral-300 text-md">
               GitHub
             </span>
+            <FaGithub size={20} color="white" />
             <BottomGradient />
           </button>
           <button
             className=" relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)] text-center "
             onClick={handleGoogleSignIn}
           >
-            <IconBrandGoogle className="h-8 w-8 text-neutral-800 dark:text-neutral-300" />
             <span className="text-neutral-700 dark:text-neutral-300 text-md">
               Google
             </span>
+            <FaGoogle size={20} color="white" />
             <BottomGradient />
           </button>
         </div>
