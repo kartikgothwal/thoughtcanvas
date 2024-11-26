@@ -3,44 +3,67 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import client from "../../../../lib/db";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import axios, { AxiosResponse } from "axios";
-import { USER_LOGIN } from "@/constant";
+import { Users } from "@/schemas/users";
+import { DbConnect } from "@/config/dbConnect";
+import { generateJwtToken } from "@/utils";
+import { Adapter } from "next-auth/adapters";
 const handler: any = NextAuth({
-  adapter: MongoDBAdapter(client),
+  adapter: MongoDBAdapter(client) as Adapter,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      allowDangerousEmailAccountLinking: true,
     }),
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      allowDangerousEmailAccountLinking: true,
     }),
   ],
   callbacks: {
     async signIn({ user, account, profile }): Promise<boolean> {
-      try {
-        console.log("🚀 ~ signIn ~ user:", user);
-        const response: AxiosResponse<any> = await axios.post(
-          `${process.env.APP_URL}${USER_LOGIN}`,
-          {
-            ...user,
-            providerSignIn:true
+      if (account?.provider === "google" || account?.provider === "github") {
+        await DbConnect();
+
+        try {
+          const existingUser = await Users.findOne({ email: user.email });
+
+          if (!existingUser) {
+            const [firstname, lastname] = user?.name?.split(" ") || ["", ""];
+            const { name, ...userDataWithoutName } = user;
+
+            const newUser = new Users({
+              ...userDataWithoutName,
+              firstname,
+              lastname,
+            });
+
+            const token = await generateJwtToken(user.email as string);
+            newUser.accessToken = token.Accesstoken;
+            user.refreshToken = token.RefreshToken;
+            await newUser.save();
+            return true;
+          } else {
+            return true;
           }
-        );
-        console.log(">>>>", response);
-        return true;
-      } catch (error) {
-        console.error("Error in signIn callback:", error);
-        return false;
+        } catch (error: any) {
+          console.error("Error during signIn callback:", error);
+          return false;
+        }
       }
+      return true;
     },
 
-    //  async session({ session, token, user }) {
-    //   // Attach any additional data to the session here
-    //   session.user.customData = user.customData || null; // Pass custom data to the session
-    //   return session;
-    // },
+    async session({ session, user, token }) {
+      // console.log("🚀 ~ session ~ session:", token);
+      // console.log("🚀 ~ session ~ user:", user);
+      session.user.refreshToken = user.refreshToken || "";
+      session.user.firstname = user?.firstname ?? "";
+      session.user.lastname = user?.lastname ?? "";
+
+      return session;
+    },
   },
 });
 export { handler as GET, handler as POST };

@@ -5,21 +5,21 @@ interface IUser extends Document {
   lastname: string;
   email: string;
   image?: string;
-  password: string;
+  password: string | null;
   emailVerified?: boolean;
   accessToken?: string;
 }
 
 const UserSchema = new mongoose.Schema<IUser>({
   firstname: { type: String, required: true },
-  lastname: { type: String, required: true },
+  lastname: { type: String, required: false },
   email: {
     type: String,
     required: true,
     unique: true,
     validate: {
       validator: function (value: string): boolean {
-        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
+        return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
       },
       message: "Email is not valid",
     },
@@ -29,11 +29,12 @@ const UserSchema = new mongoose.Schema<IUser>({
   },
   password: {
     type: String,
-    required: true,
-    unique: true,
+    required: false,
     validate: {
       validator: function (value: string): boolean {
-        return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(value);
+        return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
+          value
+        );
       },
       message: "Password is not valid",
     },
@@ -45,4 +46,5 @@ const UserSchema = new mongoose.Schema<IUser>({
 });
 
 // Check if the model already exists before defining it
-export const Users: Model<IUser> = mongoose.models.user || mongoose.model<IUser>("user", UserSchema);
+export const Users: Model<IUser> =
+  mongoose.models.user || mongoose.model<IUser>("user", UserSchema);

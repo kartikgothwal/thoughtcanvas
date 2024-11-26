@@ -2,18 +2,24 @@ import { NextResponse } from "next/server";
 
 export const expertError = (error: any) => {
   const status: number = error.status || 500;
-  let message;
+  let message: string;
 
-  if (status === 500) {
-    message = "Something went wrong!!";
-  } else if (status === 401) {
-    message = error.message || "Unauthorized Access";
-  } else if (status === 404) {
-    message = error.message || "Not Found";
-  } else {
-    message = error.message || "Something went wrong!!";
+  switch (status) {
+    case 500:
+      message = "Something went wrong!!";
+      break;
+    case 401:
+      message = error.message || "Unauthorized Access";
+      break;
+    case 404:
+      message = error.message || "Not Found";
+      break;
+    default:
+      message = error.message || "Something went wrong!!";
   }
-  return new NextResponse(JSON.stringify({ message: message }), {
+
+  return new NextResponse(JSON.stringify({ error: message }), {
     status: status,
+    headers: { "Content-Type": "application/json" },
   });
 };
