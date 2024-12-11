@@ -23,7 +23,7 @@ const Home = (): JSX.Element => {
             <div className="flex justify-between ml-[6rem]">
                 <div className="flex flex-col gap-[70px] mt-[3rem]">
                     <div className="font-bold leading-[100px] tracking-normal">
-                        <h1 className="text-7xl">
+                        <h1 className="text-4xl lg:text-7xl">
                             Human <br />
                             <span> stories & ideas</span> 
                         </h1>

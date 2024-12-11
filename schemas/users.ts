@@ -8,6 +8,7 @@ interface IUser extends Document {
   password: string | null;
   emailVerified?: boolean;
   accessToken?: string;
+  isVerified: boolean;
 }
 
 const UserSchema = new mongoose.Schema<IUser>({
@@ -46,5 +47,5 @@ const UserSchema = new mongoose.Schema<IUser>({
 });
 
 // Check if the model already exists before defining it
-export const Users: Model<IUser> =
+export const UsersModel: Model<IUser> =
   mongoose.models.user || mongoose.model<IUser>("user", UserSchema);

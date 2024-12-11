@@ -1,5 +1,5 @@
 import { expertError } from "./ErrorExpert";
-import { TryCatch } from "./TryCatch";
+ 
 import JWT from "jsonwebtoken";
 
 export const generateJwtToken = async (email: string) => {
