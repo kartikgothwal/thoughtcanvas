@@ -8,7 +8,7 @@ const page = () => {
       const Provider:AuthProvider = new GoogleAuthProvider();
       const response:UserCredential = await signInWithPopup(auth, Provider);
    
-    } catch (error) {
+    } catch (error:unknown) {
       console.error(error);
     }
   };
