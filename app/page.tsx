@@ -1,13 +1,13 @@
 "use client"
 import { auth } from "@/config/firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { AuthProvider, GoogleAuthProvider, signInWithPopup, UserCredential } from "firebase/auth";
 
 const page = () => {
   const handleGoogleSignIn = async () => {
     try {
-      const Provider = new GoogleAuthProvider();
-      const response = await signInWithPopup(auth, Provider);
-      console.log("🚀 ~ handleGoogleSignIn ~ response:", response);
+      const Provider:AuthProvider = new GoogleAuthProvider();
+      const response:UserCredential = await signInWithPopup(auth, Provider);
+   
     } catch (error) {
       console.error(error);
     }
