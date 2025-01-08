@@ -1,12 +1,14 @@
 FROM node:22-slim AS development
 
+# Install pnpm globally
+RUN npm install -g pnpm
+
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy package files and install dependencies
+# Copy package files and install dependencies using pnpm
 COPY package*.json ./
-
-RUN npm install
+RUN pnpm install
 
 # Copy the rest of the application code
 COPY . .
@@ -15,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Define the command to run the application
-CMD ["npm", "run", "dev"]
+CMD ["pnpm", "run", "dev"]
