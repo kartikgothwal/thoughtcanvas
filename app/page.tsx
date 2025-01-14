@@ -7,8 +7,11 @@
 //   UserCredential,
 // } from "firebase/auth";
 
+import dbConnect from "@/config/dbConnect";
+
 const page = () => {
-  return <></>;
+  dbConnect();
+  return <>hellow world</>;
 };
 
 export default page;
