@@ -11,7 +11,7 @@ import dbConnect from "@/config/dbConnect";
 
 const Page = () => {
   dbConnect();
-  return <>hellow world</>;
+  return <>hellow world</>
 };
 
 export default Page;
