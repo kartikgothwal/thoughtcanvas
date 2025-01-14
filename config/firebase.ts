@@ -16,13 +16,13 @@ type FirebaseConfigType = {
   measurementId: string;
 };
 const firebaseConfig: FirebaseConfigType = {
-  apiKey: "AIzaSyDr0qaz9AllEEEWzuZ6dO1hsBtOuNm59WM",
-  authDomain: "thoughtcanvas-c476b.firebaseapp.com",
-  projectId: "thoughtcanvas-c476b",
-  storageBucket: "thoughtcanvas-c476b.firebasestorage.app",
-  messagingSenderId: "1014496734578",
-  appId: "1:1014496734578:web:1b84cd919c212caca001eb",
-  measurementId: "G-H2P0F5NED4",
+  apiKey: process.env.FIREBASE_API_KEY!,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN!,
+  projectId: process.env.FIREBASE_PROJECTID!,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET!,
+  messagingSenderId: process.env.FIREBASE_MESSAGINGSENDERID!,
+  appId: process.env.FIREBASE_APPID!,
+  measurementId: process.env.FIREBASE_MEASUREMENTID!,
 };
 
 // Initialize Firebase

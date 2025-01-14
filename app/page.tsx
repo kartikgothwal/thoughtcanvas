@@ -9,9 +9,9 @@
 
 import dbConnect from "@/config/dbConnect";
 
-const page = () => {
+const Page = () => {
   dbConnect();
   return <>hellow world</>;
 };
 
-export default page;
+export default Page;
