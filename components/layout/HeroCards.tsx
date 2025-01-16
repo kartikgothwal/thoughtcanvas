@@ -10,6 +10,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Check, Linkedin } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 // import { LightBulbIcon } from "./Icons";
 // import { GitHubLogoIcon } from "@radix-ui/react-icons";
@@ -30,7 +31,12 @@ export const HeroCards = () => {
 
           <div className="flex flex-col">
             <CardTitle className="text-lg">Kartik Gothwal</CardTitle>
-            <Link href={"https://kartik-gothwal.vercel.app/"} className="">@Portfolio</Link>
+            <Link
+              href={"https://kartik-gothwal.vercel.app/"}
+              className="text-[#915eff]"
+            >
+              @Portfolio
+            </Link>
           </div>
         </CardHeader>
 
@@ -40,12 +46,14 @@ export const HeroCards = () => {
       {/* Team */}
       <Card className="absolute right-[20px] top-4 w-80 flex flex-col justify-center items-center drop-shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader className="mt-8 flex justify-center items-center pb-2">
-          <img
+          {/* <Image
             src="https://i.pravatar.cc/150?img=58"
             alt="user avatar"
             className="absolute grayscale-[0%] -top-12 rounded-full w-24 h-24 aspect-square object-cover"
-          />
-          <CardTitle className="text-center">Leo Miranda</CardTitle>
+            width={100}
+            height={100}
+          /> */}
+          <CardTitle className="text-center text-[#915eff]">Kartik Gothwal</CardTitle>
           <CardDescription className="font-normal text-primary">
             Frontend Developer
           </CardDescription>
@@ -62,7 +70,7 @@ export const HeroCards = () => {
           <div>
             <a
               rel="noreferrer noopener"
-              href="https://github.com/leoMirandaa"
+              href="https://github.com/kartikgothwal"
               target="_blank"
               className={buttonVariants({
                 variant: "ghost",
@@ -74,7 +82,7 @@ export const HeroCards = () => {
             </a>
             <a
               rel="noreferrer noopener"
-              href="https://twitter.com/leo_mirand4"
+              href="https://twitter.com/KartikGothwal28"
               target="_blank"
               className={buttonVariants({
                 variant: "ghost",
@@ -95,7 +103,7 @@ export const HeroCards = () => {
 
             <a
               rel="noreferrer noopener"
-              href="https://www.linkedin.com/in/leopoldo-miranda/"
+              href="https://www.linkedin.com/in/kartikgothwal/"
               target="_blank"
               className={buttonVariants({
                 variant: "ghost",
