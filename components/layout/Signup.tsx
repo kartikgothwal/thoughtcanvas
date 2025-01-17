@@ -7,33 +7,40 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 
 import { cn } from "@/lib/utils";
-import {
-  IconBrandGithub,
-  IconBrandGoogle,
-} from "@tabler/icons-react";
+import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 
-export function SignUpForm({ openSignUpModel }: { openSignUpModel: boolean }) {
+export function SignUpForm({
+  openSignUpModel,
+  setOpenSignupModal,
+}: {
+  openSignUpModel: boolean;
+  setOpenSignupModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted");
   };
   return (
     <>
-      <Dialog open={openSignUpModel}>
-        <DialogContent className="sm:max-w-[425px]">
+      <Dialog
+        open={openSignUpModel}
+        onOpenChange={(isOpen: boolean) => setOpenSignupModal(isOpen)}
+      >
+        <DialogContent className="sm:max-w-[425px] px-0">
           <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
-            <DialogHeader className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
+            <DialogTitle className="font-bold text-xl text-neutral-800 dark:text-neutral-200 mb-6">
               Welcome to ThoughtCanvas
-            </DialogHeader>
+            </DialogTitle>
             <DialogDescription className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-            A place to read, write, and deepen your understanding, Please Login!
+              Please Register Yourself!!
             </DialogDescription>
 
             <form className="my-8" onSubmit={handleSubmit}>
-              <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+              <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-6">
                 <LabelInputContainer>
                   <Label htmlFor="firstname">First name</Label>
                   <Input id="firstname" placeholder="Tyler" type="text" />
@@ -43,7 +50,7 @@ export function SignUpForm({ openSignUpModel }: { openSignUpModel: boolean }) {
                   <Input id="lastname" placeholder="Durden" type="text" />
                 </LabelInputContainer>
               </div>
-              <LabelInputContainer className="mb-4">
+              <LabelInputContainer className="mb-6">
                 <Label htmlFor="email">Email Address</Label>
                 <Input
                   id="email"
@@ -51,19 +58,11 @@ export function SignUpForm({ openSignUpModel }: { openSignUpModel: boolean }) {
                   type="email"
                 />
               </LabelInputContainer>
-              <LabelInputContainer className="mb-4">
+              <LabelInputContainer className="mb-6">
                 <Label htmlFor="password">Password</Label>
                 <Input id="password" placeholder="••••••••" type="password" />
               </LabelInputContainer>
-              <LabelInputContainer className="mb-8">
-                <Label htmlFor="twitterpassword">Your twitter password</Label>
-                <Input
-                  id="twitterpassword"
-                  placeholder="••••••••"
-                  type="twitterpassword"
-                />
-              </LabelInputContainer>
-              <DialogFooter>
+              <DialogFooter style={{flexDirection:"column"}}>
                 <button
                   className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
                   type="submit"
