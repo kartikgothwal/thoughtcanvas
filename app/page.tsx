@@ -5,7 +5,6 @@ import dbConnect from "@/config/dbConnect";
 
 const Page = () => {
   // dbConnect();
-  console.log("APP_URL:", process.env.APP_URL);
 
   return (
     <>

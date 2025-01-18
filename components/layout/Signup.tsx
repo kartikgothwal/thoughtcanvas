@@ -66,11 +66,15 @@ export function SignUpForm({
   } = useForm<ISignUpFormSchema>({
     resolver: zodResolver(SignUpFormSchema),
   });
-  const onSubmit = async (data: ISignUpFormSchema) => {
-    if (data) {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/signup`, data);
+  const onSubmit = async (userData: ISignUpFormSchema) => {
+    if (userData) {
+      console.log("🚀 ~ onSubmit ~ data:", userData);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_APP_API_URL}/api/signup`,
+        userData
+      );
       console.log("🚀 ~ onSubmit ~ response:", response);
-    } 
+    }
   };
   const handleGoogleSignup = async () => {
     const provider: GoogleAuthProvider = new GoogleAuthProvider();
