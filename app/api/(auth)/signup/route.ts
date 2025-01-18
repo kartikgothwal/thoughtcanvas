@@ -1,7 +1,19 @@
-import { NextRequest } from "next/server";
+import {
+  SignUpFormSchema,
+  SignUpFormSchemaType,
+} from "@/components/layout/Signup";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const payload = await request.json();
-  console.log("🚀 ~ POST ~ payload:", payload);
-  return new Response("Hello world");
+  try {
+    const payload: SignUpFormSchemaType = await request.json();
+    const validatedData = await SignUpFormSchema.parseAsync(payload);
+    console.log("🚀 ~ POST ~ validatedData:", validatedData);
+    return new Response("hello world");
+  } catch (error: unknown) {
+    return NextResponse.json(
+      { message: "Validation failed", errors: error },
+      { status: 400 }
+    );
+  }
 }

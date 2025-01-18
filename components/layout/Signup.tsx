@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { auth } from "@/config/firebase";
 
-const SignUpFormSchema = z.object({
+export const SignUpFormSchema = z.object({
   firstname: z
     .string()
     .min(3, "must not be lesser than 3 characters")
@@ -50,7 +50,7 @@ const SignUpFormSchema = z.object({
       "must be 8-12 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });
-type ISignUpFormSchema = z.infer<typeof SignUpFormSchema>;
+export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
 export function SignUpForm({
   openSignUpModel,
@@ -63,14 +63,14 @@ export function SignUpForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ISignUpFormSchema>({
+  } = useForm<SignUpFormSchemaType>({
     resolver: zodResolver(SignUpFormSchema),
   });
-  const onSubmit = async (userData: ISignUpFormSchema) => {
+  const onSubmit = async (userData: SignUpFormSchemaType) => {
     if (userData) {
       console.log("🚀 ~ onSubmit ~ data:", userData);
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_APP_API_URL}/api/signup`,
+        `${process.env.NEXT_PUBLIC_APP_API_URL}/signup`,
         userData
       );
       console.log("🚀 ~ onSubmit ~ response:", response);

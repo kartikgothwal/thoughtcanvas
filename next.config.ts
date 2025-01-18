@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   env: {
     APP_URL: "http://localhost:3000",
   },
+  images: {
+    domains: ["kartik-gothwal.vercel.app"],
+  },
   // webpackDevMiddleware: (config: any) => {
   //   // Solve compiling problem via vagrant
   //   config.watchOptions = {

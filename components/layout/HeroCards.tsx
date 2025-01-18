@@ -40,19 +40,19 @@ export const HeroCards = () => {
           </div>
         </CardHeader>
 
-        <CardContent>This landing page is awesome!</CardContent>
+        <CardContent>Checkout my portfolio</CardContent>
       </Card>
 
       {/* Team */}
       <Card className="absolute right-[20px] top-4 w-80 flex flex-col justify-center items-center drop-shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader className="mt-8 flex justify-center items-center pb-2">
-          {/* <Image
-            src="https://i.pravatar.cc/150?img=58"
+          <Image
+            src="https://kartik-gothwal.vercel.app/assets/mypic-9c9ebbfc.jpg"
             alt="user avatar"
             className="absolute grayscale-[0%] -top-12 rounded-full w-24 h-24 aspect-square object-cover"
             width={100}
             height={100}
-          /> */}
+          />
           <CardTitle className="text-center text-[#915eff]">Kartik Gothwal</CardTitle>
           <CardDescription className="font-normal text-primary">
             Frontend Developer
