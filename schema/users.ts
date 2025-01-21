@@ -4,12 +4,12 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
   {
     firstname: {
       type: String,
-      require: true,
+      required: true,
       trim: true,
     },
     lastname: {
       type: String,
-      require: true,
+      required: true,
       trim: true,
     },
     email: {
@@ -55,13 +55,13 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
     posts: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "post",
+        ref: "posts",
       },
     ],
     bookmarks: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Post",
+        ref: "posts",
       },
     ],
     isactive: {
@@ -100,7 +100,7 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
       default: "active",
     },
     lastLogin: { type: Date },
-    liked: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+    liked: [{ type: mongoose.Schema.Types.ObjectId, ref: "posts" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comments" }],
   },
   {
@@ -109,5 +109,5 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
 );
 
 const UserModel =
-  mongoose.models.UserModel || mongoose.model<IUsersSchema>("User", userSchema);
+  mongoose.models.UserModel || mongoose.model<IUsersSchema>("users", userSchema);
 export { UserModel };
