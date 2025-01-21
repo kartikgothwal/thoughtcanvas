@@ -1,6 +1,5 @@
 import { SignUpFormSchema } from "@/zod";
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError } from "zod";
 import { z } from "zod";
 
 // export const SignUpFormSchema = z.object({
@@ -36,14 +35,18 @@ export async function POST(request: NextRequest) {
   try {
     const payload: SignUpFormSchemaType = await request.json();
     const validatedData = SignUpFormSchema.safeParse(payload);
-    console.log("🚀 ~ POST ~ validatedData:", validatedData);
+    if (!validatedData.success) {
+      return NextResponse.json({ error: validatedData.error.errors[0]}, {
+        status:400
+      });
+    }
     return new Response("hello world");
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);
     return NextResponse.json(
       {
         message: "error happened",
-        errors: (error as ZodError) ? error : "internal server error",
+        errors: error ? error : "internal server error",
       },
       { status: 400 }
     );
