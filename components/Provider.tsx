@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@/components/theme-provider";
-
+import { Toaster } from "react-hot-toast";
 const Provider = ({
   children,
 }: Readonly<{
@@ -15,6 +15,7 @@ const Provider = ({
         disableTransitionOnChange
       >
         {children}
+        <Toaster />
       </ThemeProvider>
     </>
   );

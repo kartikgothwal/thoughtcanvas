@@ -22,6 +22,8 @@ import { cn } from "@/lib/utils";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { auth } from "@/config/firebase";
 import { SignUpFormSchema } from "@/zod";
+import toast from "react-hot-toast";
+import { useTheme } from "next-themes";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -32,6 +34,7 @@ export function SignUpForm({
   openSignUpModel: boolean;
   setOpenSignupModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const { theme } = useTheme();
   const {
     register,
     handleSubmit,
@@ -46,7 +49,20 @@ export function SignUpForm({
           `${process.env.NEXT_PUBLIC_APP_API_URL}/signup`,
           userData
         );
-        console.log("🚀 ~ onSubmit ~ response:", response);
+        console.log(theme);
+        toast.success(response.data.message, {
+          style: {
+            borderRadius: "10px",
+            background:
+              theme?.toLowerCase() == "dark" || theme?.toLowerCase() == "system"
+                ? "#333"
+                : "#fff",
+            color:
+              theme?.toLowerCase() == "dark" || theme?.toLowerCase() == "system"
+                ? "#fff"
+                : "#333",
+          },
+        });
       }
     } catch (error: unknown) {
       console.log("🚀 ~ onSubmit ~ error:", error);
