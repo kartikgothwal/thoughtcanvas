@@ -85,13 +85,13 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
     following: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "users",
       },
     ],
     drafts: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Post",
+        ref: "posts",
       },
     ],
     status: {
@@ -109,5 +109,5 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
 );
 
 const UserModel =
-  mongoose.models.UserModel || mongoose.model<IUsersSchema>("users", userSchema);
+  mongoose.models.users || mongoose.model<IUsersSchema>("users", userSchema);
 export { UserModel };

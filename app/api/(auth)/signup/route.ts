@@ -1,8 +1,9 @@
+import dbConnect from "@/config/dbConnect";
 import { UserModel } from "@/schema/users";
+import { jwtKeysGenerator } from "@/utils/jwt-generator";
 import { SignUpFormSchema } from "@/zod";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
 export async function POST(request: NextRequest) {
@@ -17,9 +18,19 @@ export async function POST(request: NextRequest) {
         }
       );
     }
-    const isExisted = await UserModel.find({ email: payload.email });
-    console.log("🚀 ~ POST ~ isExisted:", isExisted);
-    return new Response("hello world");
+    await dbConnect();
+    const isExisted = await UserModel.findOne({ email: payload.email }, N);
+    if (!!isExisted) {
+      return NextResponse.json(
+        { message: "User with this email already exits" },
+        {
+          status: 400,
+        }
+      );
+    }
+    const NewUsers = new UserModel(payload);
+    const  = await jwtKeysGenerator(NewUsers.email)
+    return new Response(NewUsers);
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);
     return NextResponse.json(
