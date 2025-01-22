@@ -1,5 +1,12 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
-export async function jwtKeysGenerator(data:string){
-    return await jwt.sign(data,process.env.PRIVATE_KEY!, {expiresIn:"5m"})
+export async function jwtKeysGenerator(data: string) {;
+
+  if (!process.env.NEXT_JWT_PRIVATE_KEY) {
+    throw new Error("Missing private key in environment variables.");
+  }
+  return jwt.sign({ email: data }, process.env.NEXT_JWT_PRIVATE_KEY!, {
+    algorithm: "RS256",
+    expiresIn: "30d",
+  });
 }

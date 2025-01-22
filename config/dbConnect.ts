@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 
 const connection: DbConnection = {};
 export default async function dbConnect() {
-  console.log("inside");
   if (connection.isConnected) {
     console.log("Database is already connected");
     return;

@@ -4,6 +4,7 @@ import { jwtKeysGenerator } from "@/utils/jwt-generator";
 import { SignUpFormSchema } from "@/zod";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import bcrypt from "bcrypt";
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
 export async function POST(request: NextRequest) {
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest) {
       );
     }
     await dbConnect();
-    const isExisted = await UserModel.findOne({ email: payload.email }, N);
+    const isExisted = await UserModel.findOne({ email: payload.email });
     if (!!isExisted) {
       return NextResponse.json(
         { message: "User with this email already exits" },
@@ -29,14 +30,22 @@ export async function POST(request: NextRequest) {
       );
     }
     const NewUsers = new UserModel(payload);
-    const  = await jwtKeysGenerator(NewUsers.email)
-    return new Response(NewUsers);
+    const token: string = await jwtKeysGenerator(NewUsers.email);
+    const hashPassword = await bcrypt.hashSync(NewUsers.password, 10);
+    NewUsers.password = hashPassword;
+    return NextResponse.json(
+      { message: "Account Successfully Created", user: NewUsers },
+      {
+        status: 201,
+      }
+    );
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);
     return NextResponse.json(
       {
-        message: "error happened",
-        errors: error ? error : "internal server error",
+        message:
+          error instanceof Error ? error.message : "Internal Server Error",
+        error: error instanceof Error ? error : "Unknown error",
       },
       { status: 500 }
     );
