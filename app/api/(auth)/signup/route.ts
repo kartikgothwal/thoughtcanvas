@@ -37,6 +37,9 @@ export async function POST(request: NextRequest) {
       { message: "Account Successfully Created", user: NewUsers },
       {
         status: 201,
+        headers: {
+          "Set-Cookies": `token=${token}`,
+        },
       }
     );
   } catch (error: unknown) {

@@ -40,12 +40,16 @@ export function SignUpForm({
     resolver: zodResolver(SignUpFormSchema),
   });
   const onSubmit = async (userData: SignUpFormSchemaType) => {
-    if (userData) {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_APP_API_URL}/signup`,
-        userData
-      );
-      console.log("🚀 ~ onSubmit ~ response:", response);
+    try {
+      if (userData) {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_APP_API_URL}/signup`,
+          userData
+        );
+        console.log("🚀 ~ onSubmit ~ response:", response);
+      }
+    } catch (error: unknown) {
+      console.log("🚀 ~ onSubmit ~ error:", error);
     }
   };
   const handleGoogleSignup = async () => {
