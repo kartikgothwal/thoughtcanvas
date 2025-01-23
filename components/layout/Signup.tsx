@@ -22,7 +22,6 @@ import { cn } from "@/lib/utils";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { auth } from "@/config/firebase";
 import { SignUpFormSchema } from "@/zod";
-import toast from "react-hot-toast";
 import { useTheme } from "next-themes";
 import { ToasterError, ToasterSuccess } from "@/utils/toast";
 
@@ -52,6 +51,7 @@ export function SignUpForm({
       );
       ToasterSuccess(response.data.message, theme!);
       reset();
+      setOpenSignupModal(false);
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         ToasterError(error.response.data.message, theme!);
