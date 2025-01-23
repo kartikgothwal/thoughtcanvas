@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
       trim: true,
       validate: {
         validator: (value: string) => {
-          return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,12}$/.test(
+          return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
             value
           );
         },

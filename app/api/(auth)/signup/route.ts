@@ -37,6 +37,8 @@ export async function POST(request: NextRequest) {
     NewUsers.password = hashPassword;
     const cookieStore = await cookies();
     cookieStore.set("token", token, { secure: true, httpOnly: true });
+    const user = await NewUsers.save();
+    console.log("🚀 ~ POST ~ user:", user);
     return NextResponse.json(
       { message: "Account Successfully Created", user: NewUsers },
       {
