@@ -27,4 +27,5 @@ export interface IUsersSchema extends Document {
   lastLogin: Date;
   liked?: mongoose.Types.ObjectId[];
   comments?: mongoose.Types.ObjectId[];
+  token?:string;
 }

@@ -5,6 +5,8 @@ import { SignUpFormSchema } from "@/zod";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt";
+import { IUsersSchema } from "@/types";
+import { cookies } from "next/headers";
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
 export async function POST(request: NextRequest) {
@@ -29,17 +31,16 @@ export async function POST(request: NextRequest) {
         }
       );
     }
-    const NewUsers = new UserModel(payload);
+    const NewUsers: IUsersSchema = new UserModel(payload);
     const token: string = await jwtKeysGenerator(NewUsers.email);
     const hashPassword = await bcrypt.hashSync(NewUsers.password, 10);
     NewUsers.password = hashPassword;
+    const cookieStore = await cookies();
+    cookieStore.set("token", token, { secure: true, httpOnly: true });
     return NextResponse.json(
       { message: "Account Successfully Created", user: NewUsers },
       {
         status: 201,
-        headers: {
-          "Set-Cookies": `token=${token}`,
-        },
       }
     );
   } catch (error: unknown) {
