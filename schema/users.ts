@@ -29,14 +29,14 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
       type: String,
       required: true,
       trim: true,
-      validate: {
-        validator: (value: string) => {
-          return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
-            value
-          );
-        },
-        message: "Please enter a valid password",
-      },
+      // validate: {
+      //   validator: (value: string) => {
+      //     return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
+      //       value
+      //     );
+      //   },
+      //   message: "Please enter a valid password",
+      // },
     },
     profilePicture: {
       type: String,

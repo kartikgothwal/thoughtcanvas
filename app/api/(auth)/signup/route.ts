@@ -31,16 +31,19 @@ export async function POST(request: NextRequest) {
         }
       );
     }
-    const NewUsers: IUsersSchema = new UserModel(payload);
+
+    const hashPassword = await bcrypt.hashSync(payload.password, 10);
+    const NewUsers: IUsersSchema = new UserModel({
+      ...payload,
+      password: hashPassword,
+    });
     const token: string = await jwtKeysGenerator(NewUsers.email);
-    const hashPassword = await bcrypt.hashSync(NewUsers.password, 10);
     NewUsers.password = hashPassword;
     const cookieStore = await cookies();
     cookieStore.set("token", token, { secure: true, httpOnly: true });
     const user = await NewUsers.save();
-    console.log("🚀 ~ POST ~ user:", user);
     return NextResponse.json(
-      { message: "Account Successfully Created", user: NewUsers },
+      { message: "Account Successfully Created", user: user },
       {
         status: 201,
       }

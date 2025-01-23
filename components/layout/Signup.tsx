@@ -24,6 +24,7 @@ import { auth } from "@/config/firebase";
 import { SignUpFormSchema } from "@/zod";
 import toast from "react-hot-toast";
 import { useTheme } from "next-themes";
+import { ToasterError, ToasterSuccess } from "@/utils/toast";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -39,33 +40,26 @@ export function SignUpForm({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SignUpFormSchemaType>({
     resolver: zodResolver(SignUpFormSchema),
   });
   const onSubmit = async (userData: SignUpFormSchemaType) => {
     try {
-      if (userData) {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_APP_API_URL}/signup`,
-          userData
-        );
-        console.log(theme);
-        toast.success(response.data.message, {
-          style: {
-            borderRadius: "10px",
-            background:
-              theme?.toLowerCase() == "dark" || theme?.toLowerCase() == "system"
-                ? "#333"
-                : "#fff",
-            color:
-              theme?.toLowerCase() == "dark" || theme?.toLowerCase() == "system"
-                ? "#fff"
-                : "#333",
-          },
-        });
-      }
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_APP_API_URL}/signup`,
+        userData
+      );
+      ToasterSuccess(response.data.message, theme!);
+      reset();
     } catch (error: unknown) {
-      console.log("🚀 ~ onSubmit ~ error:", error);
+      if (axios.isAxiosError(error) && error.response) {
+        ToasterError(error.response.data.message, theme!);
+      } else if (error instanceof Error) {
+        ToasterError(error.message, theme!);
+      } else {
+        ToasterError("An unknown error occurred", theme!);
+      }
     }
   };
   const handleGoogleSignup = async () => {
