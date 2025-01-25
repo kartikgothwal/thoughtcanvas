@@ -7,6 +7,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import { IUsersSchema } from "@/types";
 import { cookies } from "next/headers";
+import { JwtPayload } from "jsonwebtoken";
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
 export async function POST(request: NextRequest) {
@@ -37,7 +38,7 @@ export async function POST(request: NextRequest) {
       ...payload,
       password: hashPassword,
     });
-    const token: string = await jwtKeysGenerator(NewUsers.email);
+    const token: string  = await jwtKeysGenerator(NewUsers.email);
     NewUsers.password = hashPassword;
     const cookieStore = await cookies();
     cookieStore.set("token", token, { secure: true, httpOnly: true });

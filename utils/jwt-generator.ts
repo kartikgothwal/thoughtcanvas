@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export function jwtKeysGenerator(data: string): string | jwt.JwtPayload {
+export function jwtKeysGenerator(data: string): string {
   if (!process.env.NEXT_JWT_PRIVATE_KEY) {
     throw new Error("Missing private key in environment variables.");
   }
