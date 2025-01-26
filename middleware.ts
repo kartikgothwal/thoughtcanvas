@@ -9,8 +9,7 @@ export async function middleware(request: NextRequest) {
   if (path === "/") {
     const cookieStore = await cookies();
     const token: string | undefined = cookieStore.get("token")?.value.trim();
-    console.log("🚀 ~ middleware ~ token:", token);
-    const isProtectedRoute: boolean = protectedRoutes.includes(path);
+     const isProtectedRoute: boolean = protectedRoutes.includes(path);
     const isPublicRoute: boolean = publicRoutes.includes(path);
     if (token && isPublicRoute) {
       const isValidToken = VerifyJwtToken(token);
@@ -18,7 +17,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
     if (!token && isProtectedRoute) {
-      return NextResponse.redirect(new URL("/home"));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 }

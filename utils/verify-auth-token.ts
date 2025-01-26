@@ -1,11 +1,19 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
+import axios from "axios";
+import { JwtPayload } from "jsonwebtoken";
 
-export function VerifyJwtToken(token: string): string | JwtPayload | undefined {
+export async function VerifyJwtToken(
+  token: string
+): Promise<string | JwtPayload | undefined> {
   try {
-    if (!process.env.NEXT_JWT_PUBLIC_KEY) {
-      throw new Error("Missing public key in environment variables.");
-    }
-    return jwt.verify(token, process.env.NEXT_JWT_PUBLIC_KEY);
+    return await axios.post(
+      `${process.env.NEXT_PUBLIC_APP_API_URL}/verify-user`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
   } catch (error: unknown) {
     console.log("🚀 ~ VerifyJwtToken ~ error:", error);
   }
