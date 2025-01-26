@@ -1,11 +1,12 @@
 import axios from "axios";
 import { JwtPayload } from "jsonwebtoken";
+import { NextResponse } from "next/server";
 
 export async function VerifyJwtToken(
   token: string
 ): Promise<string | JwtPayload | undefined> {
   try {
-    return await axios.post(
+    const response = await axios.post(
       `${process.env.NEXT_PUBLIC_APP_API_URL}/verify-user`,
       {},
       {
@@ -14,7 +15,17 @@ export async function VerifyJwtToken(
         },
       }
     );
+    const data = await response.data;
+
+    return data;
   } catch (error: unknown) {
-    console.log("🚀 ~ VerifyJwtToken ~ error:", error);
+    return NextResponse.json(
+      {
+        message:
+          error instanceof Error ? error.message : "Internal Server Error",
+        error: error instanceof Error ? error : "Unknown error",
+      },
+      { status: 500 }
+    );
   }
 }

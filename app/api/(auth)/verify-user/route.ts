@@ -12,41 +12,22 @@ export async function POST(request: NextRequest): Promise<unknown> {
     if (!process.env.NEXT_JWT_PUBLIC_KEY) {
       throw new Error("Missing public key in environment variables.");
     }
-    const decodedHeader: any = jwt.decode(authorizationToken, {
-      complete: true,
-    });
-    console.log("🚀 ~ Token Header:", decodedHeader);
-
-    if (!decodedHeader) {
-      return NextResponse.json({ message: "Invalid Token" }, { status: 401 });
-    }
-
-    const algorithm = decodedHeader.header.alg;
-    console.log("🚀 ~ POST ~ algorithm:", algorithm);
-
-    // Handle based on algorithm
-    let isValidToken;
-    if (algorithm === "RS256") {
-      isValidToken = jwt.verify(
-        authorizationToken,
-        process.env.NEXT_JWT_PUBLIC_KEY,
-        {
-          algorithms: ["RS256"],
-        }
-      );
-    } else if (algorithm === "HS256") {
-      if (!process.env.NEXT_JWT_PUBLIC_KEY) {
-        throw new Error("Missing secret key in environment variables.");
+    const isValidToken = jwt.verify(
+      authorizationToken,
+      process.env.NEXT_JWT_PUBLIC_KEY,
+      {
+        algorithms: ["RS256"],
       }
-      isValidToken = jwt.verify(
-        authorizationToken,
-        process.env.NEXT_JWT_PUBLIC_KEY,
-        {
-          algorithms: ["HS256"],
-        }
-      );
-    }
-    console.log("🚀 ~ POST ~ isValidToken:", isValidToken);
+    );
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Token is valid.",
+        user: isValidToken, // This contains the decoded payload of the JWT
+      },
+      { status: 200 }
+    );
   } catch (error: unknown) {
     console.log("🚀 ~ VerifyJwtToken ~ error:", error);
   }
