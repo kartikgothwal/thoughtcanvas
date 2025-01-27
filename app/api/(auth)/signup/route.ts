@@ -33,12 +33,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const hashPassword = await bcrypt.hashSync(payload.password, 10);
+    const hashPassword = bcrypt.hashSync(payload.password, 10);
     const NewUsers: IUsersSchema = new UserModel({
       ...payload,
       password: hashPassword,
     });
-    const token: string = await jwtKeysGenerator(NewUsers.email);
+    const token: string = jwtKeysGenerator(NewUsers.email);
     NewUsers.password = hashPassword;
     const cookieStore = await cookies();
     cookieStore.set("token", token, { secure: true, httpOnly: true });

@@ -46,7 +46,6 @@ export const Hero = () => {
             })}`}
           >
             Github Repository
-            {/* <GitHubLogoIcon className="ml-2 w-5 h-5" /> */}
           </Link>
         </div>
       </div>

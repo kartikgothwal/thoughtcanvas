@@ -8,7 +8,7 @@ const protectedRoutes: string[] = ["/dashboard"];
 export async function middleware(request: NextRequest) {
   try {
     const path: string = request.nextUrl.pathname;
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token: string | undefined = cookieStore.get("token")?.value.trim();
     const isProtectedRoute: boolean = protectedRoutes.includes(path);
     const isPublicRoute: boolean = publicRoutes.includes(path);
@@ -29,7 +29,6 @@ export async function middleware(request: NextRequest) {
     return handleError(request, error);
   }
 }
-
 
 export const config = {
   matcher: ["/", "/dashboard"],

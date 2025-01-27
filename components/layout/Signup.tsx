@@ -24,6 +24,7 @@ import { auth } from "@/config/firebase";
 import { SignUpFormSchema } from "@/zod";
 import { useTheme } from "next-themes";
 import { ToasterError, ToasterSuccess } from "@/utils/toast";
+import { useRouter } from 'next/navigation'
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -34,6 +35,7 @@ export function SignUpForm({
   openSignUpModel: boolean;
   setOpenSignupModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const router = useRouter();
   const { theme } = useTheme();
   const {
     register,
@@ -52,6 +54,7 @@ export function SignUpForm({
       ToasterSuccess(response.data.message, theme!);
       reset();
       setOpenSignupModal(false);
+      router.push("/dashboard");
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         ToasterError(error.response.data.message, theme!);
