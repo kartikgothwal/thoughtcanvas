@@ -7,7 +7,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import { IUsersSchema } from "@/types";
 import { cookies } from "next/headers";
-import { JwtPayload } from "jsonwebtoken";
+import { handleError } from "@/utils/ErrorHandler";
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
 export async function POST(request: NextRequest) {
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
       ...payload,
       password: hashPassword,
     });
-    const token: string  = await jwtKeysGenerator(NewUsers.email);
+    const token: string = await jwtKeysGenerator(NewUsers.email);
     NewUsers.password = hashPassword;
     const cookieStore = await cookies();
     cookieStore.set("token", token, { secure: true, httpOnly: true });
@@ -51,13 +51,6 @@ export async function POST(request: NextRequest) {
     );
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error ? error.message : "Internal Server Error",
-        error: error instanceof Error ? error : "Unknown error",
-      },
-      { status: 500 }
-    );
+    handleError(request, error);
   }
 }
