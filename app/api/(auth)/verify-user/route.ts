@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-export async function POST(request: NextRequest): Promise<unknown> {
+export async function POST(request: NextRequest) {
   try {
     const headers = request.headers;
     const authorizationToken: string | undefined = headers

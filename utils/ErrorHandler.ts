@@ -10,7 +10,7 @@ export function handleError(
   return new NextResponse(
     JSON.stringify({
       message:
-        error instanceof Error ? error.message : error.message ?? errorMessage,
+        error instanceof Error ? error.message : error ?? errorMessage,
       error,
     }),
     {
