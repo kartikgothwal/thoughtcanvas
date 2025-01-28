@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     const isExisted = await UserModel.findOne({ email: payload.email });
     if (!!isExisted) {
       return NextResponse.json(
-        { message: "User with this email already exits" },
+        { message: "User with this email already exits, Please Login" },
         {
           status: 400,
         }
@@ -49,8 +49,8 @@ export async function POST(request: NextRequest) {
         status: 201,
       }
     );
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.log("🚀 ~ POST ~ error:", error);
-    handleError(request, error);
+    return handleError(request, error, 500);
   }
 }

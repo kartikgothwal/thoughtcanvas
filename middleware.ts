@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
     const isPublicRoute: boolean = publicRoutes.includes(path);
 
     if (token && isPublicRoute) {
-      const isValidToken = VerifyJwtToken(token);
+      const isValidToken =await VerifyJwtToken(token);
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
 

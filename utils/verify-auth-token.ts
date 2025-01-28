@@ -16,7 +16,7 @@ export async function VerifyJwtToken(
       }
     );
     const data = await response.data;
-
+    console.log("🚀 ~ data:", data);
     return data;
   } catch (error: unknown) {
     return NextResponse.json(
