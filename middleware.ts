@@ -14,18 +14,19 @@ export async function middleware(request: NextRequest) {
     const isPublicRoute: boolean = publicRoutes.includes(path);
 
     if (token && isPublicRoute) {
-      const isValidToken =await VerifyJwtToken(token);
-      return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
-
-    if (!token && isProtectedRoute) {
+      const isValidToken = await VerifyJwtToken(token);
+      console.log("🚀 ~ middleware ~ isValidToken: yes", isValidToken);
+      // return NextResponse.redirect(new URL("/dashboard", request.url));
+    } else if (!token && isProtectedRoute) {
       return NextResponse.redirect(new URL("/", request.url));
+    } else if (token && isProtectedRoute) {
+      const isValidToken = await VerifyJwtToken(token);
+      console.log("🚀 ~ middleware ~ isValidToken yes :", isValidToken);
+      // return NextResponse.redirect(new URL("/", request.url));
     }
-
-    return NextResponse.next();
-  } catch (error) {
+  } catch (error: any) {
     console.error("🚀 ~ middleware error:", error);
-    return handleError(request, error);
+    return handleError(error, 500);
   }
 }
 

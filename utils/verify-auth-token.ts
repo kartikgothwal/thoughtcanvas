@@ -1,6 +1,6 @@
 import axios from "axios";
 import { JwtPayload } from "jsonwebtoken";
-import { NextResponse } from "next/server";
+import { handleError } from "./ErrorHandler";
 
 export async function VerifyJwtToken(
   token: string
@@ -15,17 +15,8 @@ export async function VerifyJwtToken(
         },
       }
     );
-    const data = await response.data;
-    console.log("🚀 ~ data:", data);
-    return data;
-  } catch (error: unknown) {
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error ? error.message : "Internal Server Error",
-        error: error instanceof Error ? error : "Unknown error",
-      },
-      { status: 500 }
-    );
+    return response.data;
+  } catch (error: any) {
+    return handleError(error, 500);
   }
 }

@@ -51,6 +51,6 @@ export async function POST(request: NextRequest) {
     );
   } catch (error: any) {
     console.log("🚀 ~ POST ~ error:", error);
-    return handleError(request, error, 500);
+    return handleError(error, 500);
   }
 }

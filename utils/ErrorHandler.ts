@@ -1,17 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
 // Error handling middleware
 export function handleError(
-  request: NextRequest,
   error: { message: string },
-  statusCode: number
+  statusCode: number = 500
 ) {
-  console.log("🚀 ~ error:", error.message);
-  console.log("🚀 ~ statusCode:", statusCode);
   const errorMessage = "An unexpected error occurred.";
   return NextResponse.json(
     {
-      success:false,
+      success: false,
       message:
         error instanceof Error ? error.message : error.message || errorMessage,
       error,

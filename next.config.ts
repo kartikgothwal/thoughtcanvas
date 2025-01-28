@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  api: {
+    bodyParser: true, 
+  },
   env: {
     APP_URL: "http://localhost:3000",
   },
