@@ -25,6 +25,7 @@ import { SignUpFormSchema } from "@/zod";
 import { useTheme } from "next-themes";
 import { ToasterError, ToasterSuccess } from "@/utils/toast";
 import { useRouter } from 'next/navigation'
+import { NextResponse } from "next/server";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -54,7 +55,7 @@ export function SignUpForm({
       ToasterSuccess(response.data.message, theme!);
       reset();
       setOpenSignupModal(false);
-      router.push("/dashboard");
+      router.push("/dashboard"); 
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         ToasterError(error.response.data.message, theme!);

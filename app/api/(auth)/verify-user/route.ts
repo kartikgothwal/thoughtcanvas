@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: "Token is valid.",
-        user: isValidToken, // This contains the decoded payload of the JWT
+        user: isValidToken, 
       },
       { status: 200 }
     );
