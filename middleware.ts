@@ -15,14 +15,14 @@ export async function middleware(request: NextRequest) {
 
     if (token && isPublicRoute) {
       const isValidToken = await VerifyJwtToken(token);
-      console.log("🚀 ~ middleware ~ isValidToken: yes", isValidToken);
-      // return NextResponse.redirect(new URL("/dashboard", request.url));
+       console.log("🚀 ~ middleware ~ isValidToken: IDEA", isValidToken)
+       return NextResponse.redirect(new URL("/dashboard", request.url));
     } else if (!token && isProtectedRoute) {
       return NextResponse.redirect(new URL("/", request.url));
     } else if (token && isProtectedRoute) {
       const isValidToken = await VerifyJwtToken(token);
-      console.log("🚀 ~ middleware ~ isValidToken yes :", isValidToken);
-      // return NextResponse.redirect(new URL("/", request.url));
+      console.log("🚀 ~ middleware ~ isValidToken MERA :", isValidToken);
+      return NextResponse.redirect(new URL("/", request.url));
     }
   } catch (error: any) {
     console.error("🚀 ~ middleware error:", error);
