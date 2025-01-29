@@ -16,9 +16,14 @@ export async function POST(request: NextRequest) {
     if (!process.env.NEXT_JWT_PUBLIC_KEY) {
       throw new Error("Missing public key in environment variables.");
     }
-    return jwt.verify(authorizationToken, process.env.NEXT_JWT_PUBLIC_KEY, {
-      algorithms: ["RS256"],
-    });
+    const decoded = jwt.verify(
+      authorizationToken,
+      process.env.NEXT_JWT_PUBLIC_KEY,
+      {
+        algorithms: ["RS256"],
+      }
+    );
+    return NextResponse.json(decoded);
   } catch (error: any) {
     // console.log("🚀 ~ VerifyJwtToken ~ error:", error);
     return handleError(error, 401);

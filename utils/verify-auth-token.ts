@@ -15,7 +15,7 @@ export async function VerifyJwtToken(
         },
       }
     );
-    return response.data;
+    return !!response.data;
   } catch (error: any) {
     return handleError(error, 500);
   }
