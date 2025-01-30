@@ -55,6 +55,7 @@ export function SignUpForm({
       ToasterSuccess(response.data.message, theme!);
       reset();
       setOpenSignupModal(false);
+      window.location.reload();
       router.push("/dashboard"); 
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {

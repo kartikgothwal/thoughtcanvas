@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     );
     return NextResponse.json(decoded);
   } catch (error: any) {
-    // console.log("🚀 ~ VerifyJwtToken ~ error:", error);
+    console.log("🚀 ~ VerifyJwtToken ~ error:", error);
     return handleError(error, 401);
   }
 }
