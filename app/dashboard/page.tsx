@@ -1,6 +1,6 @@
 
 const Dashboard = () => {
-  console.log("Dashboard render")
+   
   return (
     <div>
       Dashboard
