@@ -11,6 +11,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 export default function SidebarDemo() {
   const links = [
@@ -63,7 +64,7 @@ export default function SidebarDemo() {
           <div>
             <SidebarLink
               link={{
-                label: "Manu Arora",
+                label: "Kartik Gothwal",
                 href: "#",
                 icon: (
                   <Image
@@ -85,19 +86,23 @@ export default function SidebarDemo() {
 }
 export const Logo = () => {
   return (
-    <Link
-      href="#"
-      className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
-    >
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="font-medium text-black dark:text-white whitespace-pre"
+    <div className="flex flex-row justify-between">
+      <Link
+        href="#"
+        className="border border-black font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
       >
-        Acet Labs
-      </motion.span>
-    </Link>
+        <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+
+        <motion.span
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="font-medium text-black dark:text-white whitespace-pre"
+        >
+          ThoughCanvas
+        </motion.span>
+      </Link>
+      <ModeToggle />
+    </div>
   );
 };
 export const LogoIcon = () => {
@@ -111,7 +116,6 @@ export const LogoIcon = () => {
   );
 };
 
-// Dummy dashboard component with content
 const Dashboard = () => {
   return (
     <div className="flex flex-1">
