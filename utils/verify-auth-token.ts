@@ -1,20 +1,12 @@
-import axios from "axios";
 import { JwtPayload } from "jsonwebtoken";
 import { handleError } from "./ErrorHandler";
+import { PostRequestHandler } from "@/axios/PostRequestHandler";
 
 export async function VerifyJwtToken(
   token: string
-): Promise<string | JwtPayload | undefined> {
+): Promise<string | JwtPayload | boolean> {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_APP_API_URL}/verify-user`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await PostRequestHandler("verify-user", {}, token);
     return !!response.data;
   } catch (error: any) {
     return handleError(error, 500);

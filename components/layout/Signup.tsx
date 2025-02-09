@@ -24,8 +24,9 @@ import { auth } from "@/config/firebase";
 import { SignUpFormSchema } from "@/zod";
 import { useTheme } from "next-themes";
 import { ToasterError, ToasterSuccess } from "@/utils/toast";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { NextResponse } from "next/server";
+import { PostRequestHandler } from "@/axios/PostRequestHandler";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -48,15 +49,12 @@ export function SignUpForm({
   });
   const onSubmit = async (userData: SignUpFormSchemaType) => {
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_APP_API_URL}/signup`,
-        userData
-      );
+      const response = await PostRequestHandler("signup", userData);
       ToasterSuccess(response.data.message, theme!);
       reset();
       setOpenSignupModal(false);
       window.location.reload();
-      router.push("/dashboard"); 
+      router.push("/dashboard");
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         ToasterError(error.response.data.message, theme!);
@@ -70,12 +68,10 @@ export function SignUpForm({
   const handleGoogleSignup = async () => {
     const provider: GoogleAuthProvider = new GoogleAuthProvider();
     const response = await signInWithPopup(auth, provider);
-    
-   };
+  };
   const handleGithubSignup = async () => {
     const provider: GithubAuthProvider = new GithubAuthProvider();
     const response = await signInWithPopup(auth, provider);
-    
   };
   return (
     <>
