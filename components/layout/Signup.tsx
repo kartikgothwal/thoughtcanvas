@@ -70,12 +70,12 @@ export function SignUpForm({
   const handleGoogleSignup = async () => {
     const provider: GoogleAuthProvider = new GoogleAuthProvider();
     const response = await signInWithPopup(auth, provider);
-    console.log("🚀 ~ handleGoogleSignup ~ response:", response);
-  };
+    
+   };
   const handleGithubSignup = async () => {
     const provider: GithubAuthProvider = new GithubAuthProvider();
     const response = await signInWithPopup(auth, provider);
-    console.log("🚀 ~ handleGithubSignup ~ response:", response);
+    
   };
   return (
     <>

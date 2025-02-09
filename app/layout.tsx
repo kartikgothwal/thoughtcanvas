@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Provider from "@/components/Provider";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
   description: "Ideas and thoughts on the web",
 };
 
-export default function RootLayout({
+async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -33,3 +32,4 @@ export default function RootLayout({
     </html>
   );
 }
+export default RootLayout;
