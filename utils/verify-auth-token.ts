@@ -9,10 +9,7 @@ export async function VerifyJwtToken(
     if (response.data?.error) {
       return false;
     }
-
-    return (
-      response.data && typeof response.data === "object" && !response.data.error
-    );
+    return response.data && !response.data.error;
   } catch (error: unknown) {
     console.error("Token verification failed:", error);
     return false;

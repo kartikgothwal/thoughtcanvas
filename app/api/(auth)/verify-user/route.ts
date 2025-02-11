@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
       ?.split(" ")[1];
     if (!authorizationToken) {
       return NextResponse.json(
-        { message: "Missing Auth token" },
+        { message: "Authorization header missing" },
         { status: 401 }
       );
     }
@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
     );
     return NextResponse.json({ isValid: true, decoded });
   } catch (error: unknown) {
+    console.error("🚀 ~ POST ~ error:", error);
     return handleError(error, 401);
   }
 }
