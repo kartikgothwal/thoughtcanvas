@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function PostRequestHandler(
   endpoint: string,
-  payload: any,
+  payload: unknown,
   token?: string
 ) {
   if (token) {

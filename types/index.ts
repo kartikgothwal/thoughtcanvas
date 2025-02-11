@@ -29,3 +29,9 @@ export interface IUsersSchema extends Document {
   comments?: mongoose.Types.ObjectId[];
   token?:string;
 }
+export interface IErrorResponse {
+  success: boolean;
+  message: string;
+  error?: any;
+  statusCode: number;
+}

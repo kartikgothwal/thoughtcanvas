@@ -16,9 +16,10 @@ export async function middleware(request: NextRequest) {
     if (token && isPublicRoute) {
       const isValidToken = await VerifyJwtToken(token);
       if (isValidToken) {
-         return NextResponse.redirect(new URL("/dashboard", request.url));
+        // return NextResponse.redirect(new URL("/dashboard", request.url));
+      } else {
+        return NextResponse.redirect(new URL("/", request.url));
       }
-      return NextResponse.next();
     } else if (isProtectedRoute) {
       if (!token) {
         return NextResponse.redirect(new URL("/", request.url));
@@ -30,7 +31,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
     return NextResponse.next();
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("🚀 ~ middleware error:", error);
     return handleError(error, 500);
   }

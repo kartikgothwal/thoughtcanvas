@@ -23,9 +23,8 @@ export async function POST(request: NextRequest) {
         algorithms: ["RS256"],
       }
     );
-    return NextResponse.json(decoded);
-  } catch (error: any) {
-    console.log("🚀 ~ VerifyJwtToken ~ error:", error);
+    return NextResponse.json({ isValid: true, decoded });
+  } catch (error: unknown) {
     return handleError(error, 401);
   }
 }

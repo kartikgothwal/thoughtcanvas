@@ -1,23 +1,35 @@
-import {  NextResponse } from "next/server";
+import { IErrorResponse } from "@/types";
+import { NextResponse } from "next/server";
 
-// Error handling middleware
 export function handleError(
-  error: { message: string },
+  error: Error | { message: string } | unknown,
   statusCode: number = 500
-) {
-  const errorMessage = "An unexpected error occurred.";
-  return NextResponse.json(
-    {
-      success: false,
-      message:
-        error instanceof Error ? error.message : error.message || errorMessage,
-      error,
+): NextResponse<IErrorResponse> {
+  const defaultMessage = "An unexpected error occurred.";
+  let errorMessage: string;
+  if (error instanceof Error) {
+    errorMessage = error.message;
+  } else if (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error
+  ) {
+    errorMessage = (error as { message: string }).message;
+  } else {
+    errorMessage = defaultMessage;
+  }
+
+  const errorResponse: IErrorResponse = {
+    success: false,
+    message: errorMessage,
+    error: error instanceof Error ? error : { message: errorMessage },
+    statusCode,
+  };
+
+  return NextResponse.json(errorResponse, {
+    status: statusCode,
+    headers: {
+      "Content-Type": "application/json",
     },
-    {
-      status: statusCode,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  });
 }
