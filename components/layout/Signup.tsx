@@ -25,7 +25,6 @@ import { SignUpFormSchema } from "@/zod";
 import { useTheme } from "next-themes";
 import { ToasterError, ToasterSuccess } from "@/utils/toast";
 import { useRouter } from "next/navigation";
-import { NextResponse } from "next/server";
 import { PostRequestHandler } from "@/axios/PostRequestHandler";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
