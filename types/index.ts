@@ -32,6 +32,6 @@ export interface IUsersSchema extends Document {
 export interface IErrorResponse {
   success: boolean;
   message: string;
-  error?: any;
+  error?: unknown;
   statusCode: number;
 }

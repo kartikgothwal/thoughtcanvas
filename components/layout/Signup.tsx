@@ -23,7 +23,7 @@ import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { auth } from "@/config/firebase";
 import { SignUpFormSchema } from "@/zod";
 import { useTheme } from "next-themes";
-import { ToasterError, ToasterSuccess } from "@/utils/toast";
+import { ToasterError, ToasterSuccess } from "@/utils/Toast";
 import { useRouter } from "next/navigation";
 import { PostRequestHandler } from "@/axios/PostRequestHandler";
 

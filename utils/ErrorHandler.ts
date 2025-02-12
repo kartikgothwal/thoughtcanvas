@@ -1,22 +1,20 @@
 import { IErrorResponse } from "@/types";
 import { NextResponse } from "next/server";
 
-// In handleError function
 export function handleError(
-  error: Error | { message: string } | unknown,
+  error: Error | unknown,
+  message?: string,
   statusCode: number = 500
 ): NextResponse<IErrorResponse> {
-  const defaultMessage = "An unexpected error occurred.";
+  const defaultMessage = message ? message : "An unexpected error occurred.";
   let errorMessage: string;
-  let errorDetails: { name?: string; message: string; stack?: string };
+  let errorDetails: { name?: string; message: string };
 
   if (error instanceof Error) {
     errorMessage = error.message;
     errorDetails = {
       name: error.name,
       message: error.message,
-      // Optionally include stack in development
-      ...(process.env.NODE_ENV === 'development' && { stack: error.stack }),
     };
   } else if (
     typeof error === "object" &&

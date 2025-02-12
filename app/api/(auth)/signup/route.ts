@@ -1,6 +1,6 @@
 import dbConnect from "@/config/dbConnect";
 import { UserModel } from "@/schema/users";
-import { jwtKeysGenerator } from "@/utils/jwt-generator";
+import { jwtKeysGenerator } from "@/utils/JwtGenerator";
 import { SignUpFormSchema } from "@/zod";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -25,11 +25,10 @@ export async function POST(request: NextRequest) {
     await dbConnect();
     const isExisted = await UserModel.findOne({ email: payload.email });
     if (!!isExisted) {
-      return NextResponse.json(
-        { message: "User with this email already exits, Please Login" },
-        {
-          status: 400,
-        }
+      return handleError(
+        new Error("User with this email already exits"),
+        "",
+        401
       );
     }
 
@@ -49,8 +48,7 @@ export async function POST(request: NextRequest) {
         status: 201,
       }
     );
-  } catch (error: any) {
-    console.log("🚀 ~ POST ~ error:", error);
-    return handleError(error, 500);
+  } catch (error: unknown) {
+    return handleError(error, "Internal Server Error", 500);
   }
 }
