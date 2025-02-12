@@ -2,7 +2,6 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { VerifyJwtToken } from "./utils/verify-auth-token";
-import { handleError } from "./utils/ErrorHandler";
 const publicRoutes: string[] = ["/"];
 const protectedRoutes: string[] = ["/dashboard"];
 export async function middleware(request: NextRequest) {
@@ -12,14 +11,16 @@ export async function middleware(request: NextRequest) {
     const token: string | undefined = cookieStore.get("token")?.value.trim();
     const isProtectedRoute: boolean = protectedRoutes.includes(path);
     const isPublicRoute: boolean = publicRoutes.includes(path);
-
+    if (token && (!token.includes(".") || token.split(".").length !== 3)) {
+      cookieStore.delete("token");
+      return NextResponse.redirect(new URL("/", request.url));
+    }
     if (token && isPublicRoute) {
       const isValidToken = await VerifyJwtToken(token);
       if (isValidToken) {
-        // return NextResponse.redirect(new URL("/dashboard", request.url));
-      } else {
-        return NextResponse.redirect(new URL("/", request.url));
+        return NextResponse.redirect(new URL("/dashboard", request.url));
       }
+      return NextResponse.redirect(new URL("/", request.url));
     } else if (isProtectedRoute) {
       if (!token) {
         return NextResponse.redirect(new URL("/", request.url));
@@ -30,10 +31,9 @@ export async function middleware(request: NextRequest) {
       }
       return NextResponse.next();
     }
-    return NextResponse.next();
   } catch (error: unknown) {
     console.error("🚀 ~ middleware error:", error);
-    return handleError(error, 500);
+    return NextResponse.redirect(new URL("/", request.url));
   }
 }
 

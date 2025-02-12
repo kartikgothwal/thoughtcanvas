@@ -1,17 +1,37 @@
-import { JwtPayload } from "jsonwebtoken";
 import { PostRequestHandler } from "@/axios/PostRequestHandler";
+import { AxiosError } from "axios";
 
-export async function VerifyJwtToken(
-  token: string
-): Promise<string | JwtPayload | boolean> {
+interface TokenVerificationResponse {
+  success: boolean;
+  isValid: boolean;
+  message?: string;
+  decoded?: any;
+}
+
+export async function VerifyJwtToken(token: string): Promise<boolean> {
   try {
-    const response = await PostRequestHandler("verify-user", {}, token);
-    if (response.data?.error) {
+    if (!token || typeof token !== 'string' || token.split('.').length !== 3) {
+      console.error("Invalid token format");
       return false;
     }
-    return response.data && !response.data.error;
-  } catch (error: unknown) {
-    console.error("Token verification failed:", error);
+
+    const response = await PostRequestHandler("verify-user", {}, token);
+    
+    if (!response?.data || typeof response.data !== 'object') {
+      return false;
+    }
+
+    const data = response.data as TokenVerificationResponse;
+    return data.success && data.isValid;
+
+  } catch (error) {
+    if (error instanceof AxiosError && error.response?.status === 401) {
+      console.error("Token invalid:", error.response.data?.message || "Unknown error");
+    } else {
+      console.error("Verification error:", 
+        error instanceof Error ? error.message : "Unknown error"
+      );
+    }
     return false;
   }
 }
