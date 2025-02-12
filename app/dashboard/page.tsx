@@ -101,7 +101,6 @@ export const Logo = () => {
           ThoughCanvas
         </motion.span>
       </Link>
-      <ModeToggle />
     </div>
   );
 };
