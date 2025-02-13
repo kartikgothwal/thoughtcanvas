@@ -1,6 +1,6 @@
 import dbConnect from "@/config/dbConnect";
 import { UserModel } from "@/schema/users";
-import { jwtKeysGenerator } from "@/utils/JwtGenerator";
+import { JwtGenerator } from "@/utils/JwtGenerator";
 import { SignUpFormSchema } from "@/zod";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       ...payload,
       password: hashPassword,
     });
-    const token: string = jwtKeysGenerator(NewUsers.email);
+    const token: string = JwtGenerator(NewUsers.email);
     NewUsers.password = hashPassword;
     const cookieStore = await cookies();
     cookieStore.set("token", token, { secure: true, httpOnly: true });
