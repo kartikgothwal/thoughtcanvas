@@ -25,7 +25,8 @@ import { SignUpFormSchema } from "@/zod";
 import { useTheme } from "next-themes";
 import { ToasterError, ToasterSuccess } from "@/utils/Toast";
 import { useRouter } from "next/navigation";
-import { PostRequestHandler } from "@/axios/PostRequestHandler";
+import { useMutationQueries } from "@/apiquery/useApiQuery";
+import { useEffect } from "react";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -36,6 +37,10 @@ export function SignUpForm({
   openSignUpModel: boolean;
   setOpenSignupModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const { mutate: signUpMutation, isSuccess } = useMutationQueries(
+    "signup",
+    "signup"
+  );
   const router = useRouter();
   const { theme } = useTheme();
   const {
@@ -47,22 +52,22 @@ export function SignUpForm({
     resolver: zodResolver(SignUpFormSchema),
   });
   const onSubmit = async (userData: SignUpFormSchemaType) => {
-    try {
-      const response = await PostRequestHandler("signup", userData);
-      ToasterSuccess(response.data.message, theme!);
-      reset();
-      setOpenSignupModal(false);
-      window.location.reload();
-      router.push("/dashboard");
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error) && error.response) {
-        ToasterError(error.response.data.message, theme!);
-      } else if (error instanceof Error) {
-        ToasterError(error.message, theme!);
-      } else {
-        ToasterError("An unknown error occurred", theme!);
-      }
-    }
+    signUpMutation(userData, {
+      onSuccess: (response) => {
+        ToasterSuccess(response.data.message, theme!);
+        reset();
+        setOpenSignupModal(false);
+      },
+      onError: (error: unknown) => {
+        if (axios.isAxiosError(error) && error.response) {
+          ToasterError(error.response.data.message, theme!);
+        } else if (error instanceof Error) {
+          ToasterError(error.message, theme!);
+        } else {
+          ToasterError("An unknown error occurred", theme!);
+        }
+      },
+    });
   };
   const handleGoogleSignup = async () => {
     const provider: GoogleAuthProvider = new GoogleAuthProvider();
@@ -72,6 +77,9 @@ export function SignUpForm({
     const provider: GithubAuthProvider = new GithubAuthProvider();
     const response = await signInWithPopup(auth, provider);
   };
+  useEffect(() => {
+    router.push("/dashboard");
+  }, [isSuccess]);
   return (
     <>
       <Dialog
