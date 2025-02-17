@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { IoMdSearch } from "react-icons/io";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { deleteCookies } from "@/utils/Cookies";
-import { ToasterError, ToasterSuccess } from "@/utils/Toast";
+import { ToasterError, ToasterSuccess } from "@/utils/index";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 
