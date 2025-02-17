@@ -5,14 +5,12 @@ import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { CreatePost, SearchInput } from "@/app/dashboard/page";
-import { Button } from "./button";
-import { IoMdAddCircleOutline } from "react-icons/io";
-import { ModeToggle } from "./mode-toggle";
 
 interface Links {
   label: string;
   href: string;
   icon: React.JSX.Element | React.ReactNode;
+  onClick?: () => void;
 }
 
 interface SidebarContextProps {
@@ -171,7 +169,6 @@ export const MobileSidebar = ({
 
 export const SidebarLink = ({
   link,
-  onClick,
   className,
   ...props
 }: {
@@ -189,7 +186,7 @@ export const SidebarLink = ({
         className
       )}
       {...props}
-      onClick={onClick}
+      onClick={link.onClick}
     >
       {link.icon}
 

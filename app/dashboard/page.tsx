@@ -19,33 +19,34 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { deleteCookies } from "@/utils/Cookies";
 import { ToasterError, ToasterSuccess } from "@/utils/Toast";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 
 export default function SidebarDemo() {
   const links = [
     {
       label: "Dashboard",
-      href: "#",
+      href: "/dashboard",
       icon: (
         <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "Profile",
-      href: "#",
+      href: "/profile",
       icon: (
         <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "Settings",
-      href: "#",
+      href: "/settings",
       icon: (
         <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "Logout",
-      href: "#",
+      href: "/",
       icon: (
         <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
@@ -54,10 +55,15 @@ export default function SidebarDemo() {
   ];
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+  const router = useRouter();
   const handleLogOut = () => {
     try {
+      console.log("Inside handleLogOut");
       deleteCookies("all");
-      ToasterSuccess("You have Been logged out", theme.theme!);
+      ToasterSuccess("You have been logged out", theme.theme!);
+      console.log("Before router.push");
+      router.push("/");
+      console.log("After router.push");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: unknown) {
       ToasterError("Failed to logout", theme.theme!);
