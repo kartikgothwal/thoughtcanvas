@@ -171,10 +171,12 @@ export const MobileSidebar = ({
 
 export const SidebarLink = ({
   link,
+  onClick,
   className,
   ...props
 }: {
   link: Links;
+  onClick?: () => void;
   className?: string;
   props?: LinkProps;
 }) => {
@@ -187,6 +189,7 @@ export const SidebarLink = ({
         className
       )}
       {...props}
+      onClick={onClick}
     >
       {link.icon}
 

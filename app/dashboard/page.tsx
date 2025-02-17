@@ -16,6 +16,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { IoMdSearch } from "react-icons/io";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { deleteCookies } from "@/utils/Cookies";
+import { ToasterError, ToasterSuccess } from "@/utils/Toast";
+import { useTheme } from "next-themes";
 
 export default function SidebarDemo() {
   const links = [
@@ -46,9 +49,20 @@ export default function SidebarDemo() {
       icon: (
         <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
+      onClick: () => handleLogOut(),
     },
   ];
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const handleLogOut = () => {
+    try {
+      deleteCookies("all");
+      ToasterSuccess("You have Been logged out", theme.theme!);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error: unknown) {
+      ToasterError("Failed to logout", theme.theme!);
+    }
+  };
   return (
     <div
       className={cn(
