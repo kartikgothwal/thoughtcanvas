@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { VerifyJwtToken } from "./utils/VerifyToken";
+import { deleteCookies } from "./utils/Cookies";
 const publicRoutes: string[] = ["/"];
 const protectedRoutes: string[] = ["/dashboard"];
 export async function middleware(request: NextRequest) {
@@ -12,7 +13,7 @@ export async function middleware(request: NextRequest) {
     const isProtectedRoute: boolean = protectedRoutes.includes(path);
     const isPublicRoute: boolean = publicRoutes.includes(path);
     if (token && (!token.includes(".") || token.split(".").length !== 3)) {
-      cookieStore.delete("token");
+      deleteCookies("all");
       return NextResponse.redirect(new URL("/", request.url));
     }
     if (token && isPublicRoute) {
@@ -27,7 +28,7 @@ export async function middleware(request: NextRequest) {
       }
       const isValidToken = await VerifyJwtToken(token);
       if (!isValidToken) {
-        cookieStore.delete("token");
+        deleteCookies("all");
         return NextResponse.redirect(new URL("/", request.url));
       }
       return NextResponse.next();
