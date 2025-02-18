@@ -2,13 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button";
 import { HeroCards } from "./HeroCards";
-// import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { styles } from "@/utils/styles";
 import { useState } from "react";
 import { SignUpForm } from "./Signup";
+import Login from "./Login";
 export const Hero = () => {
   const [openSignUpModel, setOpenSignupModal] = useState<boolean>(false);
+  const [openLoginModel, setOpenLoginModal] = useState<boolean>(false);
   return (
     <section
       className={`container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10 mx-auto ${styles.paddingX}`}
@@ -58,6 +59,16 @@ export const Hero = () => {
       {openSignUpModel && (
         <SignUpForm
           openSignUpModel={openSignUpModel}
+          openLoginModel={openLoginModel}
+          setOpenSignupModal={setOpenSignupModal}
+          setOpenLoginModal={setOpenLoginModal}
+        />
+      )}
+      {openLoginModel && (
+        <Login
+          loginModal={openLoginModel}
+          openSignUpModel={openSignUpModel}
+          setOpenLoginModal={setOpenLoginModal}
           setOpenSignupModal={setOpenSignupModal}
         />
       )}

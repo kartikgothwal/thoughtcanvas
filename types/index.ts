@@ -27,11 +27,17 @@ export interface IUsersSchema extends Document {
   lastLogin: Date;
   liked?: mongoose.Types.ObjectId[];
   comments?: mongoose.Types.ObjectId[];
-  token?:string;
+  token?: string;
 }
 export interface IErrorResponse {
   success: boolean;
   message: string;
   error?: unknown;
   statusCode: number;
+}
+export interface ILoginModalProps {
+  loginModal: boolean;
+  openSignUpModel: boolean;
+  setOpenLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSignupModal: React.Dispatch<React.SetStateAction<boolean>>;
 }

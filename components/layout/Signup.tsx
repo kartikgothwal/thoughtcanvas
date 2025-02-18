@@ -27,16 +27,21 @@ import { ToasterError, ToasterSuccess } from "@/utils/Toast";
 import { useRouter } from "next/navigation";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { useEffect } from "react";
-import { ButtonLoading, LoadingSpinner } from "@/utils/LoadingUI";
+import { ButtonLoading } from "@/utils/LoadingUI";
+import Link from "next/link";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
 export function SignUpForm({
   openSignUpModel,
+  openLoginModel,
   setOpenSignupModal,
+  setOpenLoginModal,
 }: {
   openSignUpModel: boolean;
+  openLoginModel: boolean;
   setOpenSignupModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const {
     mutate: signUpMutation,
@@ -94,7 +99,7 @@ export function SignUpForm({
         <DialogContent className="sm:max-w-[550px] px-0">
           <div className="w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
             <DialogTitle className="font-bold text-xl text-neutral-800 dark:text-neutral-200 mb-4">
-              Welcome to ThoughtCanvassss
+              Welcome to ThoughtCanvas!
             </DialogTitle>
             <DialogDescription className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
               Please Register Yourself!!
@@ -173,7 +178,18 @@ export function SignUpForm({
                   )}
                   <BottomGradient />
                 </button>
-
+                <div className="mt-4 text-center text-sm">
+                  Already have an account?{" "}
+                  <span
+                    className="underline underline-offset-4 cursor-pointer"
+                    onClick={() => {
+                      setOpenSignupModal(!openSignUpModel);
+                      setOpenLoginModal(!openLoginModel);
+                    }}
+                  >
+                    Sign in
+                  </span>
+                </div>
                 <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 
                 <div className="flex flex-col gap-4">
@@ -209,7 +225,7 @@ export function SignUpForm({
   );
 }
 
-const BottomGradient = () => {
+export const BottomGradient = () => {
   return (
     <>
       <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
@@ -218,7 +234,7 @@ const BottomGradient = () => {
   );
 };
 
-const LabelInputContainer = ({
+export const LabelInputContainer = ({
   children,
   className,
 }: {
