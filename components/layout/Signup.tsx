@@ -25,7 +25,9 @@ import { SignUpFormSchema } from "@/zod";
 import { useTheme } from "next-themes";
 import { ToasterError, ToasterSuccess } from "@/utils/Toast";
 import { useRouter } from "next/navigation";
-import { PostRequestHandler } from "@/axios/PostRequestHandler";
+import { useMutationQueries } from "@/apiquery/useApiQuery";
+import { useEffect } from "react";
+import { ButtonLoading, LoadingSpinner } from "@/utils/LoadingUI";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -36,6 +38,11 @@ export function SignUpForm({
   openSignUpModel: boolean;
   setOpenSignupModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const {
+    mutate: signUpMutation,
+    isSuccess,
+    isPending,
+  } = useMutationQueries("signUp", "signup");
   const router = useRouter();
   const { theme } = useTheme();
   const {
@@ -47,22 +54,22 @@ export function SignUpForm({
     resolver: zodResolver(SignUpFormSchema),
   });
   const onSubmit = async (userData: SignUpFormSchemaType) => {
-    try {
-      const response = await PostRequestHandler("signup", userData);
-      ToasterSuccess(response.data.message, theme!);
-      reset();
-      setOpenSignupModal(false);
-      window.location.reload();
-      router.push("/dashboard");
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error) && error.response) {
-        ToasterError(error.response.data.message, theme!);
-      } else if (error instanceof Error) {
-        ToasterError(error.message, theme!);
-      } else {
-        ToasterError("An unknown error occurred", theme!);
-      }
-    }
+    signUpMutation(userData, {
+      onSuccess: (response) => {
+        ToasterSuccess(response.data.message, theme!);
+        reset();
+        setOpenSignupModal(false);
+      },
+      onError: (error: unknown) => {
+        if (axios.isAxiosError(error) && error.response) {
+          ToasterError(error.response.data.message, theme!);
+        } else if (error instanceof Error) {
+          ToasterError(error.message, theme!);
+        } else {
+          ToasterError("An unknown error occurred", theme!);
+        }
+      },
+    });
   };
   const handleGoogleSignup = async () => {
     const provider: GoogleAuthProvider = new GoogleAuthProvider();
@@ -72,11 +79,17 @@ export function SignUpForm({
     const provider: GithubAuthProvider = new GithubAuthProvider();
     const response = await signInWithPopup(auth, provider);
   };
+  useEffect(() => {
+    router.push("/dashboard");
+  }, [isSuccess]);
+
   return (
     <>
       <Dialog
         open={openSignUpModel}
-        onOpenChange={(isOpen: boolean) => setOpenSignupModal(isOpen)}
+        onOpenChange={(isOpen: boolean) =>
+          !isPending && setOpenSignupModal(isOpen)
+        }
       >
         <DialogContent className="sm:max-w-[550px] px-0">
           <div className="w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
@@ -148,35 +161,41 @@ export function SignUpForm({
               </LabelInputContainer>
               <DialogFooter style={{ flexDirection: "column" }}>
                 <button
-                  className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+                  className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600  dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] flex justify-center items-center"
                   type="submit"
                 >
-                  Sign up &rarr;
+                  {isPending ? (
+                    <>
+                      <span className="mx-2">Submitting</span> <ButtonLoading />
+                    </>
+                  ) : (
+                    <>Sign up &rarr;</>
+                  )}
                   <BottomGradient />
                 </button>
 
                 <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 
-                <div className="flex flex-col space-y-4">
+                <div className="flex flex-col gap-4">
                   <button
-                    className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
+                    className=" relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
                     type="submit"
                     onClick={handleGithubSignup}
                   >
                     <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
                     <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                      GitHub
+                      GitHub &rarr;
                     </span>
                     <BottomGradient />
                   </button>
                   <button
-                    className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
+                    className=" relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
                     type="submit"
                     onClick={handleGoogleSignup}
                   >
                     <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
                     <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                      Google
+                      Google &rarr;
                     </span>
                     <BottomGradient />
                   </button>

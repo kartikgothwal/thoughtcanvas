@@ -11,7 +11,7 @@ export const Hero = () => {
   const [openSignUpModel, setOpenSignupModal] = useState<boolean>(false);
   return (
     <section
-      className={`container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10 ${styles.paddingX}`}
+      className={`container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10 mx-auto ${styles.paddingX}`}
     >
       <div className={`text-center lg:text-start space-y-6`}>
         <main className="text-5xl md:text-6xl font-bold">
@@ -50,12 +50,10 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Hero cards sections */}
       <div className="z-10">
         <HeroCards />
       </div>
 
-      {/* Shadow effect */}
       <div className="shadow"></div>
       {openSignUpModel && (
         <SignUpForm

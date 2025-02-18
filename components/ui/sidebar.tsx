@@ -4,11 +4,13 @@ import Link, { LinkProps } from "next/link";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
+import { CreatePost, SearchInput } from "@/app/dashboard/page";
 
 interface Links {
   label: string;
   href: string;
   icon: React.JSX.Element | React.ReactNode;
+  onClick?: () => void;
 }
 
 interface SidebarContextProps {
@@ -104,7 +106,16 @@ export const DesktopSidebar = ({
     </>
   );
 };
-
+const TopBar = () => {
+  return (
+    <>
+      <div className={`flex justify-between items-center w-full`}>
+        <SearchInput />
+        <CreatePost />
+      </div>
+    </>
+  );
+};
 export const MobileSidebar = ({
   className,
   children,
@@ -119,6 +130,7 @@ export const MobileSidebar = ({
         )}
         {...props}
       >
+        <TopBar />
         <div className="flex justify-end z-20 w-full">
           <IconMenu2
             className="text-neutral-800 dark:text-neutral-200"
@@ -161,6 +173,7 @@ export const SidebarLink = ({
   ...props
 }: {
   link: Links;
+  onClick?: () => void;
   className?: string;
   props?: LinkProps;
 }) => {
@@ -173,6 +186,7 @@ export const SidebarLink = ({
         className
       )}
       {...props}
+      onClick={link.onClick}
     >
       {link.icon}
 
