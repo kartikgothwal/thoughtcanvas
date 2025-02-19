@@ -9,7 +9,6 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-
 import {
   Dialog,
   DialogContent,

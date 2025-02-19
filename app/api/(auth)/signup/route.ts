@@ -15,11 +15,10 @@ export async function POST(request: NextRequest) {
     const payload: SignUpFormSchemaType = await request.json();
     const validatedData = SignUpFormSchema.safeParse(payload);
     if (!validatedData.success) {
-      return NextResponse.json(
-        { error: validatedData.error.errors[0] },
-        {
-          status: 400,
-        }
+      return handleError(
+        new Error(validatedData.error.errors[0].message),
+        "",
+        400
       );
     }
     await dbConnect();

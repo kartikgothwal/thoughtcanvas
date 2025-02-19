@@ -5,17 +5,18 @@ import { SignInFormSchema } from "@/zod";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import bcrypt from "bcrypt";
+
 type SignInSchema = z.infer<typeof SignInFormSchema>;
 export async function POST(request: Request) {
   try {
     const payload: SignInSchema = await request.json();
     const validatedData = SignInFormSchema.safeParse(payload);
     if (!validatedData.success) {
-      return NextResponse.json(
-        { error: validatedData.error.errors[0] },
-        {
-          status: 400,
-        }
+      return handleError(
+        new Error(validatedData.error.errors[0].message),
+        "",
+        400
       );
     }
     await dbConnect();
@@ -26,6 +27,14 @@ export async function POST(request: Request) {
         "",
         404
       );
+    }
+    const isPasswordValid: boolean = await bcrypt.compare(
+      payload.password,
+      isExisted.password
+    );
+    console.log("🚀 ~ POST ~ isPasswordValid:", isPasswordValid);
+    if (!isPasswordValid) {
+      return handleError(new Error("Password doesn't Match"), "", 404);
     }
     const token: string = JwtGenerator(isExisted.email);
     const cookieStore = await cookies();
