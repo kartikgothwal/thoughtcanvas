@@ -12,7 +12,7 @@ import {
   DialogFooter,
 } from "../ui/dialog";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
-import { ILoginModalProps } from "@/types";
+import { ILoginModalProps } from "@/types"
 
 export default function Login({
   loginModal,
