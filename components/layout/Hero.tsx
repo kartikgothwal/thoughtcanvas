@@ -6,10 +6,10 @@ import Link from "next/link";
 import { styles } from "@/utils/styles";
 import { useState } from "react";
 import { SignUpForm } from "./Signup";
-import Login from "./Login";
+import SignIn from "./SignIn";
 export const Hero = () => {
   const [openSignUpModel, setOpenSignupModal] = useState<boolean>(false);
-  const [openLoginModel, setOpenLoginModal] = useState<boolean>(false);
+  const [openSignInModel, setOpenSignInModal] = useState<boolean>(false);
   return (
     <section
       className={`container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10 mx-auto ${styles.paddingX}`}
@@ -59,16 +59,16 @@ export const Hero = () => {
       {openSignUpModel && (
         <SignUpForm
           openSignUpModel={openSignUpModel}
-          openLoginModel={openLoginModel}
+          openSignInModel={openSignInModel}
           setOpenSignupModal={setOpenSignupModal}
-          setOpenLoginModal={setOpenLoginModal}
+          setOpenSignInModal={setOpenSignInModal}
         />
       )}
-      {openLoginModel && (
-        <Login
-          loginModal={openLoginModel}
+      {openSignInModel && (
+        <SignIn
+          openSignInModel={openSignInModel}
           openSignUpModel={openSignUpModel}
-          setOpenLoginModal={setOpenLoginModal}
+          setOpenSignInModal={setOpenSignInModal}
           setOpenSignupModal={setOpenSignupModal}
         />
       )}

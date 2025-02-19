@@ -158,7 +158,7 @@ export const SearchInput = () => {
       <Input
         type="text"
         placeholder="Search Blogs and Peoples"
-        className="pl-10" // Add left padding to accommodate the icon
+        className="pl-10"  
       />
     </div>
   );

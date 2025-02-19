@@ -25,23 +25,21 @@ import { useTheme } from "next-themes";
 import { ToasterSuccess } from "@/utils/Toast";
 import { useRouter } from "next/navigation";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ButtonLoading } from "@/utils/LoadingUI";
 import ToastErrorHandler from "@/utils/ToastErrorHandler";
+import { ISignInSignUpModalProps } from "@/types";
+import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
 export function SignUpForm({
   openSignUpModel,
-  openLoginModel,
+  openSignInModel,
   setOpenSignupModal,
-  setOpenLoginModal,
-}: {
-  openSignUpModel: boolean;
-  openLoginModel: boolean;
-  setOpenSignupModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+  setOpenSignInModal,
+}: ISignInSignUpModalProps) {
+  const [visibiltyToggle, setVisibilityToggle] = useState<boolean>(false);
   const {
     mutate: signUpMutation,
     isSuccess,
@@ -81,6 +79,9 @@ export function SignUpForm({
     router.push("/dashboard");
   }, [isSuccess]);
 
+  const handleVisibilityToggle = () => {
+    setVisibilityToggle(!visibiltyToggle);
+  };
   return (
     <>
       <Dialog
@@ -145,12 +146,25 @@ export function SignUpForm({
               </LabelInputContainer>
               <LabelInputContainer className="mb-4">
                 <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  placeholder="••••••••"
-                  type="password"
-                  {...register("password")}
-                />
+                <div className="relative w-full">
+                  <Input
+                    id="password"
+                    placeholder="••••••••"
+                    type={visibiltyToggle ? "text" : "password"}
+                    {...register("password")}
+                  />
+                  {visibiltyToggle ? (
+                    <FaRegEye
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4 cursor-pointer"
+                      onClick={handleVisibilityToggle}
+                    />
+                  ) : (
+                    <FaEyeSlash
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4 cursor-pointer"
+                      onClick={handleVisibilityToggle}
+                    />
+                  )}
+                </div>
                 {errors?.password?.message && (
                   <p className="text-red-700 mb-4 text-[12px]">
                     {errors.password.message}
@@ -164,7 +178,8 @@ export function SignUpForm({
                 >
                   {isPending ? (
                     <>
-                      <span className="mx-2">Submitting</span> <ButtonLoading />
+                      <span className="mx-2">Submitting...</span>{" "}
+                      <ButtonLoading />
                     </>
                   ) : (
                     <>Sign up &rarr;</>
@@ -177,7 +192,7 @@ export function SignUpForm({
                     className="underline underline-offset-4 cursor-pointer"
                     onClick={() => {
                       setOpenSignupModal(!openSignUpModel);
-                      setOpenLoginModal(!openLoginModel);
+                      setOpenSignInModal(!openSignInModel);
                     }}
                   >
                     Sign in

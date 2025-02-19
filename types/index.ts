@@ -35,9 +35,9 @@ export interface IErrorResponse {
   error?: unknown;
   statusCode: number;
 }
-export interface ILoginModalProps {
-  loginModal: boolean;
+export interface ISignInSignUpModalProps {
+  openSignInModel: boolean;
   openSignUpModel: boolean;
-  setOpenLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSignInModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenSignupModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
