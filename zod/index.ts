@@ -28,3 +28,14 @@ export const SignUpFormSchema = z.object({
     ),
 });
 
+export const loginFormSchema = z.object({
+  email: z.string().email("Email must be a valid email address"),
+  password: z
+    .string()
+    .min(8, "Password must greater than 8 characters")
+    .max(12, "Password must less than 12 characters")
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%*?&]{8,12}$/,
+      "must be 8-12 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character"
+    ),
+});

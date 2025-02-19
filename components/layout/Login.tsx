@@ -1,5 +1,3 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { JSX } from "react";
@@ -12,7 +10,17 @@ import {
   DialogFooter,
 } from "../ui/dialog";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
-import { ILoginModalProps } from "@/types"
+import { ILoginModalProps } from "@/types";
+import { z } from "zod";
+import { loginFormSchema } from "@/zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ToastErrorHandler from "@/utils/ToastErrorHandler";
+import { useTheme } from "next-themes";
+import { useMutationQueries } from "@/apiquery/useApiQuery";
+import { ButtonLoading } from "@/utils";
+
+export type loginSchema = z.infer<typeof loginFormSchema>;
 
 export default function Login({
   loginModal,
@@ -20,83 +28,29 @@ export default function Login({
   setOpenLoginModal,
   setOpenSignupModal,
 }: ILoginModalProps): JSX.Element {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<loginSchema>({
+    resolver: zodResolver(loginFormSchema),
+  });
+  const { theme } = useTheme();
+  const { mutate: signInMutation, isPending } = useMutationQueries(
+    "signIn",
+    "signin"
+  );
+  const onSubmit = (userData: loginSchema) => {
+    signInMutation(userData, {
+      onSuccess(data) {
+        console.log("🚀 ~ onSuccess ~ data:", data);
+      },
+      onError: (error: unknown) => {
+        ToastErrorHandler(error, theme);
+      },
+    });
+  };
   return (
-    // <Dialog
-    //   open={loginModal}
-    //   onOpenChange={(isOpen: boolean) => setOpenLoginModal(isOpen)}
-    // >
-    //   <DialogTitle className="text-2xl">Login</DialogTitle>
-    //   <DialogDescription>
-    //     Enter your email below to login to your account
-    //   </DialogDescription>
-
-    //   <form>
-    //     <div className="flex flex-col gap-6">
-    //       <div className="grid gap-2">
-    //         <LabelInputContainer className="mb-4">
-    //           <Label htmlFor="email">Email Address</Label>
-    //           <Input
-    //             id="email"
-    //             placeholder="projectmayhem@fc.com"
-    //             type="email"
-    //           />
-    //         </LabelInputContainer>
-    //       </div>
-    //       <div className="grid gap-2">
-    //         <div className="flex items-center">
-    //           <Label htmlFor="password">Password</Label>
-    //           <Link
-    //             href="#"
-    //             className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-    //           >
-    //             Forgot your password?
-    //           </Link>
-    //         </div>
-    //         <Input id="password" placeholder="••••••••" type="password" />{" "}
-    //       </div>
-    //       <Button type="submit" className="w-full">
-    //         Login
-    //       </Button>
-    //       <div className="flex flex-col gap-4">
-    //         <button
-    //           className=" relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-    //           type="submit"
-    //           onClick={() => {}}
-    //         >
-    //           <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-    //           <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-    //             GitHub &rarr;
-    //           </span>
-    //           <BottomGradient />
-    //         </button>
-    //         <button
-    //           className=" relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-    //           type="submit"
-    //           onClick={() => {}}
-    //         >
-    //           <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-    //           <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-    //             Google &rarr;
-    //           </span>
-    //           <BottomGradient />
-    //         </button>
-    //       </div>
-    //     </div>
-    //     <div className="mt-4 text-center text-sm">
-    //       Don&apos;t have an account?{" "}
-    //       <Link
-    //         href="#"
-    //         className="underline underline-offset-4"
-    //         onClick={() => {
-    //           setOpenSignupModal(!openSignUpModel);
-    //           setOpenLoginModal(!loginModal);
-    //         }}
-    //       >
-    //         Sign up
-    //       </Link>
-    //     </div>
-    //   </form>
-    // </Dialog>
     <Dialog
       open={loginModal}
       onOpenChange={(isOpen: boolean) => setOpenLoginModal(isOpen)}
@@ -110,17 +64,23 @@ export default function Login({
             Enter your email below to login to your account
           </DialogDescription>
 
-          <form className="mt-4 mb-8" onSubmit={(e) => e.preventDefault()}>
+          <form className="mt-4 mb-8" onSubmit={handleSubmit(onSubmit)}>
             <LabelInputContainer className="mb-4">
               <Label htmlFor="email">Email Address</Label>
               <Input
                 id="email"
                 placeholder="projectmayhem@fc.com"
                 type="email"
+                {...register("email")}
               />
+              {errors.email?.message && (
+                <p className="text-red-700 mb-4 text-[12px]">
+                  {errors.email.message}
+                </p>
+              )}
             </LabelInputContainer>
             <LabelInputContainer className="mb-4">
-               <div className="grid gap-2">
+              <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                   <a
@@ -132,19 +92,28 @@ export default function Login({
                 </div>
               </div>
 
-              <Input id="password" placeholder="••••••••" type="password" />
+              <Input
+                id="password"
+                placeholder="••••••••"
+                type="password"
+                {...register("password")}
+              />
+              {errors.password?.message && (
+                <p className="text-red-700 mb-4 text-[12px]">
+                  {errors.password.message}
+                </p>
+              )}
             </LabelInputContainer>
             <DialogFooter style={{ flexDirection: "column" }}>
               <button
                 className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600  dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] flex justify-center items-center"
                 type="submit"
               >
-                <>Sign in &rarr;</>
-
+                {isPending ? <ButtonLoading /> : <>Sign in &rarr;</>}
                 <BottomGradient />
               </button>
               <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <span
                   className="underline underline-offset-4 cursor-pointer"
                   onClick={() => {

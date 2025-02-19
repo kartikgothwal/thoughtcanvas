@@ -17,18 +17,17 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
-import axios from "axios";
 import { cn } from "@/lib/utils";
 import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { auth } from "@/config/firebase";
 import { SignUpFormSchema } from "@/zod";
 import { useTheme } from "next-themes";
-import { ToasterError, ToasterSuccess } from "@/utils/Toast";
+import { ToasterSuccess } from "@/utils/Toast";
 import { useRouter } from "next/navigation";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { useEffect } from "react";
 import { ButtonLoading } from "@/utils/LoadingUI";
-import Link from "next/link";
+import ToastErrorHandler from "@/utils/ToastErrorHandler";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -66,13 +65,7 @@ export function SignUpForm({
         setOpenSignupModal(false);
       },
       onError: (error: unknown) => {
-        if (axios.isAxiosError(error) && error.response) {
-          ToasterError(error.response.data.message, theme!);
-        } else if (error instanceof Error) {
-          ToasterError(error.message, theme!);
-        } else {
-          ToasterError("An unknown error occurred", theme!);
-        }
+        ToastErrorHandler(error, theme);
       },
     });
   };
