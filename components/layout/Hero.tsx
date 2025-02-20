@@ -7,8 +7,11 @@ import { styles } from "@/utils/styles";
 import { useState } from "react";
 import { SignUpForm } from "./Signup";
 import SignIn from "./SignIn";
+import ForgotPassword from "./ForgotPassword";
 export const Hero = () => {
   const [openSignUpModel, setOpenSignupModal] = useState<boolean>(false);
+  const [forgotPasswordModel, setForgotPasswordModal] =
+    useState<boolean>(false);
   const [openSignInModel, setOpenSignInModal] = useState<boolean>(false);
   return (
     <section
@@ -70,6 +73,14 @@ export const Hero = () => {
           openSignUpModel={openSignUpModel}
           setOpenSignInModal={setOpenSignInModal}
           setOpenSignupModal={setOpenSignupModal}
+          forgotPasswordModel={forgotPasswordModel}
+          setForgotPasswordModal={setForgotPasswordModal}
+        />
+      )}
+      {forgotPasswordModel && (
+        <ForgotPassword
+          forgotPasswordModel={forgotPasswordModel}
+          setForgotPasswordModal={setForgotPasswordModal}
         />
       )}
     </section>

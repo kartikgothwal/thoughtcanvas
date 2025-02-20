@@ -7,7 +7,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import { IUsersSchema } from "@/types";
 import { cookies } from "next/headers";
-import { handleError } from "@/utils/ErrorHandler";
+import { handleError } from "@/utils";
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
 export async function POST(request: NextRequest) {

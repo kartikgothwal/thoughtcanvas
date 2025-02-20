@@ -39,3 +39,6 @@ export const SignInFormSchema = z.object({
       "must be 8-12 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
 });
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email("Email must be a valid email address"),
+});
