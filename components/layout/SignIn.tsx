@@ -9,7 +9,6 @@ import {
   DialogDescription,
   DialogFooter,
 } from "../ui/dialog";
-import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import { ISignInSignUpModalProps } from "@/types";
 import { z } from "zod";
 import { SignInFormSchema } from "@/zod";
@@ -21,6 +20,7 @@ import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { ButtonLoading, ToasterSuccess } from "@/utils";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import ProviderAuth from "./ProviderAuth";
 
 export type SignInSchema = z.infer<typeof SignInFormSchema>;
 
@@ -156,28 +156,7 @@ export default function SignIn({
               </div>
               <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 
-              <div className="flex flex-col gap-4">
-                <button
-                  className=" relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-                  type="submit"
-                >
-                  <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-                  <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                    GitHub &rarr;
-                  </span>
-                  <BottomGradient />
-                </button>
-                <button
-                  className=" relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-                  type="submit"
-                >
-                  <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-                  <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                    Google &rarr;
-                  </span>
-                  <BottomGradient />
-                </button>
-              </div>
+              <ProviderAuth />
             </DialogFooter>
           </form>
         </div>

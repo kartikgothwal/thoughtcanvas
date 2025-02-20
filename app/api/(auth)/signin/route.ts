@@ -32,7 +32,6 @@ export async function POST(request: Request) {
       payload.password,
       isExisted.password
     );
-    console.log("🚀 ~ POST ~ isPasswordValid:", isPasswordValid);
     if (!isPasswordValid) {
       return handleError(new Error("Password doesn't Match"), "", 404);
     }

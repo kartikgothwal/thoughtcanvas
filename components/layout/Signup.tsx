@@ -5,11 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import {
-  GithubAuthProvider,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -17,8 +12,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
-import { auth } from "@/config/firebase";
 import { SignUpFormSchema } from "@/zod";
 import { useTheme } from "next-themes";
 import { ToasterSuccess } from "@/utils/Toast";
@@ -29,6 +22,7 @@ import { ButtonLoading } from "@/utils/LoadingUI";
 import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { ISignInSignUpModalProps } from "@/types";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
+import ProviderAuth from "./ProviderAuth";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -65,14 +59,6 @@ export function SignUpForm({
         ToastErrorHandler(error, theme);
       },
     });
-  };
-  const handleGoogleSignup = async () => {
-    const provider: GoogleAuthProvider = new GoogleAuthProvider();
-    const response = await signInWithPopup(auth, provider);
-  };
-  const handleGithubSignup = async () => {
-    const provider: GithubAuthProvider = new GithubAuthProvider();
-    const response = await signInWithPopup(auth, provider);
   };
   useEffect(() => {
     router.push("/dashboard");
@@ -198,31 +184,7 @@ export function SignUpForm({
                   </span>
                 </div>
                 <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-
-                <div className="flex flex-col gap-4">
-                  <button
-                    className=" relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-                    type="submit"
-                    onClick={handleGithubSignup}
-                  >
-                    <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-                    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                      GitHub &rarr;
-                    </span>
-                    <BottomGradient />
-                  </button>
-                  <button
-                    className=" relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-                    type="submit"
-                    onClick={handleGoogleSignup}
-                  >
-                    <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-                    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                      Google &rarr;
-                    </span>
-                    <BottomGradient />
-                  </button>
-                </div>
+                <ProviderAuth />
               </DialogFooter>
             </form>
           </div>
