@@ -21,6 +21,7 @@ import { ButtonLoading, ToasterSuccess } from "@/utils";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import ProviderAuth from "./ProviderAuth";
+import { Button } from "../ui/button";
 
 export type SignInSchema = z.infer<typeof SignInFormSchema>;
 
@@ -40,7 +41,7 @@ export default function SignIn({
     resolver: zodResolver(SignInFormSchema),
   });
   const { theme } = useTheme();
-  const router = useRouter()
+  const router = useRouter();
   const { mutate: signInMutation, isPending } = useMutationQueries(
     "signIn",
     "signin"
@@ -51,7 +52,7 @@ export default function SignIn({
         ToasterSuccess(response.data.message, theme!);
         reset();
         setOpenSignInModal(false);
-        router.push("/dashboard")
+        router.push("/dashboard");
       },
       onError: (error: unknown) => {
         ToastErrorHandler(error, theme);
@@ -83,6 +84,7 @@ export default function SignIn({
                 placeholder="projectmayhem@fc.com"
                 type="email"
                 {...register("email")}
+                disabled={isPending}
               />
               {errors.email?.message && (
                 <p className="text-red-700 mb-4 text-[12px]">
@@ -108,6 +110,7 @@ export default function SignIn({
                   placeholder="••••••••"
                   type={visibiltyToggle ? "text" : "password"}
                   {...register("password")}
+                  disabled={isPending}
                 />
                 {visibiltyToggle ? (
                   <FaRegEye
@@ -128,9 +131,10 @@ export default function SignIn({
               )}
             </LabelInputContainer>
             <DialogFooter style={{ flexDirection: "column" }}>
-              <button
+              <Button
                 className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600  dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] flex justify-center items-center"
                 type="submit"
+                disabled={isPending}
               >
                 {isPending ? (
                   <>
@@ -141,7 +145,7 @@ export default function SignIn({
                   <>Sign in &rarr;</>
                 )}
                 <BottomGradient />
-              </button>
+              </Button>
               <div className="mt-4 text-center text-sm">
                 Don&apos;t have an account?{" "}
                 <span
@@ -156,7 +160,7 @@ export default function SignIn({
               </div>
               <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 
-              <ProviderAuth />
+              <ProviderAuth isPending={isPending} />
             </DialogFooter>
           </form>
         </div>

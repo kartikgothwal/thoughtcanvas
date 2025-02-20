@@ -23,6 +23,7 @@ import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { ISignInSignUpModalProps } from "@/types";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import ProviderAuth from "./ProviderAuth";
+import { Button } from "../ui/button";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -62,7 +63,7 @@ export function SignUpForm({
   };
   useEffect(() => {
     router.push("/dashboard");
-  }, [isSuccess]);
+  }, [isSuccess, router]);
 
   const handleVisibilityToggle = () => {
     setVisibilityToggle(!visibiltyToggle);
@@ -93,6 +94,7 @@ export function SignUpForm({
                     placeholder="Tyler"
                     type="text"
                     {...register("firstname")}
+                    disabled={isPending}
                   />
                   {errors?.firstname?.message && (
                     <p className="text-red-700 mb-4 text-[12px]">
@@ -107,6 +109,7 @@ export function SignUpForm({
                     placeholder="Durden"
                     type="text"
                     {...register("lastname")}
+                    disabled={isPending}
                   />
                   {errors?.lastname?.message && (
                     <p className="text-red-700 mb-4 text-[12px]">
@@ -122,6 +125,7 @@ export function SignUpForm({
                   placeholder="projectmayhem@fc.com"
                   type="email"
                   {...register("email")}
+                  disabled={isPending}
                 />
                 {errors?.email?.message && (
                   <p className="text-red-700 mb-4 text-[12px]">
@@ -137,6 +141,7 @@ export function SignUpForm({
                     placeholder="••••••••"
                     type={visibiltyToggle ? "text" : "password"}
                     {...register("password")}
+                    disabled={isPending}
                   />
                   {visibiltyToggle ? (
                     <FaRegEye
@@ -157,9 +162,10 @@ export function SignUpForm({
                 )}
               </LabelInputContainer>
               <DialogFooter style={{ flexDirection: "column" }}>
-                <button
+                <Button
                   className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600  dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] flex justify-center items-center"
                   type="submit"
+                  disabled={isPending}
                 >
                   {isPending ? (
                     <>
@@ -170,7 +176,7 @@ export function SignUpForm({
                     <>Sign up &rarr;</>
                   )}
                   <BottomGradient />
-                </button>
+                </Button>
                 <div className="mt-4 text-center text-sm">
                   Already have an account?{" "}
                   <span
@@ -184,7 +190,7 @@ export function SignUpForm({
                   </span>
                 </div>
                 <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-                <ProviderAuth />
+                <ProviderAuth isPending={isPending} />
               </DialogFooter>
             </form>
           </div>
