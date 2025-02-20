@@ -16,7 +16,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ForgotPasswordSchema } from "@/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
+
 const ForgotPassword = ({
   forgotPasswordModel,
   setForgotPasswordModal,
@@ -32,12 +34,19 @@ const ForgotPassword = ({
     handleSubmit,
     register,
     formState: { errors },
-    reset
+    reset,
   } = useForm<ForgotPasswordType>({
     resolver: zodResolver(ForgotPasswordSchema),
   });
   const onSubmit = (userEmail: { email: string }) => {
-    console.log("🚀 ~ userEmail:", userEmail);
+    forgotPasswordMutation(userEmail, {
+      onSuccess: (response) => {
+        console.log("🚀 ~ onSubmit ~ response:", response);
+      },
+      onError: (error) => {
+        console.log("🚀 ~ onSubmit ~ error:", error);
+      },
+    });
   };
   return (
     <Dialog
