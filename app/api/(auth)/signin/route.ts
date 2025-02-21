@@ -16,7 +16,7 @@ export async function POST(request: Request) {
       return handleError(
         new Error(validatedData.error.errors[0].message),
         "",
-        400
+        401
       );
     }
     await dbConnect();
@@ -33,9 +33,9 @@ export async function POST(request: Request) {
       isExisted.password
     );
     if (!isPasswordValid) {
-      return handleError(new Error("Password doesn't Match"), "", 404);
+      return handleError(new Error("Password doesn't Match"), "", 401);
     }
-    const token: string = JwtGenerator(isExisted.email);
+    const token: string = JwtGenerator({ email: isExisted.email });
     const cookieStore = await cookies();
     cookieStore.set("token", token, { secure: true, httpOnly: true });
     cookieStore.set("userId", String(isExisted._id), {

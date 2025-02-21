@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       ...payload,
       password: hashPassword,
     });
-    const token: string = JwtGenerator(NewUsers.email);
+    const token: string = JwtGenerator({ email: NewUsers.email });
     NewUsers.password = hashPassword;
     const cookieStore = await cookies();
     cookieStore.set("token", token, { secure: true, httpOnly: true });
