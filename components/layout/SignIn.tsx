@@ -51,7 +51,7 @@ export default function SignIn({
     "signIn",
     "signin"
   );
-  const onSubmit = (userData: SignInSchema) => {
+  const onSubmit = (userData: z.infer<typeof SignInFormSchema>) => {
     signInMutation(userData, {
       onSuccess(response) {
         ToasterSuccess(response.data.message, theme!);

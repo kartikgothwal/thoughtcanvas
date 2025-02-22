@@ -1,4 +1,4 @@
-import { statsProps } from "@/types";
+import { RouteProps, statsProps } from "@/types";
 
 export const stats: statsProps[] = [
     {
@@ -16,5 +16,24 @@ export const stats: statsProps[] = [
     {
       quantity: "4",
       description: "Products",
+    },
+  ];
+
+ export const NavbarRouteList: RouteProps[] = [
+    {
+      href: "#features",
+      label: "Features",
+    },
+    {
+      href: "#testimonials",
+      label: "Testimonials",
+    },
+    {
+      href: "#pricing",
+      label: "Pricing",
+    },
+    {
+      href: "#faq",
+      label: "FAQ",
     },
   ];

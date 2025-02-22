@@ -41,7 +41,7 @@ const ForgotPassword = ({
   } = useForm<ForgotPasswordType>({
     resolver: zodResolver(ForgotPasswordSchema),
   });
-  const onSubmit = (userEmail: { email: string }) => {
+  const onSubmit = (userEmail: z.infer<typeof ForgotPasswordSchema>) => {
     forgotPasswordMutation(userEmail, {
       onSuccess: (response) => {
         ToasterSuccess(response.data.message, theme!);

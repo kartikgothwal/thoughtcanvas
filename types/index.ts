@@ -3,6 +3,11 @@ import { Document } from "mongoose";
 export interface DbConnection {
   isConnected?: number;
 }
+export interface RouteProps {
+  href: string;
+  label: string;
+}
+
 export interface statsProps {
   quantity: string;
   description: string;

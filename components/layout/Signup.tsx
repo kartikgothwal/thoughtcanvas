@@ -49,7 +49,7 @@ export function SignUpForm({
   } = useForm<SignUpFormSchemaType>({
     resolver: zodResolver(SignUpFormSchema),
   });
-  const onSubmit = async (userData: SignUpFormSchemaType) => {
+  const onSubmit = async (userData:  z.infer<typeof SignUpFormSchema>) => {
     signUpMutation(userData, {
       onSuccess: (response) => {
         ToasterSuccess(response.data.message, theme!);

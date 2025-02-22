@@ -43,9 +43,10 @@ export async function POST(request: Request) {
       "/assets/template/forgot-password.html"
     );
     let emailTemplate: string = fs.readFileSync(emailTemplatePath, "utf-8");
+    const userName = `${isExisted.firstname} ${isExisted.lastname}`;
     emailTemplate = emailTemplate
       .replace("{{RESET_LINK}}", resetLink)
-      .replace("{{USER_NAME}}", `${isExisted.firstname} ${isExisted.lastname}`);
+      .replace(/{{USER_NAME}}/g, userName)
     const transporter: nodemailer.Transporter<
       SMTPTransport.SentMessageInfo,
       SMTPTransport.Options
@@ -62,7 +63,7 @@ export async function POST(request: Request) {
       from: "donotreply.thoughtcanvas.com",
       to: isExisted.email,
       subject: "ThoughtCanvas: Reset Password",
-      text: emailTemplate,
+      html: emailTemplate,
     };
     await transporter.sendMail(mailOptions);
     return NextResponse.json({

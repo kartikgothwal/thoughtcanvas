@@ -20,32 +20,9 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 // import { LogoIcon } from "./Icons";
 import Link from "next/link";
 import { styles } from "@/utils/styles";
+import { RouteProps } from "@/types";
 
-interface RouteProps {
-  href: string;
-  label: string;
-}
-
-const routeList: RouteProps[] = [
-  {
-    href: "#features",
-    label: "Features",
-  },
-  {
-    href: "#testimonials",
-    label: "Testimonials",
-  },
-  {
-    href: "#pricing",
-    label: "Pricing",
-  },
-  {
-    href: "#faq",
-    label: "FAQ",
-  },
-];
-
-export const Navbar = () => {
+export const Navbar = ({ routeList }: { routeList: RouteProps[] }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <header
@@ -85,17 +62,19 @@ export const Navbar = () => {
                   </SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col justify-center items-center gap-2 mt-4">
-                  {routeList.map(({ href, label }: RouteProps) => (
-                    <a
-                      rel="noreferrer noopener"
-                      key={label}
-                      href={href}
-                      onClick={() => setIsOpen(false)}
-                      className={buttonVariants({ variant: "ghost" })}
-                    >
-                      {label}
-                    </a>
-                  ))}
+                  {routeList &&
+                    routeList?.length &&
+                    routeList?.map(({ href, label }: RouteProps) => (
+                      <a
+                        rel="noreferrer noopener"
+                        key={label}
+                        href={href}
+                        onClick={() => setIsOpen(false)}
+                        className={buttonVariants({ variant: "ghost" })}
+                      >
+                        {label}
+                      </a>
+                    ))}
                   <a
                     rel="noreferrer noopener"
                     href="https://github.com/kartikgothwal/thoughtcanvas"
