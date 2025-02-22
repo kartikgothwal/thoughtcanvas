@@ -13,7 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-// import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { FaGithub } from "react-icons/fa6";
 import { buttonVariants } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
@@ -36,12 +36,10 @@ export const Navbar = ({ routeList }: { routeList: RouteProps[] }) => {
               href="/"
               className="ml-2 font-bold text-xl flex"
             >
-              {/* <LogoIcon /> */}
               ThoughtCanvas
             </Link>
           </NavigationMenuItem>
 
-          {/* mobile */}
           <span className="flex md:hidden">
             <ModeToggle />
 
@@ -58,23 +56,23 @@ export const Navbar = ({ routeList }: { routeList: RouteProps[] }) => {
               <SheetContent side={"left"}>
                 <SheetHeader>
                   <SheetTitle className="font-bold text-xl">
-                    Shadcn/React
+                    ThoughtCanvas
                   </SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col justify-center items-center gap-2 mt-4">
-                  {routeList &&
-                    routeList?.length &&
-                    routeList?.map(({ href, label }: RouteProps) => (
-                      <a
-                        rel="noreferrer noopener"
-                        key={label}
-                        href={href}
-                        onClick={() => setIsOpen(false)}
-                        className={buttonVariants({ variant: "ghost" })}
-                      >
-                        {label}
-                      </a>
-                    ))}
+                  {routeList && routeList?.length
+                    ? routeList?.map(({ href, label }: RouteProps) => (
+                        <a
+                          rel="noreferrer noopener"
+                          key={label}
+                          href={href}
+                          onClick={() => setIsOpen(false)}
+                          className={buttonVariants({ variant: "ghost" })}
+                        >
+                          {label}
+                        </a>
+                      ))
+                    : null}
                   <a
                     rel="noreferrer noopener"
                     href="https://github.com/kartikgothwal/thoughtcanvas"
@@ -83,7 +81,7 @@ export const Navbar = ({ routeList }: { routeList: RouteProps[] }) => {
                       variant: "secondary",
                     })}`}
                   >
-                    {/* <GitHubLogoIcon className="mr-2 w-5 h-5" /> */}
+                    <FaGithub className="mr-2 w-5 h-5" />
                     Github
                   </a>
                 </nav>
@@ -114,7 +112,7 @@ export const Navbar = ({ routeList }: { routeList: RouteProps[] }) => {
               target="_blank"
               className={`border ${buttonVariants({ variant: "secondary" })}`}
             >
-              {/* <GitHubLogoIcon className="mr-2 w-5 h-5" /> */}
+              <FaGithub className="mr-2 w-5 h-5" />
               Github
             </a>
 
