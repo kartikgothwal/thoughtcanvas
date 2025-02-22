@@ -7,6 +7,8 @@ import { z } from "zod";
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { IUsersSchema } from "@/types";
+import fs from "fs";
+import path from "path";
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 
 export async function POST(request: Request) {
@@ -35,14 +37,22 @@ export async function POST(request: Request) {
       { email: isExisted.email, id: isExisted._id },
       "10m"
     );
-    const link: string = `${process.env.NEXT_PUBLIC_APP_URL}/forgot-password/${token}`;
+    const resetLink: string = `${process.env.NEXT_PUBLIC_APP_URL}/forgot-password/${token}`;
+    const emailTemplatePath: string = path.join(
+      process.cwd(),
+      "/assets/template/forgot-password.html"
+    );
+    let emailTemplate: string = fs.readFileSync(emailTemplatePath, "utf-8");
+    emailTemplate = emailTemplate
+      .replace("{{RESET_LINK}}", resetLink)
+      .replace("{{USER_NAME}}", `${isExisted.firstname} ${isExisted.lastname}`);
     const transporter: nodemailer.Transporter<
       SMTPTransport.SentMessageInfo,
       SMTPTransport.Options
     > = nodemailer.createTransport({
-      host: "gmail",
+      service: "gmail",
       port: 465,
-      secure: false,
+      secure: true,
       auth: {
         user: process.env.NODEMAILER_AUTH_USER,
         pass: process.env.NODEMAILER_AUTH_PASSWORD,
@@ -52,17 +62,9 @@ export async function POST(request: Request) {
       from: "donotreply.thoughtcanvas.com",
       to: isExisted.email,
       subject: "ThoughtCanvas: Reset Password",
-      text: link,
+      text: emailTemplate,
     };
-    transporter.sendMail(mailOptions, (error) => {
-      if (error) {
-        return handleError(
-          new Error("Failed to send the password reset mail"),
-          "",
-          400
-        );
-      }
-    });
+    await transporter.sendMail(mailOptions);
     return NextResponse.json({
       message: "Link to Reset you password is sent to your email",
     });
