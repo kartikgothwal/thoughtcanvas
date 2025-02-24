@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt";
+import { ERROR_400, ERROR_404, STATUS_CODE_200 } from "@/constant";
 
 type SignInSchema = z.infer<typeof SignInFormSchema>;
 export async function POST(request: Request) {
@@ -16,7 +17,7 @@ export async function POST(request: Request) {
       return handleError(
         new Error(validatedData.error.errors[0].message),
         "",
-        401
+        ERROR_400
       );
     }
     await dbConnect();
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
       return handleError(
         new Error("User with this email doesn't exits"),
         "",
-        404
+        ERROR_404
       );
     }
     const isPasswordValid: boolean = await bcrypt.compare(
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { message: "Successfully Logged In", user: isExisted },
       {
-        status: 200,
+        status: STATUS_CODE_200,
       }
     );
   } catch (error) {

@@ -8,6 +8,7 @@ import bcrypt from "bcrypt";
 import { IUsersSchema } from "@/types";
 import { cookies } from "next/headers";
 import { handleError } from "@/utils";
+import { ERROR_400, ERROR_401, STATUS_CODE_200 } from "@/constant";
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
 export async function POST(request: NextRequest) {
@@ -18,7 +19,7 @@ export async function POST(request: NextRequest) {
       return handleError(
         new Error(validatedData.error.errors[0].message),
         "",
-        400
+        ERROR_400
       );
     }
     await dbConnect();
@@ -27,7 +28,7 @@ export async function POST(request: NextRequest) {
       return handleError(
         new Error("User with this email already exits"),
         "",
-        401
+        ERROR_400 
       );
     }
 
@@ -48,10 +49,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { message: "Account Successfully Created", user: user },
       {
-        status: 201,
+        status: STATUS_CODE_200,
       }
     );
   } catch (error: unknown) {
-    return handleError(error, "Internal Server Error", 500);
+    return handleError(error, "Internal Server Error");
   }
 }

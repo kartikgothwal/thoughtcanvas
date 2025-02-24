@@ -9,6 +9,7 @@ import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { IUsersSchema } from "@/types";
 import fs from "fs";
 import path from "path";
+import { ERROR_400, STATUS_CODE_200 } from "@/constant";
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 
 export async function POST(request: Request) {
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
       return handleError(
         new Error(isValidPayload.error.errors[0].message),
         "",
-        400
+        ERROR_400
       );
     }
     await dbConnect();
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
       return handleError(
         new Error("User with this email doesn't exits"),
         "",
-        401
+        ERROR_400
       );
     }
     const token: string = JwtGenerator(
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
     const userName = `${isExisted.firstname} ${isExisted.lastname}`;
     emailTemplate = emailTemplate
       .replace("{{RESET_LINK}}", resetLink)
-      .replace(/{{USER_NAME}}/g, userName)
+      .replace(/{{USER_NAME}}/g, userName);
     const transporter: nodemailer.Transporter<
       SMTPTransport.SentMessageInfo,
       SMTPTransport.Options
@@ -66,9 +67,14 @@ export async function POST(request: Request) {
       html: emailTemplate,
     };
     await transporter.sendMail(mailOptions);
-    return NextResponse.json({
-      message: "Link to Reset you password is sent to your email",
-    });
+    return NextResponse.json(
+      {
+        message: "Link to Reset you password is sent to your email",
+      },
+      {
+        status: STATUS_CODE_200,
+      }
+    );
   } catch (error) {
     console.error("🚀 ~ POST ~ error:", error);
     return handleError(error, "Internal Server Error");
