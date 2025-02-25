@@ -23,8 +23,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { ResetPasswordSchema } from "@/zod";
 import { useEffect } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
 
-export default function ResetPassword({ slug }: { slug: string[] }) {
+export default function ResetPassword() {
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
     resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
@@ -32,10 +33,6 @@ export default function ResetPassword({ slug }: { slug: string[] }) {
       confirmPassword: "",
     },
   });
-
-  useEffect(() => {
-    console.log(slug);
-  }, []);
   async function onSubmit(values: z.infer<typeof ResetPasswordSchema>) {
     try {
       console.log(values);
@@ -96,7 +93,15 @@ export default function ResetPassword({ slug }: { slug: string[] }) {
                     </FormItem>
                   )}
                 />
-
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="terms" />
+                  <label
+                    htmlFor="terms"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Accept terms and conditions
+                  </label>
+                </div>
                 <Button type="submit" className="w-full">
                   Reset Password
                 </Button>

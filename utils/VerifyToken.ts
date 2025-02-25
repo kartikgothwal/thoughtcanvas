@@ -1,4 +1,5 @@
 import { PostRequestHandler } from "@/axios/PostRequestHandler";
+import { ERROR_401 } from "@/constant";
 import { AxiosError } from "axios";
 
 export async function VerifyJwtToken(token: string): Promise<boolean> {
@@ -14,7 +15,7 @@ export async function VerifyJwtToken(token: string): Promise<boolean> {
     const data = response.data;
     return data.success;
   } catch (error) {
-    if (error instanceof AxiosError && error.response?.status === 401) {
+    if (error instanceof AxiosError && error.response?.status === ERROR_401) {
       console.error(
         "Token invalid:",
         error.response.data?.message || "Unknown error"
