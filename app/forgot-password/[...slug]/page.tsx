@@ -8,10 +8,8 @@ const page = async ({
     slug: string[];
   };
 }) => {
-  const { slug } = params;
-  return (
-    <ResetPassword />
-  );
+  const { slug } = await params;
+  return <ResetPassword slug={slug} />;
 };
 
 export default page;

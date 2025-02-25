@@ -22,8 +22,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ResetPasswordSchema } from "@/zod";
+import { useEffect } from "react";
 
-export default function ResetPassword() {
+export default function ResetPassword({ slug }: { slug: string[] }) {
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
     resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
@@ -32,6 +33,9 @@ export default function ResetPassword() {
     },
   });
 
+  useEffect(() => {
+    console.log(slug);
+  }, []);
   async function onSubmit(values: z.infer<typeof ResetPasswordSchema>) {
     try {
       console.log(values);
