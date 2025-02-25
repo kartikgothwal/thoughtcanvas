@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { VerifyJwtToken } from "./utils/VerifyToken";
 import { deleteCookies } from "./utils/Cookies";
+import { ToasterError } from "./utils";
 const publicRoutes: string[] = ["/"];
 const protectedRoutes: string[] = ["/dashboard"];
 export async function middleware(request: NextRequest) {
@@ -39,6 +40,7 @@ export async function middleware(request: NextRequest) {
     }
   } catch (error: unknown) {
     console.error("🚀 ~ middleware error:", error);
+    ToasterError("Internal Server Error");
     return NextResponse.redirect(new URL("/", request.url));
   }
 }

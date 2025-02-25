@@ -20,8 +20,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ResetPasswordSchema } from "@/zod";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
 
 export default function Page() {
+  const [showPassword, setShowPassword] = useState(false);
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
     resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
@@ -59,6 +62,7 @@ export default function Page() {
                       <FormControl>
                         <Input
                           id="password"
+                          type={`${showPassword ? "text" : "password"}`}
                           placeholder="******"
                           autoComplete="new-password"
                           {...field}
@@ -80,6 +84,7 @@ export default function Page() {
                       <FormControl>
                         <Input
                           id="confirmPassword"
+                          type={`${showPassword ? "text" : "password"}`}
                           placeholder="******"
                           autoComplete="new-password"
                           {...field}
@@ -89,7 +94,18 @@ export default function Page() {
                     </FormItem>
                   )}
                 />
-
+                <div className="flex items-center space-x-2 my-2">
+                  <Checkbox
+                    id="showpassword"
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                  <label
+                    htmlFor="showpassword"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Show Password
+                  </label>
+                </div>
                 <Button type="submit" className="w-full">
                   Reset Password
                 </Button>
