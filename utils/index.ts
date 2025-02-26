@@ -1,9 +1,9 @@
-import { getCookies } from "./Cookies";
-import { handleError } from "./ErrorHandler";
-import { JwtGenerator } from "./JwtGenerator";
-import { LoadingSpinner, ButtonLoading } from "./LoadingUI";
-import { ToasterSuccess, ToasterError } from "./Toast";
-import { VerifyJwtToken } from "./VerifyToken";
+import { getCookies } from "@/utils/Cookies";
+import { handleError } from "@/utils/ErrorHandler";
+import { JwtGenerator } from "@/utils/JwtGenerator";
+import { LoadingSpinner, ButtonLoading } from "@/utils/LoadingUI";
+import { ToasterSuccess, ToasterError } from "@/utils/Toast";
+import { VerifyJwtToken } from "@/utils/VerifyToken";
 
 export {
   getCookies,
