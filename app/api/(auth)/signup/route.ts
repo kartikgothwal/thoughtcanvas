@@ -7,8 +7,8 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import { IUsersSchema } from "@/types";
 import { cookies } from "next/headers";
-import { handleError } from "@/utils";
-import { ERROR_400, ERROR_401, STATUS_CODE_200 } from "@/constant";
+import { handleError } from "@/utils/ErrorHandler";
+import { ERROR_400, STATUS_CODE_200 } from "@/constant";
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
 export async function POST(request: NextRequest) {
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       return handleError(
         new Error("User with this email already exits"),
         "",
-        ERROR_400 
+        ERROR_400
       );
     }
 

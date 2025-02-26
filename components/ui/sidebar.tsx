@@ -4,7 +4,8 @@ import Link, { LinkProps } from "next/link";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
-import { CreatePost, SearchInput } from "@/app/dashboard/page";
+import { SearchInput } from "@/app/dashboard/SearchInput";
+import { CreatePost } from "@/app/dashboard/CreatePost";
 
 interface Links {
   label: string;

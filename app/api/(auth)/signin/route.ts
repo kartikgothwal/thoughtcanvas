@@ -1,6 +1,7 @@
 import dbConnect from "@/config/dbConnect";
 import { UserModel } from "@/schema/users";
-import { handleError, JwtGenerator } from "@/utils";
+import { JwtGenerator } from "@/utils/JwtGenerator";
+import { handleError } from "@/utils/ErrorHandler";
 import { SignInFormSchema } from "@/zod";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";

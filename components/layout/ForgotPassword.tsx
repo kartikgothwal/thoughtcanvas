@@ -6,11 +6,15 @@ import {
   DialogFooter,
   DialogTitle,
 } from "../ui/dialog";
-import { BottomGradient, LabelInputContainer } from "@/components/layout/Signup";
+import {
+  BottomGradient,
+  LabelInputContainer,
+} from "@/components/layout/Signup";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { ButtonLoading, ToasterSuccess } from "@/utils";
+import {  ToasterSuccess } from "@/utils/Toast";
+import { ButtonLoading } from "@/utils/LoadingUI";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { useForm } from "react-hook-form";
 import { z } from "zod";

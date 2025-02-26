@@ -1,6 +1,7 @@
 import dbConnect from "@/config/dbConnect";
 import { UserModel } from "@/schema/users";
-import { handleError, JwtGenerator } from "@/utils";
+import {  JwtGenerator } from "@/utils/JwtGenerator";
+import { handleError } from "@/utils/ErrorHandler";
 import { ForgotPasswordSchema } from "@/zod";
 import { NextResponse } from "next/server";
 import { z } from "zod";

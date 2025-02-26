@@ -1,9 +1,9 @@
-import { handleError } from "@/utils";
-import { NextRequest } from "next/server";
+import { handleError } from "@/utils/ErrorHandler";
+import {  NextResponse } from "next/server";
 
-export async function PATCH(request: NextRequest) {
+export async function PATCH() {
   try {
-    return request;
+    return NextResponse.json({ message: "Reset Password" });
   } catch (error) {
     console.error("🚀 ~ PATCH ~ error:", error);
     return handleError(error, "Internal Server Error");

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { VerifyJwtToken } from "./utils/VerifyToken";
 import { deleteCookies } from "./utils/Cookies";
-import { ToasterError } from "./utils";
+import { ToasterError } from "./utils/Toast";
 const publicRoutes: string[] = ["/"];
 const protectedRoutes: string[] = ["/dashboard"];
 export async function middleware(request: NextRequest) {

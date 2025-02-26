@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ToasterError } from "@/utils";
+import { ToasterError } from "@/utils/Toast";
 
 export default function ToastErrorHandler(
   error: unknown,

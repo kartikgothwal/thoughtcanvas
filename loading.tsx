@@ -1,4 +1,4 @@
-import { LoadingSpinner } from "@/utils";
+import { LoadingSpinner } from "@/utils/LoadingUI";
 
 const Loading = () => {
   return <LoadingSpinner />;

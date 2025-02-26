@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { handleError } from "@/utils/ErrorHandler";
-import { ERROR_400, ERROR_401 } from "@/constant";
+import { ERROR_401 } from "@/constant";
 export async function POST(request: NextRequest) {
   try {
     const authHeader = request.headers.get("Authorization");
