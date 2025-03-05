@@ -41,9 +41,9 @@ export default function Page() {
   }
 
   return (
-    <div className="flex h-[35rem] w-full items-center justify-center px-4">
+    <div className="h-[35rem] w-full items-center justify-center px-4 mt-[5rem]">
       <Card className="mx-auto max-w-[32rem]">
-        <CardHeader>
+        <CardHeader className="">
           <CardTitle className="text-2xl">Reset Password</CardTitle>
           <CardDescription>
             Enter your new password to reset your password.
