@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { JSX, useState } from "react";
+import { JSX, useContext, useState } from "react";
 import { BottomGradient, LabelInputContainer } from "./Signup";
 import {
   Dialog,
@@ -23,6 +23,7 @@ import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import ProviderAuth from "./ProviderAuth";
 import { Button } from "../ui/button";
+import { AuthContext } from "@/contexts/AuthProvider";
 
 export type SignInSchema = z.infer<typeof SignInFormSchema>;
 
@@ -47,6 +48,7 @@ export default function SignIn({
     resolver: zodResolver(SignInFormSchema),
   });
   const { theme } = useTheme();
+  const { setUserProfile } = useContext(AuthContext);
   const router = useRouter();
   const { mutate: signInMutation, isPending } = useMutationQueries(
     "signIn",
@@ -56,6 +58,7 @@ export default function SignIn({
     signInMutation(userData, {
       onSuccess(response) {
         ToasterSuccess(response.data.message, theme!);
+
         reset();
         setOpenSignInModal(false);
         router.push("/dashboard");

@@ -44,8 +44,17 @@ export async function POST(request: Request) {
       secure: true,
       httpOnly: true,
     });
+    const userResponse = {
+      id: isExisted._id,
+      name: isExisted.firstname + " " + isExisted.lastname,
+      email: isExisted.email,
+      profilePicture: isExisted.isExisted,
+      role: isExisted.role,
+      isActive: isExisted.isactive,
+      status: isExisted.status,
+    };
     return NextResponse.json(
-      { message: "Successfully Logged In", user: isExisted },
+      { message: "Successfully Logged In", user: userResponse },
       {
         status: STATUS_CODE_200,
       }

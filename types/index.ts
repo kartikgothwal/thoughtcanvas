@@ -46,3 +46,12 @@ export interface ISignInSignUpModalProps {
   setOpenSignInModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenSignupModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface IUserProfile {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  isActive: boolean;
+  status: string;
+}
