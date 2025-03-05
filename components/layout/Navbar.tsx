@@ -19,7 +19,7 @@ import { Menu } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 // import { LogoIcon } from "./Icons";
 import Link from "next/link";
-import { styles } from "@/utils/styles";
+import { styles } from "@/utils/Style";
 import { RouteProps } from "@/types";
 
 export const Navbar = ({ routeList }: { routeList: RouteProps[] }) => {

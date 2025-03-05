@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button";
 import { HeroCards } from "@/components/layout/HeroCards";
 import Link from "next/link";
-import { styles } from "@/utils/styles";
+import { styles } from "@/utils/Style";
 import { useState } from "react";
 import { SignUpForm } from "@/components/layout/Signup";
 import SignIn from "@/components/layout/SignIn";
