@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AuthProvider from "@/contexts/AuthProvider";
 import React, {JSX} from "react";
 const queryClient: QueryClient = new QueryClient();
-
 const Provider = ({
   children,
 }: Readonly<{
@@ -15,7 +14,6 @@ const Provider = ({
     <>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-        {" "}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

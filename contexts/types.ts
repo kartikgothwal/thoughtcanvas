@@ -1,3 +1,5 @@
+import { IUserProfile } from "@/types";
+
 export interface AuthContextType {
   userProfile: IUserProfile | undefined;
   setUserProfile: React.Dispatch<

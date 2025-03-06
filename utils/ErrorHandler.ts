@@ -7,7 +7,7 @@ export function handleError(
   message?: string,
   statusCode: number = ERROR_500
 ): NextResponse<IErrorResponse> {
-  const defaultMessage = message ? message : "An unexpected error occurred.";
+  const defaultMessage:string = message ? message : "An unexpected error occurred.";
   let errorMessage: string;
   let errorDetails: { name?: string; message: string };
 

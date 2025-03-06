@@ -18,7 +18,7 @@ import { ToasterSuccess } from "@/utils/Toast";
 import { useRouter } from "next/navigation";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { useEffect, useState } from "react";
-import { ButtonLoading } from "@/utils/LoadingUI";
+import { ButtonLoading } from "@/utils/ui/LoadingUI";
 import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { ISignInSignUpModalProps } from "@/types";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";

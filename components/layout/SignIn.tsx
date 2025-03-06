@@ -18,12 +18,14 @@ import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { useTheme } from "next-themes";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { ToasterSuccess } from "@/utils/Toast";
-import { ButtonLoading } from "@/utils/LoadingUI";
+import { ButtonLoading } from "@/utils/ui/LoadingUI";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import ProviderAuth from "./ProviderAuth";
 import { Button } from "../ui/button";
 import { AuthContext } from "@/contexts/AuthProvider";
+import { USER_SIGN_IN } from "@/constant";
+import { getURL } from "@/utils";
 
 export type SignInSchema = z.infer<typeof SignInFormSchema>;
 
@@ -51,14 +53,14 @@ export default function SignIn({
   const authContext = useContext(AuthContext);
   const router = useRouter();
   const { mutate: signInMutation, isPending } = useMutationQueries(
-    "signIn",
-    "signin"
+    USER_SIGN_IN,
+    getURL(USER_SIGN_IN)
   );
   const onSubmit = (userData: z.infer<typeof SignInFormSchema>) => {
     signInMutation(userData, {
       onSuccess(response) {
         ToasterSuccess(response.data.message, theme!);
-        setUserProfile(response.data.user);
+        authContext?.setUserProfile(response.data.user);
         reset();
         setOpenSignInModal(false);
         router.push("/dashboard");

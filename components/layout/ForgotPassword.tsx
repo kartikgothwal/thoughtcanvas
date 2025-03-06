@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import {  ToasterSuccess } from "@/utils/Toast";
-import { ButtonLoading } from "@/utils/LoadingUI";
+import { ButtonLoading } from "@/utils/ui/LoadingUI";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { useForm } from "react-hook-form";
 import { z } from "zod";

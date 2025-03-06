@@ -11,12 +11,12 @@ const AuthProvider = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
-  const [userProfile, setUserProfile] = useState<IUserProfile>(
+  const [userProfile, setUserProfile] = useState<IUserProfile | undefined>(
     undefined
   );
   return (
     <AuthContext.Provider value={{ userProfile, setUserProfile }}>
-      {children}
+      {children}  
     </AuthContext.Provider>
   );
 };
