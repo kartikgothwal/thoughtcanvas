@@ -2,7 +2,7 @@ import { DbConnection } from "@/types";
 import mongoose from "mongoose";
 
 const connection: DbConnection = {};
-export default async function dbConnect() {
+export default async function dbConnect(): Promise<void> {
   if (connection.isConnected) {
     console.log("Database is already connected");
     return;

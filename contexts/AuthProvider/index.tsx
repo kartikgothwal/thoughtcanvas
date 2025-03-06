@@ -16,7 +16,7 @@ const AuthProvider = ({
   );
   return (
     <AuthContext.Provider value={{ userProfile, setUserProfile }}>
-      {children}  
+      {children}
     </AuthContext.Provider>
   );
 };

@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
       lowercase: true,
       trim: true,
       validate: {
-        validator: (value: string) => {
+        validator: (value: string):boolean => {
           return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
         },
         message: "Please enter a valid email address",
@@ -115,4 +115,4 @@ export { UserModel };
 
 UserModel.createIndexes()
   .then(() => console.log("Indexes created successfully"))
-  .catch(err => console.error("Error creating indexes:", err))
+  .catch(err => console.error("Error creating indexes:", err));

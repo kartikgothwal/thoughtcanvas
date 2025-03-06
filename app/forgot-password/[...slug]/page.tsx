@@ -21,9 +21,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { ResetPasswordSchema } from "@/zod";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
+import { JSX, useState } from "react";
 
-export default function Page() {
+export default function Page(): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
     resolver: zodResolver(ResetPasswordSchema),
