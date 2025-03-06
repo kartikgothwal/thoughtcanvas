@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { JSX, useContext, useState } from "react";
+import React, { JSX, useContext, useState } from "react";
 import { BottomGradient, LabelInputContainer } from "./Signup";
 import {
   Dialog,
@@ -26,6 +26,8 @@ import { Button } from "../ui/button";
 import { AuthContext } from "@/contexts/AuthProvider";
 import { USER_SIGN_IN } from "@/constant";
 import { getURL } from "@/utils";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { AuthContextType } from "@/contexts/types";
 
 export type SignInSchema = z.infer<typeof SignInFormSchema>;
 
@@ -50,27 +52,28 @@ export default function SignIn({
     resolver: zodResolver(SignInFormSchema),
   });
   const { theme } = useTheme();
-  const authContext = useContext(AuthContext);
-  const router = useRouter();
+
+  const authContext: AuthContextType | undefined = useContext(AuthContext);
+  const router: AppRouterInstance = useRouter();
   const { mutate: signInMutation, isPending } = useMutationQueries(
     USER_SIGN_IN,
     getURL(USER_SIGN_IN)
   );
   const onSubmit = (userData: z.infer<typeof SignInFormSchema>) => {
     signInMutation(userData, {
-      onSuccess(response) {
+      onSuccess(response): void {
         ToasterSuccess(response.data.message, theme!);
         authContext?.setUserProfile(response.data.user);
         reset();
         setOpenSignInModal(false);
         router.push("/dashboard");
       },
-      onError: (error: unknown) => {
+      onError: (error: unknown): void => {
         ToastErrorHandler(error, theme);
       },
     });
   };
-  const handleVisibilityToggle = () => {
+  const handleVisibilityToggle = (): void => {
     setVisibilityToggle(!visibiltyToggle);
   };
   return (
