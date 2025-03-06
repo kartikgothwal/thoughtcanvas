@@ -22,8 +22,8 @@ import { ButtonLoading } from "@/utils/LoadingUI";
 import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { ISignInSignUpModalProps } from "@/types";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
-import ProviderAuth from "./ProviderAuth";
-import { Button } from "../ui/button";
+import ProviderAuth from "@/components/layout/ProviderAuth";
+import { Button } from "@/components/ui/button";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -49,7 +49,7 @@ export function SignUpForm({
   } = useForm<SignUpFormSchemaType>({
     resolver: zodResolver(SignUpFormSchema),
   });
-  const onSubmit = async (userData: SignUpFormSchemaType) => {
+  const onSubmit = async (userData: z.infer<typeof SignUpFormSchema>) => {
     signUpMutation(userData, {
       onSuccess: (response) => {
         ToasterSuccess(response.data.message, theme!);

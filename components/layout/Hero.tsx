@@ -1,13 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button";
-import { HeroCards } from "./HeroCards";
+import { HeroCards } from "@/components/layout/HeroCards";
 import Link from "next/link";
-import { styles } from "@/utils/styles";
+import { styles } from "@/utils/Style";
 import { useState } from "react";
-import { SignUpForm } from "./Signup";
-import SignIn from "./SignIn";
-import ForgotPassword from "./ForgotPassword";
+import { SignUpForm } from "@/components/layout/Signup";
+import SignIn from "@/components/layout/SignIn";
+import ForgotPassword from "@/components/layout/ForgotPassword";
 export const Hero = () => {
   const [openSignUpModel, setOpenSignupModal] = useState<boolean>(false);
   const [forgotPasswordModel, setForgotPasswordModal] =

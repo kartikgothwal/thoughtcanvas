@@ -1,10 +1,11 @@
+import { ERROR_500 } from "@/constant";
 import { IErrorResponse } from "@/types";
 import { NextResponse } from "next/server";
 
 export function handleError(
   error: Error | unknown,
   message?: string,
-  statusCode: number = 500
+  statusCode: number = ERROR_500
 ): NextResponse<IErrorResponse> {
   const defaultMessage = message ? message : "An unexpected error occurred.";
   let errorMessage: string;

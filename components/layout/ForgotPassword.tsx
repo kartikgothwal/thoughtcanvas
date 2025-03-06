@@ -6,16 +6,22 @@ import {
   DialogFooter,
   DialogTitle,
 } from "../ui/dialog";
-import { BottomGradient, LabelInputContainer } from "./Signup";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import {
+  BottomGradient,
+  LabelInputContainer,
+} from "@/components/layout/Signup";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { ButtonLoading } from "@/utils";
+import {  ToasterSuccess } from "@/utils/Toast";
+import { ButtonLoading } from "@/utils/LoadingUI";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ForgotPasswordSchema } from "@/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTheme } from "next-themes";
+import ToastErrorHandler from "@/utils/ToastErrorHandler";
 
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 
@@ -30,6 +36,7 @@ const ForgotPassword = ({
     "forgotPassword",
     "forgot-password"
   );
+  const { theme } = useTheme();
   const {
     handleSubmit,
     register,
@@ -38,13 +45,15 @@ const ForgotPassword = ({
   } = useForm<ForgotPasswordType>({
     resolver: zodResolver(ForgotPasswordSchema),
   });
-  const onSubmit = (userEmail: { email: string }) => {
+  const onSubmit = (userEmail: z.infer<typeof ForgotPasswordSchema>) => {
     forgotPasswordMutation(userEmail, {
       onSuccess: (response) => {
-        console.log("🚀 ~ onSubmit ~ response:", response);
+        ToasterSuccess(response.data.message, theme!);
+        reset();
+        setForgotPasswordModal(!forgotPasswordModel);
       },
       onError: (error) => {
-        console.log("🚀 ~ onSubmit ~ error:", error);
+        ToastErrorHandler(error, theme);
       },
     });
   };

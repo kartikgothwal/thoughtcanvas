@@ -3,6 +3,11 @@ import { Document } from "mongoose";
 export interface DbConnection {
   isConnected?: number;
 }
+export interface RouteProps {
+  href: string;
+  label: string;
+}
+
 export interface statsProps {
   quantity: string;
   description: string;
@@ -40,4 +45,13 @@ export interface ISignInSignUpModalProps {
   openSignUpModel: boolean;
   setOpenSignInModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenSignupModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface IUserProfile {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  isActive: boolean;
+  status: string;
 }

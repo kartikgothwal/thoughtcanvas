@@ -1,6 +1,6 @@
 import { Statistics } from "./Statistics";
 import { pilot } from "@/assets/index";
-import { styles } from "@/utils/styles";
+import { styles } from "@/utils/Style";
 import Image from "next/image";
 
 export const About = () => {

@@ -3,15 +3,20 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { VerifyJwtToken } from "./utils/VerifyToken";
 import { deleteCookies } from "./utils/Cookies";
+import { ToasterError } from "./utils/Toast";
 const publicRoutes: string[] = ["/"];
 const protectedRoutes: string[] = ["/dashboard"];
 export async function middleware(request: NextRequest) {
   try {
     const path: string = request.nextUrl.pathname;
     const cookieStore = await cookies();
-    const token: string | undefined = cookieStore.get("token")?.value.trim();
+    let token: string | undefined = cookieStore.get("token")?.value.trim();
     const isProtectedRoute: boolean = protectedRoutes.includes(path);
     const isPublicRoute: boolean = publicRoutes.includes(path);
+    const isForgotPasswordRoute: boolean = path.includes("/forgot-password/");
+    if (isForgotPasswordRoute) {
+      token = path.split("/forgot-password/")[1];
+    }
     if (token && (!token.includes(".") || token.split(".").length !== 3)) {
       deleteCookies("all");
       return NextResponse.redirect(new URL("/", request.url));
@@ -22,7 +27,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
       }
       return NextResponse.redirect(new URL("/", request.url));
-    } else if (isProtectedRoute) {
+    } else if (isProtectedRoute || isForgotPasswordRoute) {
       if (!token) {
         return NextResponse.redirect(new URL("/", request.url));
       }
@@ -35,10 +40,11 @@ export async function middleware(request: NextRequest) {
     }
   } catch (error: unknown) {
     console.error("🚀 ~ middleware error:", error);
+    ToasterError("Internal Server Error");
     return NextResponse.redirect(new URL("/", request.url));
   }
 }
 
 export const config = {
-  matcher: ["/", "/dashboard"],
+  matcher: ["/", "/dashboard", "/forgot-password/:path*"],
 };
