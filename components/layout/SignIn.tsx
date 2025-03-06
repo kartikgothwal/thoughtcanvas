@@ -48,7 +48,7 @@ export default function SignIn({
     resolver: zodResolver(SignInFormSchema),
   });
   const { theme } = useTheme();
-  const { setUserProfile } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   const router = useRouter();
   const { mutate: signInMutation, isPending } = useMutationQueries(
     "signIn",
@@ -58,7 +58,7 @@ export default function SignIn({
     signInMutation(userData, {
       onSuccess(response) {
         ToasterSuccess(response.data.message, theme!);
-
+        setUserProfile(response.data.user);
         reset();
         setOpenSignInModal(false);
         router.push("/dashboard");

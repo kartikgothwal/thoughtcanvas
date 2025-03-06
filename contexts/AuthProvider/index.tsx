@@ -1,12 +1,6 @@
 import { IUserProfile } from "@/types";
 import React, { Context, createContext, JSX, useState } from "react";
-
-interface AuthContextType {
-  userProfile: IUserProfile | undefined;
-  setUserProfile: React.Dispatch<
-    React.SetStateAction<IUserProfile | undefined>
-  >;
-}
+import { AuthContextType } from "../types";
 
 export const AuthContext: Context<AuthContextType | undefined> = createContext<
   AuthContextType | undefined
@@ -17,7 +11,7 @@ const AuthProvider = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
-  const [userProfile, setUserProfile] = useState<IUserProfile | undefined>(
+  const [userProfile, setUserProfile] = useState<IUserProfile>(
     undefined
   );
   return (
