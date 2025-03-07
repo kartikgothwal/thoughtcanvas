@@ -1,23 +1,27 @@
-import swaggerJsdoc from "swagger-jsdoc";
+import swaggerJSDoc from "swagger-jsdoc";
 
-const swaggerDefinition: swaggerJsdoc.Options["definition"] = {
-  openapi: "3.0.0",
-  info: {
-    title: "ThoughtCanvas API Documentation",
-    version: "1.0.0",
-    description: "API documentation for ThoughtCanvas",
-  },
-  servers: [
-    {
-      url: process.env.NEXT_PUBLIC_APP_URL,
-      description: "Local server",
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "ThoughtCanvas API Docs",
+      version: "1.0.0",
+      description: "API documentation for ThoughtCanvas",
     },
-  ],
+    servers: [
+      {
+        url: `${process.env.NEXT_PUBLIC_APP_URL}/api`,
+        description: "Local Development Server",
+      },
+      {
+        url: `${process.env.NEXT_PUBLIC_APP_URL}/api`,
+        description: "Production Server",
+      },
+    ],
+  },
+  apis: ["./app/api/**/*.ts"],
 };
 
-const options: swaggerJsdoc.Options = {
-  definition: swaggerDefinition,
-  apis: ["./pages/api/**/*.ts", "./app/api/**/*.ts"], // Adjust paths based on Next.js router
-};
+const swaggerSpec: object = swaggerJSDoc(options);
 
-export default options;
+export default swaggerSpec;
