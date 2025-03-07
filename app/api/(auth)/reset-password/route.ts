@@ -10,7 +10,7 @@ type ResetPasswordType = z.infer<typeof ResetPasswordSchema>;
 async function handler(request: NextApiRequest) {
   try {
     const payload: ResetPasswordType = request.body;
-    console.log("🚀 ~ PATCH ~ payload:", payload);
+    const isValidPayload = ResetPasswordSchema.safeParse(payload);
     return NextResponse.json({ message: "Reset Password" });
   } catch (error) {
     console.error("🚀 ~ PATCH ~ error:", error);

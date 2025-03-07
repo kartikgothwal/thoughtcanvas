@@ -11,8 +11,7 @@ interface AuthenticatedRequest extends NextApiRequest {
 export function authenticateJWT(
   handler: (request: NextApiRequest, response: NextApiResponse) => any
 ) {
-  return async (req: NextApiRequest, res: NextApiResponse) => {
-    console.log("Aauthmiddlware running");
+  return async (req: NextApiRequest, res: NextApiResponse): Promise<any> => {
     const token: string | undefined = req.headers.authorization?.split(" ")[1];
     try {
       if (!token) {
