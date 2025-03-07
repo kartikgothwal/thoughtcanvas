@@ -93,11 +93,11 @@
   background-color: #273c75 !important;
   border: 1px solid #ffffff !important;
 }
-.swagger-ui .opblock .opblock-section-header {
+.swagger-ui .opblock .opblock-section-header   {
   background-color: #010615 !important;
   border: 1px solid #ffffff !important;
 }
 .swagger-ui .scheme-container {
-  background-color: #010615 !important;
-  border: 1px solid #ffffff !important;
+    background-color: #010615 !important;
+    border: 1px solid #ffffff !important;
 }
