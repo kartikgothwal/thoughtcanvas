@@ -1,46 +1,103 @@
 /* Global text color */
 .swagger-ui * {
-    color: #ffffff !important;
-  }
-  
-  /* Background and section styles */
-  .swagger-ui {
-    background-color: #273c75 !important;
-  }
-  
-  /* Fix top-level headings */
-  .swagger-ui .info * {
-    color: #ffffff !important;
-  }
-  
-  /* Adjust API method text (POST, GET, etc.) */
-  .swagger-ui .opblock-summary-method {
-    color: #ffffff !important;
-  }
-  
-  /* Fix text in descriptions and paths */
-  .swagger-ui .opblock-summary-description,
-  .swagger-ui .opblock-summary-path,
-  .swagger-ui .parameter__name,
-  .swagger-ui .response-col_status,
-  .swagger-ui .response-col_description {
-    color: #ffffff !important;
-  }
-  
-  /* Fix request body and response text */
-  .swagger-ui .renderedMarkdown,
-  .swagger-ui .model-title,
-  .swagger-ui pre,
-  .swagger-ui code {
-    color: #ffffff !important;
-    background-color: #192a56 !important;
-  }
-  
-  /* Ensure dropdowns and buttons are readable */
-  .swagger-ui select,
-  .swagger-ui .btn {
-    color: #ffffff !important;
-    background-color: #273c75 !important;
-    border: 1px solid #ffffff !important;
-  }
-  
+  color: #ffffff !important;
+}
+
+/* Background and section styles */
+.swagger-ui {
+  background-color: #040f2d !important;
+}
+
+/* Fix top-level headings */
+.swagger-ui .info * {
+  color: #ffffff !important;
+}
+
+/* Adjust API method text (POST, GET, etc.) */
+.swagger-ui .opblock-summary-method {
+  color: #ffffff !important;
+}
+
+/* Fix text in descriptions and paths */
+.swagger-ui .opblock-summary-description,
+.swagger-ui .opblock-summary-path,
+.swagger-ui .parameter__name,
+.swagger-ui .response-col_status,
+.swagger-ui .response-col_description {
+  color: #ffffff !important;
+}
+
+/* Fix request body and response text */
+.swagger-ui .renderedMarkdown,
+.swagger-ui .model-title,
+.swagger-ui pre,
+.swagger-ui code {
+  color: #ffffff !important;
+  background-color: #0c276b !important;
+  padding: 5px;
+  /* font-size: 13px; */
+}
+
+/* Ensure dropdowns and buttons are readable */
+.swagger-ui select,
+.swagger-ui .btn {
+  color: #ffffff !important;
+  background-color: #273c75 !important;
+  border: 1px solid #ffffff !important;
+}
+
+/* Global text color */
+.swagger-ui * {
+  color: #ffffff !important;
+}
+
+/* Background and section styles */
+.swagger-ui {
+  background-color: #040f2d !important;
+}
+
+/* Fix top-level headings */
+.swagger-ui .info * {
+  color: #ffffff !important;
+}
+
+/* Adjust API method text (POST, GET, etc.) */
+.swagger-ui .opblock-summary-method {
+  color: #ffffff !important;
+}
+
+/* Fix text in descriptions and paths */
+.swagger-ui .opblock-summary-description,
+.swagger-ui .opblock-summary-path,
+.swagger-ui .parameter__name,
+.swagger-ui .response-col_status,
+.swagger-ui .response-col_description {
+  color: #ffffff !important;
+}
+
+/* Fix request body and response text */
+.swagger-ui .renderedMarkdown,
+.swagger-ui .model-title,
+.swagger-ui pre,
+.swagger-ui code {
+  color: #ffffff !important;
+  background-color: #0c276b !important;
+  padding: 5px;
+  /* font-size: 13px; */
+}
+
+/* Ensure dropdowns and buttons are readable */
+.swagger-ui select,
+.swagger-ui .btn {
+  color: #ffffff !important;
+  background-color: #273c75 !important;
+  border: 1px solid #ffffff !important;
+}
+.swagger-ui .opblock .opblock-section-header {
+  background-color: #010615 !important;
+  border: 1px solid #ffffff !important;
+}
+.swagger-ui .scheme-container {
+  background-color: #010615 !important;
+  border: 1px solid #ffffff !important;
+}
