@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Geist, Geist_Mono } from "next/font/google";
+import React, {JSX} from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,7 @@ async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>):Promise<JSX.Element> {
   return (
     <html lang="en">
       <body

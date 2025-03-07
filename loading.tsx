@@ -1,6 +1,7 @@
 import { LoadingSpinner } from "@/utils/ui/LoadingUI";
+import {JSX} from "react";
 
-const Loading = () => {
+const Loading = ():JSX.Element => {
   return <LoadingSpinner />;
 };
 
