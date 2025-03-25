@@ -13,7 +13,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import {  ToasterSuccess } from "@/utils/Toast";
+import { ToasterSuccess } from "@/utils/Toast";
 import { ButtonLoading } from "@/utils/ui/LoadingUI";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { useForm } from "react-hook-form";
@@ -22,6 +22,7 @@ import { ForgotPasswordSchema } from "@/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTheme } from "next-themes";
 import ToastErrorHandler from "@/utils/ToastErrorHandler";
+import { FORGOT_USER_PASSWORD } from "@/constant";
 
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 
@@ -32,10 +33,8 @@ const ForgotPassword = ({
   forgotPasswordModel: boolean;
   setForgotPasswordModal: React.Dispatch<React.SetStateAction<boolean>>;
 }): JSX.Element => {
-  const { mutate: forgotPasswordMutation, isPending } = useMutationQueries(
-    "forgotPassword",
-    "forgot-password"
-  );
+  const { mutate: forgotPasswordMutation, isPending } =
+    useMutationQueries(FORGOT_USER_PASSWORD);
   const { theme } = useTheme();
   const {
     handleSubmit,

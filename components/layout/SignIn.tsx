@@ -55,10 +55,8 @@ export default function SignIn({
 
   const authContext: AuthContextType | undefined = useContext(AuthContext);
   const router: AppRouterInstance = useRouter();
-  const { mutate: signInMutation, isPending } = useMutationQueries(
-    USER_SIGN_IN,
-    getURL(USER_SIGN_IN)
-  );
+  const { mutate: signInMutation, isPending } =
+    useMutationQueries(USER_SIGN_IN);
   const onSubmit = (userData: z.infer<typeof SignInFormSchema>) => {
     signInMutation(userData, {
       onSuccess(response): void {
