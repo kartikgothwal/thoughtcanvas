@@ -5,9 +5,9 @@ export const getURL: (queryKey: string) => string = (
 ): string => {
   switch (queryKey) {
     case USER_SIGN_IN:
-      return "signin";
+      return "sign-in";
     case USER_SIGN_UP:
-      return "signup";
+      return "sign-up";
     case FORGOT_USER_PASSWORD:
       return "forgot-password";
     default:
