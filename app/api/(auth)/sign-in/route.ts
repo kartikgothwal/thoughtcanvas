@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import { ERROR_400, ERROR_404, STATUS_CODE_200 } from "@/constant";
+import { ERROR_400, ERROR_404, HttpStatus, STATUS_CODE_200 } from "@/constant";
 
 type SignInSchema = z.infer<typeof SignInFormSchema>;
 export async function POST(request: Request) {
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       return handleError(
         new Error(validatedData.error.errors[0].message),
         "",
-        ERROR_400
+        HttpStatus.BAD_REQUEST
       );
     }
     await dbConnect();
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       return handleError(
         new Error("User with this email doesn't exits"),
         "",
-        ERROR_404
+        HttpStatus.NOT_FOUND
       );
     }
     const isPasswordValid: boolean = await bcrypt.compare(
@@ -35,7 +35,11 @@ export async function POST(request: Request) {
       isExisted.password
     );
     if (!isPasswordValid) {
-      return handleError(new Error("Password doesn't Match"), "", 401);
+      return handleError(
+        new Error("Password doesn't Match"),
+        "",
+        HttpStatus.UNAUTHORIZED
+      );
     }
     const token: string = JwtGenerator({ email: isExisted.email });
     const cookieStore = await cookies();
@@ -56,11 +60,15 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { message: "Successfully Logged In", user: userResponse },
       {
-        status: STATUS_CODE_200,
+        status: HttpStatus.OK,
       }
     );
   } catch (error) {
     console.error("🚀 ~ POST ~ error:", error);
-    return handleError(error, "Internal Server Error");
+    return handleError(
+      new Error(String(error)),
+      "Internal Server Error",
+      HttpStatus.INTERNAL_SERVER_ERROR
+    );
   }
 }

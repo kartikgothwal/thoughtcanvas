@@ -13,6 +13,7 @@ export function authenticateJWT(
 ) {
   return async (req: NextApiRequest, res: NextApiResponse): Promise<any> => {
     const token: string | undefined = req.headers.authorization?.split(" ")[1];
+    console.log("🚀 ~ return ~ token:", token)
     try {
       if (!token) {
         return handleError(new Error("No token provided"), "", ERROR_401);
@@ -25,7 +26,7 @@ export function authenticateJWT(
       return handler(req, res);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: unknown) {
-      return res.status(ERROR_500).json({ error: "Failed to verify token" });
+      return handleError(new Error("Internal server error"), "", ERROR_401);
     }
   };
 }

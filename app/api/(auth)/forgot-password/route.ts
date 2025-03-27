@@ -10,7 +10,12 @@ import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { IUsersSchema } from "@/types";
 import fs from "fs";
 import path from "path";
-import { ERROR_400, STATUS_CODE_200 } from "@/constant";
+import {
+  ERROR_400,
+  HttpStatus,
+  ResponseMessages,
+  STATUS_CODE_200,
+} from "@/constant";
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 
 /**
@@ -64,7 +69,7 @@ export async function POST(request: Request) {
       return handleError(
         new Error(isValidPayload.error.errors[0].message),
         "",
-        ERROR_400
+        HttpStatus.BAD_REQUEST
       );
     }
     await dbConnect();
@@ -73,9 +78,9 @@ export async function POST(request: Request) {
     });
     if (!isExisted) {
       return handleError(
-        new Error("User with this email doesn't exits"),
+        new Error(ResponseMessages.USER_NOT_FOUND),
         "",
-        ERROR_400
+        HttpStatus.NOT_FOUND
       );
     }
     const token: string = JwtGenerator(
@@ -116,11 +121,14 @@ export async function POST(request: Request) {
         message: "Link to Reset you password is sent to your email",
       },
       {
-        status: STATUS_CODE_200,
+        status: HttpStatus.OK,
       }
     );
   } catch (error) {
-    console.error("🚀 ~ POST ~ error:", error);
-    return handleError(error, "Internal Server Error");
+    return handleError(
+      error,
+      ResponseMessages.INTERNAL_SERVER_ERROR,
+      HttpStatus.INTERNAL_SERVER_ERROR
+    );
   }
 }
