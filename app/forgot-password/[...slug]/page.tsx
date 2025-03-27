@@ -34,15 +34,18 @@ export default function Page(): JSX.Element {
       confirmPassword: "",
     },
   });
-  const {}= useResetPassword(RESET_USER_PASSWORD)
+  const { mutate, isPending } = useResetPassword(RESET_USER_PASSWORD);
   async function onSubmit(
-    values: z.infer<typeof ResetPasswordSchema>
+    newPassword: z.infer<typeof ResetPasswordSchema>
   ): Promise<void> {
-    try {
-      console.log(values);
-    } catch (error) {
-      console.error("Error resetting password", error);
-    }
+    mutate(newPassword, {
+      onSuccess: (response) => {
+        console.log("🚀 ~ Page ~ response:", response);
+      },
+      onError: (error: Error) => {
+        console.error("Error resetting password", error);
+      },
+    });
   }
 
   return (
