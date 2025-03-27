@@ -22,6 +22,8 @@ import { Input } from "@/components/ui/input";
 import { ResetPasswordSchema } from "@/zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { JSX, useState } from "react";
+import useResetPassword from "@/apiquery/hooks/useResetPassword";
+import { RESET_USER_PASSWORD } from "@/constant";
 
 export default function Page(): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,7 +34,7 @@ export default function Page(): JSX.Element {
       confirmPassword: "",
     },
   });
-
+  const {}= useResetPassword(RESET_USER_PASSWORD)
   async function onSubmit(
     values: z.infer<typeof ResetPasswordSchema>
   ): Promise<void> {

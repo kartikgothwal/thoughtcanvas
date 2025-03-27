@@ -51,7 +51,7 @@ const ForgotPassword = ({
         reset();
         setForgotPasswordModal(!forgotPasswordModel);
       },
-      onError: (error) => {
+      onError: (error:Error) => {
         ToastErrorHandler(error, theme);
       },
     });
