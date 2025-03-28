@@ -102,4 +102,5 @@ export declare enum ResponseMessages {
   RESET_LINK_SENT_ON_MAIL = "Link to Reset you password is sent to your email",
   PASSWORD_DOESNT_MATCH = "Password doesn't Match",
   SIGN_UP_SUCCESS = "Successfully Signed Up",
+  SIGN_IN_SUCCESS = "Successfully Signed In",
 }

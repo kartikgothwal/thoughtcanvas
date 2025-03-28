@@ -8,8 +8,8 @@ import bcrypt from "bcrypt";
 import { IUsersSchema } from "@/types";
 import { cookies } from "next/headers";
 import { handleError } from "@/utils/ErrorHandler";
-import { ERROR_400, STATUS_CODE_200 } from "@/constant";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { HttpStatus, ResponseMessages } from "@/constant";
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 /**
  * @swagger
@@ -77,16 +77,18 @@ export async function POST(request: NextRequest) {
       return handleError(
         new Error(validatedData.error.errors[0].message),
         "",
-        ERROR_400
+        HttpStatus.BAD_REQUEST
       );
     }
     await dbConnect();
-    const isExisted = await UserModel.findOne({ email: payload.email });
+    const isExisted: IUsersSchema | null = await UserModel.findOne({
+      email: payload.email,
+    });
     if (!!isExisted) {
       return handleError(
-        new Error("User with this email already exits"),
+        new Error(ResponseMessages.USER_ALREADY_EXISTS),
         "",
-        ERROR_400
+        HttpStatus.UNAUTHORIZED
       );
     }
 
@@ -105,12 +107,16 @@ export async function POST(request: NextRequest) {
     });
     const user: IUsersSchema = await NewUsers.save();
     return NextResponse.json(
-      { message: "Account Successfully Created", user: user },
+      { message: ResponseMessages.SIGN_UP_SUCCESS, user: user },
       {
-        status: STATUS_CODE_200,
+        status: HttpStatus.CREATED,
       }
     );
   } catch (error: unknown) {
-    return handleError(error, "Internal Server Error");
+    return handleError(
+      error,
+      ResponseMessages.INTERNAL_SERVER_ERROR,
+      HttpStatus.INTERNAL_SERVER_ERROR
+    );
   }
 }

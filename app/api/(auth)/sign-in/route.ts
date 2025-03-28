@@ -8,6 +8,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { HttpStatus, ResponseMessages } from "@/constant";
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { IUsersSchema } from "@/types";
 
 type SignInSchema = z.infer<typeof SignInFormSchema>;
 export async function POST(request: Request) {
@@ -22,7 +24,9 @@ export async function POST(request: Request) {
       );
     }
     await dbConnect();
-    const isExisted = await UserModel.findOne({ email: payload.email });
+    const isExisted: IUsersSchema | null = await UserModel.findOne({
+      email: payload.email,
+    });
     if (!isExisted) {
       return handleError(
         new Error(ResponseMessages.USER_NOT_FOUND),
@@ -42,7 +46,7 @@ export async function POST(request: Request) {
       );
     }
     const token: string = JwtGenerator({ email: isExisted.email });
-    const cookieStore = await cookies();
+    const cookieStore: ReadonlyRequestCookies = await cookies();
     cookieStore.set("token", token, { secure: true, httpOnly: true });
     cookieStore.set("userId", String(isExisted._id), {
       secure: true,
@@ -58,7 +62,7 @@ export async function POST(request: Request) {
       status: isExisted.status,
     };
     return NextResponse.json(
-      { message: ResponseMessages.SIGN_UP_SUCCESS, user: userResponse },
+      { message: ResponseMessages.SIGN_IN_SUCCESS, user: userResponse },
       {
         status: HttpStatus.OK,
       }
