@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import { ERROR_400, ERROR_404, HttpStatus, STATUS_CODE_200 } from "@/constant";
+import { HttpStatus, ResponseMessages } from "@/constant";
 
 type SignInSchema = z.infer<typeof SignInFormSchema>;
 export async function POST(request: Request) {
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     const isExisted = await UserModel.findOne({ email: payload.email });
     if (!isExisted) {
       return handleError(
-        new Error("User with this email doesn't exits"),
+        new Error(ResponseMessages.USER_NOT_FOUND),
         "",
         HttpStatus.NOT_FOUND
       );
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     );
     if (!isPasswordValid) {
       return handleError(
-        new Error("Password doesn't Match"),
+        new Error(ResponseMessages.PASSWORD_DOESNT_MATCH),
         "",
         HttpStatus.UNAUTHORIZED
       );
@@ -58,16 +58,15 @@ export async function POST(request: Request) {
       status: isExisted.status,
     };
     return NextResponse.json(
-      { message: "Successfully Logged In", user: userResponse },
+      { message: ResponseMessages.SIGN_UP_SUCCESS, user: userResponse },
       {
         status: HttpStatus.OK,
       }
     );
   } catch (error) {
-    console.error("🚀 ~ POST ~ error:", error);
     return handleError(
       new Error(String(error)),
-      "Internal Server Error",
+      ResponseMessages.INTERNAL_SERVER_ERROR,
       HttpStatus.INTERNAL_SERVER_ERROR
     );
   }

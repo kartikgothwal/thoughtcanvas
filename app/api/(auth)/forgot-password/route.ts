@@ -10,12 +10,7 @@ import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { IUsersSchema } from "@/types";
 import fs from "fs";
 import path from "path";
-import {
-  ERROR_400,
-  HttpStatus,
-  ResponseMessages,
-  STATUS_CODE_200,
-} from "@/constant";
+import { HttpStatus, ResponseMessages } from "@/constant";
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 
 /**
@@ -118,7 +113,7 @@ export async function POST(request: Request) {
     await transporter.sendMail(mailOptions);
     return NextResponse.json(
       {
-        message: "Link to Reset you password is sent to your email",
+        message: ResponseMessages.RESET_LINK_SENT_ON_MAIL,
       },
       {
         status: HttpStatus.OK,

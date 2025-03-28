@@ -1,4 +1,4 @@
-import { HttpStatus } from "@/constant";
+import { HttpStatus, ResponseMessages } from "@/constant";
 import { authenticateJWT } from "@/lib/middlware.ts/authMiddleware";
 import { handleError } from "@/utils/ErrorHandler";
 import { ResetPasswordSchema } from "@/zod";
@@ -21,7 +21,7 @@ async function handler(request: NextApiRequest) {
     console.error("🚀 ~ PATCH ~ error:", error);
     return handleError(
       error,
-      "Internal Server Error",
+      ResponseMessages.INTERNAL_SERVER_ERROR,
       HttpStatus.INTERNAL_SERVER_ERROR
     );
   }
