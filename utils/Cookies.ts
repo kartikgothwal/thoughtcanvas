@@ -9,10 +9,10 @@ export async function getCookies(name: string): Promise<string | undefined> {
   const data: string | undefined = cookieHeader.get(name)?.value;
   return data;
 }
-export async function deleteCookies(name: string):Promise<void> {
+export async function deleteCookies(name: string): Promise<void> {
   const cookieHeader: ReadonlyRequestCookies = await cookies();
   if (name.toLowerCase() == "all") {
-    const allCookies = cookieHeader.getAll();
+    const allCookies: RequestCookie[] = cookieHeader.getAll();
     allCookies.forEach((item: RequestCookie) => {
       cookieHeader.delete(item.name);
     });

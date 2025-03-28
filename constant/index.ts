@@ -99,7 +99,6 @@ export declare enum ResponseMessages {
   USER_NOT_FOUND = "User with this email doesn't exits",
   USER_ALREADY_EXISTS = "User with this email already exists",
   INTERNAL_SERVER_ERROR = "Internal Server Error",
-  RESET_LINK_SENT_ON_MAIL = "Link to Reset you password is sent to your email",
   PASSWORD_DOESNT_MATCH = "Password doesn't Match",
   SIGN_UP_SUCCESS = "Successfully Signed Up",
   SIGN_IN_SUCCESS = "Successfully Signed In",

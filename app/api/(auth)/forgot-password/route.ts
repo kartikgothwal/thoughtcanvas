@@ -113,15 +113,16 @@ export async function POST(request: Request) {
     await transporter.sendMail(mailOptions);
     return NextResponse.json(
       {
-        message: ResponseMessages.RESET_LINK_SENT_ON_MAIL,
+        message: "Link to Reset you password is sent to your email",
       },
       {
         status: HttpStatus.OK,
       }
     );
-  } catch (error) {
+  } catch (error: unknown) {
+    console.log("🚀 ~ POST ~ error:", error);
     return handleError(
-      error,
+      new Error("error instanceof Error ? error.message : String(error)"),
       ResponseMessages.INTERNAL_SERVER_ERROR,
       HttpStatus.INTERNAL_SERVER_ERROR
     );

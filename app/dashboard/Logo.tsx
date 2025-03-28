@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { JSX } from "react";
 
-export const Logo = () => {
+export const Logo = ():JSX.Element => {
   return (
     <div className="flex flex-row justify-between">
       <Link
@@ -21,7 +22,7 @@ export const Logo = () => {
   );
 };
 
-export const LogoIcon = () => {
+export const LogoIcon = ():JSX.Element => {
   return (
     <Link
       href="#"

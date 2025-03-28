@@ -1,5 +1,5 @@
 import { PostRequestHandler } from "@/axios/PostRequestHandler";
-import { ERROR_401 } from "@/constant";
+import { HttpStatus } from "@/constant";
 import { AxiosError } from "axios";
 
 export async function VerifyJwtToken(token: string): Promise<boolean> {
@@ -15,11 +15,10 @@ export async function VerifyJwtToken(token: string): Promise<boolean> {
     const data = response.data;
     return data.success;
   } catch (error) {
-    if (error instanceof AxiosError && error.response?.status === ERROR_401) {
-      console.error(
-        "Token invalid:",
-        error.response.data?.message || "Unknown error"
-      );
+    if (
+      error instanceof AxiosError &&
+      error.response?.status === HttpStatus.UNAUTHORIZED
+    ) {
     } else {
       console.error(
         "Verification error:",

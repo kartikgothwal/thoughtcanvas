@@ -35,6 +35,7 @@ export default function Page(): JSX.Element {
     },
   });
   const { mutate, isPending } = useResetPassword(RESET_USER_PASSWORD);
+  
   async function onSubmit(
     newPassword: z.infer<typeof ResetPasswordSchema>
   ): Promise<void> {
