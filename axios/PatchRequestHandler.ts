@@ -1,4 +1,3 @@
-import { getCookies } from "@/utils/Cookies";
 import axios from "axios";
 
 export async function PatchRequestHandler(

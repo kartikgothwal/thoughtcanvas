@@ -26,10 +26,12 @@ import useResetPassword from "@/apiquery/hooks/useResetPassword";
 import { RESET_USER_PASSWORD } from "@/constant";
 import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
 export default function Page(): JSX.Element {
   const { theme } = useTheme();
-  const [showPassword, setShowPassword] = useState(false);
+  const token: string = usePathname().split("/forgot-password/")[1];
+   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
     resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
@@ -37,7 +39,7 @@ export default function Page(): JSX.Element {
       confirmPassword: "",
     },
   });
-  const { mutate, isPending } = useResetPassword(RESET_USER_PASSWORD);
+  const { mutate, isPending } = useResetPassword(RESET_USER_PASSWORD, token);
 
   async function onSubmit(
     newPassword: z.infer<typeof ResetPasswordSchema>

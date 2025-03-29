@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { VerifyJwtToken } from "./utils/VerifyToken";
 import { deleteCookies } from "./utils/Cookies";
-import { ToasterError } from "./utils/Toast";
 const publicRoutes: string[] = ["/"];
 const protectedRoutes: string[] = ["/dashboard"];
 export async function middleware(request: NextRequest) {
@@ -22,7 +21,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/", request.url));
     }
     if (token && isPublicRoute) {
-      const isValidToken = await VerifyJwtToken(token);
+      const isValidToken: boolean = await VerifyJwtToken(token);
       if (isValidToken) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
       }
@@ -31,7 +30,7 @@ export async function middleware(request: NextRequest) {
       if (!token) {
         return NextResponse.redirect(new URL("/", request.url));
       }
-      const isValidToken = await VerifyJwtToken(token);
+      const isValidToken: boolean = await VerifyJwtToken(token);
       if (!isValidToken) {
         deleteCookies("all");
         return NextResponse.redirect(new URL("/", request.url));
@@ -40,7 +39,6 @@ export async function middleware(request: NextRequest) {
     }
   } catch (error: unknown) {
     console.error("🚀 ~ middleware error:", error);
-    // ToasterError("Internal Server Error");
     return NextResponse.redirect(new URL("/", request.url));
   }
 }
