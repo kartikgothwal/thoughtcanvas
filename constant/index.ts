@@ -44,7 +44,7 @@ export const NavbarRouteList: RouteProps[] = [
   },
 ];
 
-export declare enum HttpStatus {
+export enum HttpStatus {
   CONTINUE = 100,
   SWITCHING_PROTOCOLS = 101,
   PROCESSING = 102,
@@ -95,7 +95,7 @@ export declare enum HttpStatus {
   HTTP_VERSION_NOT_SUPPORTED = 505,
 }
 
-export declare enum ResponseMessages {
+export enum ResponseMessages {
   USER_NOT_FOUND = "User with this email doesn't exits",
   USER_ALREADY_EXISTS = "User with this email already exists",
   INTERNAL_SERVER_ERROR = "Internal Server Error",

@@ -40,7 +40,7 @@ export async function middleware(request: NextRequest) {
     }
   } catch (error: unknown) {
     console.error("🚀 ~ middleware error:", error);
-    ToasterError("Internal Server Error");
+    // ToasterError("Internal Server Error");
     return NextResponse.redirect(new URL("/", request.url));
   }
 }

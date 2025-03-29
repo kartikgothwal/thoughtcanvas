@@ -122,7 +122,7 @@ export async function POST(request: Request) {
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);
     return handleError(
-      new Error("error instanceof Error ? error.message : String(error)"),
+      new Error(error instanceof Error ? error.message : String(error)),
       ResponseMessages.INTERNAL_SERVER_ERROR,
       HttpStatus.INTERNAL_SERVER_ERROR
     );

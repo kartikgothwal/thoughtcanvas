@@ -1,4 +1,4 @@
-import { ERROR_401, ERROR_500 } from "@/constant";
+import { HttpStatus } from "@/constant";
 import { handleError } from "@/utils/ErrorHandler";
 import { JwtValidator } from "@/utils/JwtValidator";
 import { JwtPayload } from "jsonwebtoken";
@@ -16,17 +16,17 @@ export function authenticateJWT(
     console.log("🚀 ~ return ~ token:", token)
     try {
       if (!token) {
-        return handleError(new Error("No token provided"), "", ERROR_401);
+        return handleError(new Error("No token provided"), "", HttpStatus.UNAUTHORIZED);
       }
       const decoded: string | JwtPayload = JwtValidator(token);
       if (!decoded) {
-        return handleError(new Error("Invalid JWT token"), "", ERROR_401);
+        return handleError(new Error("Invalid JWT token"), "", HttpStatus.UNAUTHORIZED);
       }
       (req as AuthenticatedRequest).user = decoded;
       return handler(req, res);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: unknown) {
-      return handleError(new Error("Internal server error"), "", ERROR_401);
+      return handleError(new Error("Internal server error"), "", HttpStatus.UNAUTHORIZED);
     }
   };
 }
