@@ -1,4 +1,4 @@
-import { HttpStatus } from "@/constant";
+import { HttpStatus, ResponseMessages } from "@/constant";
 import { handleError } from "@/utils/ErrorHandler";
 import { JwtValidator } from "@/utils/JwtValidator";
 import { JwtPayload } from "jsonwebtoken";
@@ -14,35 +14,28 @@ export function authenticateJWT(
   handler: (request: NextApiRequest, response: NextApiResponse) => any
 ) {
   return async (req: NextApiRequest, res: NextApiResponse): Promise<any> => {
-    const headersList: ReadonlyHeaders = await headers();
-    const token: string | undefined = headersList
-      .get("authorization")
-      ?.split(" ")[1];
     try {
+      const headersList: ReadonlyHeaders = await headers();
+      const token: string | undefined = headersList
+        .get("authorization")
+        ?.split(" ")[1];
       if (!token) {
         return handleError(
-          new Error("No token provided"),
-          "",
+          new Error(ResponseMessages.AUTHORIZATION_TOKEN_MISSING),
           HttpStatus.UNAUTHORIZED
         );
       }
-      const decoded: string | JwtPayload = JwtValidator(token);
+      const decoded: string | JwtPayload | null = JwtValidator(token);
       if (!decoded) {
         return handleError(
-          new Error("Invalid JWT token"),
-          "",
+          new Error(ResponseMessages.INVALID_TOKEN),
           HttpStatus.UNAUTHORIZED
         );
       }
-      (req as AuthenticatedRequest).user = decoded;
       return handler(req, res);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: unknown) {
-      return handleError(
-        new Error("Internal server error"),
-        "",
-        HttpStatus.UNAUTHORIZED
-      );
+      console.log("🚀 ~ return ~ error:", error);
+      return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   };
 }

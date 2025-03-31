@@ -76,7 +76,6 @@ export async function POST(request: NextRequest) {
     if (!validatedData.success) {
       return handleError(
         new Error(validatedData.error.errors[0].message),
-        "",
         HttpStatus.BAD_REQUEST
       );
     }
@@ -87,7 +86,7 @@ export async function POST(request: NextRequest) {
     if (!!isExisted) {
       return handleError(
         new Error(ResponseMessages.USER_ALREADY_EXISTS),
-        "",
+
         HttpStatus.UNAUTHORIZED
       );
     }
@@ -113,10 +112,6 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error: unknown) {
-    return handleError(
-      error,
-      ResponseMessages.INTERNAL_SERVER_ERROR,
-      HttpStatus.INTERNAL_SERVER_ERROR
-    );
+    return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

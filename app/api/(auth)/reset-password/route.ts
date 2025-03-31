@@ -19,11 +19,7 @@ async function handler(request: NextApiRequest) {
     });
   } catch (error) {
     console.error("🚀 ~ PATCH ~ error:", error);
-    return handleError(
-      error,
-      ResponseMessages.INTERNAL_SERVER_ERROR,
-      HttpStatus.INTERNAL_SERVER_ERROR
-    );
+    return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
 

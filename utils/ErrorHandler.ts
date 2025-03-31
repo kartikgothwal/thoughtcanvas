@@ -1,13 +1,12 @@
- import { HttpStatus } from "@/constant";
+import { HttpStatus } from "@/constant";
 import { IErrorResponse } from "@/types";
 import { NextResponse } from "next/server";
 
 export function handleError(
   error: Error | unknown,
-  message?: string,
   statusCode: number = HttpStatus.INTERNAL_SERVER_ERROR
 ): NextResponse<IErrorResponse> {
-  const defaultMessage:string = message ? message : "An unexpected error occurred.";
+  const defaultMessage: string = "An unexpected error occurred.";
   let errorMessage: string;
   let errorDetails: { name?: string; message: string };
 

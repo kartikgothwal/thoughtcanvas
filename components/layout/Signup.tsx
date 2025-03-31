@@ -17,7 +17,7 @@ import { useTheme } from "next-themes";
 import { ToasterSuccess } from "@/utils/Toast";
 import { useRouter } from "next/navigation";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { ButtonLoading } from "@/utils/ui/LoadingUI";
 import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { ISignInSignUpModalProps } from "@/types";
@@ -25,6 +25,7 @@ import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import ProviderAuth from "@/components/layout/ProviderAuth";
 import { Button } from "@/components/ui/button";
 import { USER_SIGN_UP } from "@/constant";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -33,14 +34,14 @@ export function SignUpForm({
   openSignInModel,
   setOpenSignupModal,
   setOpenSignInModal,
-}: ISignInSignUpModalProps) {
+}: ISignInSignUpModalProps): JSX.Element {
   const [visibiltyToggle, setVisibilityToggle] = useState<boolean>(false);
   const {
     mutate: signUpMutation,
     isSuccess,
     isPending,
   } = useMutationQueries(USER_SIGN_UP);
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
   const { theme } = useTheme();
   const {
     register,

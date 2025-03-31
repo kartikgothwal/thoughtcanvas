@@ -28,6 +28,7 @@ import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import { ToasterSuccess } from "@/utils/Toast";
+import { ButtonLoading } from "@/utils/ui/LoadingUI";
 
 export default function Page(): JSX.Element {
   const { theme } = useTheme();
@@ -82,6 +83,7 @@ export default function Page(): JSX.Element {
                           placeholder="******"
                           autoComplete="new-password"
                           {...field}
+                          disabled={isPending}
                         />
                       </FormControl>
                       <FormMessage />
@@ -104,6 +106,7 @@ export default function Page(): JSX.Element {
                           placeholder="******"
                           autoComplete="new-password"
                           {...field}
+                          disabled={isPending}
                         />
                       </FormControl>
                       <FormMessage />
@@ -122,8 +125,15 @@ export default function Page(): JSX.Element {
                     Show Password
                   </label>
                 </div>
-                <Button type="submit" className="w-full">
-                  Reset Password
+                <Button type="submit" className="w-full" disabled={isPending}>
+                  {isPending ? (
+                    <>
+                      <span className="mx-2">Resetting...</span>{" "}
+                      <ButtonLoading />
+                    </>
+                  ) : (
+                    <>Reset Password &rarr;</>
+                  )}
                 </Button>
               </div>
             </form>

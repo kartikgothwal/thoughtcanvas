@@ -1,47 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { handleError } from "@/utils/ErrorHandler";
-import {  HttpStatus } from "@/constant";
+import { HttpStatus, ResponseMessages } from "@/constant";
+import { JwtValidator } from "@/utils/JwtValidator";
 export async function POST(request: NextRequest) {
   try {
     const authHeader: string | null = request.headers.get("Authorization");
     if (!authHeader) {
-      return handleError(new Error("Authorization header missing"), "", 401);
+      return handleError(
+        new Error(ResponseMessages.AUTHORIZATION_TOKEN_MISSING),
+        HttpStatus.UNAUTHORIZED
+      );
     }
     const token: string = authHeader.split(" ")[1];
     if (!token) {
       return handleError(
-        new Error("Token missing in Authorization header"),
-        "",
+        new Error(ResponseMessages.AUTHORIZATION_TOKEN_MISSING),
         HttpStatus.UNAUTHORIZED
       );
     }
-
-    const publicKey = process.env.NEXT_JWT_PUBLIC_KEY;
-    if (!publicKey) {
+    const decoded: string | JwtPayload | null = JwtValidator(token);
+    if (!decoded) {
       return handleError(
-        new Error("Public key not found"),
-        "",
+        new Error(ResponseMessages.INVALID_TOKEN),
         HttpStatus.UNAUTHORIZED
       );
     }
-    try {
-      const decoded = jwt.verify(token, publicKey, {
-        algorithms: ["RS256"],
-      });
-
-      return NextResponse.json({
-        success: true,
-        isValid: true,
-        decoded,
-      });
-    } catch (jwtError) {
-      if (jwtError instanceof jwt.JsonWebTokenError) {
-        return handleError(jwtError, jwtError.message, HttpStatus.UNAUTHORIZED);
-      }
-      throw jwtError;
-    }
+    return NextResponse.json({
+      success: true,
+      isValid: true,
+      decoded,
+    });
   } catch (error: unknown) {
-    return handleError(error, "Internal Server Error");
+    return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

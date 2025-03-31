@@ -19,7 +19,6 @@ export async function POST(request: Request) {
     if (!validatedData.success) {
       return handleError(
         new Error(validatedData.error.errors[0].message),
-        "",
         HttpStatus.BAD_REQUEST
       );
     }
@@ -30,7 +29,6 @@ export async function POST(request: Request) {
     if (!isExisted) {
       return handleError(
         new Error(ResponseMessages.USER_NOT_FOUND),
-        "",
         HttpStatus.NOT_FOUND
       );
     }
@@ -41,7 +39,6 @@ export async function POST(request: Request) {
     if (!isPasswordValid) {
       return handleError(
         new Error(ResponseMessages.PASSWORD_DOESNT_MATCH),
-        "",
         HttpStatus.UNAUTHORIZED
       );
     }
@@ -56,7 +53,7 @@ export async function POST(request: Request) {
       id: isExisted._id,
       name: isExisted.firstname + " " + isExisted.lastname,
       email: isExisted.email,
-      profilePicture: isExisted.isExisted,
+      profilePicture: isExisted.profilePicture,
       role: isExisted.role,
       isActive: isExisted.isactive,
       status: isExisted.status,
@@ -68,10 +65,6 @@ export async function POST(request: Request) {
       }
     );
   } catch (error) {
-    return handleError(
-      new Error(String(error)),
-      ResponseMessages.INTERNAL_SERVER_ERROR,
-      HttpStatus.INTERNAL_SERVER_ERROR
-    );
+    return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

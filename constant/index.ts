@@ -102,4 +102,6 @@ export enum ResponseMessages {
   PASSWORD_DOESNT_MATCH = "Password doesn't Match",
   SIGN_UP_SUCCESS = "Successfully Signed Up",
   SIGN_IN_SUCCESS = "Successfully Signed In",
+  INVALID_TOKEN = "Invalid JWT token",
+  AUTHORIZATION_TOKEN_MISSING = "Authorization token missing",
 }

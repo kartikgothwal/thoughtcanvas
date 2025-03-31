@@ -63,7 +63,6 @@ export async function POST(request: Request) {
     if (!isValidPayload.success) {
       return handleError(
         new Error(isValidPayload.error.errors[0].message),
-        "",
         HttpStatus.BAD_REQUEST
       );
     }
@@ -74,7 +73,6 @@ export async function POST(request: Request) {
     if (!isExisted) {
       return handleError(
         new Error(ResponseMessages.USER_NOT_FOUND),
-        "",
         HttpStatus.NOT_FOUND
       );
     }
@@ -123,7 +121,6 @@ export async function POST(request: Request) {
     console.log("🚀 ~ POST ~ error:", error);
     return handleError(
       new Error(error instanceof Error ? error.message : String(error)),
-      ResponseMessages.INTERNAL_SERVER_ERROR,
       HttpStatus.INTERNAL_SERVER_ERROR
     );
   }
