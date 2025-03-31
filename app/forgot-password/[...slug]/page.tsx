@@ -27,11 +27,12 @@ import { RESET_USER_PASSWORD } from "@/constant";
 import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
+import { ToasterSuccess } from "@/utils/Toast";
 
 export default function Page(): JSX.Element {
   const { theme } = useTheme();
   const token: string = usePathname().split("/forgot-password/")[1];
-   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
     resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
@@ -46,7 +47,7 @@ export default function Page(): JSX.Element {
   ): Promise<void> {
     mutate(newPassword, {
       onSuccess: (response) => {
-        console.log("🚀 ~ Page ~ response:", response);
+        ToasterSuccess(response.data.message, theme);
       },
       onError: (error: Error) => {
         console.error("Error resetting password", error);
