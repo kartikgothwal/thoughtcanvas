@@ -12,7 +12,7 @@ export async function PatchRequestHandler(
     },
     {
       headers: {
-        Authorization: `Bearer ${token+"d"}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     }
