@@ -15,10 +15,10 @@ type SignInSchema = z.infer<typeof SignInFormSchema>;
 export async function POST(request: Request) {
   try {
     const payload: SignInSchema = await request.json();
-    const validatedData = SignInFormSchema.safeParse(payload);
-    if (!validatedData.success) {
+    const isValidPayload = SignInFormSchema.safeParse(payload);
+    if (!isValidPayload.success) {
       return handleError(
-        new Error(validatedData.error.errors[0].message),
+        new Error(isValidPayload.error.errors[0].message),
         HttpStatus.BAD_REQUEST
       );
     }

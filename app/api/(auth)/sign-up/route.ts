@@ -72,10 +72,10 @@ type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 export async function POST(request: NextRequest) {
   try {
     const payload: SignUpFormSchemaType = await request.json();
-    const validatedData = SignUpFormSchema.safeParse(payload);
-    if (!validatedData.success) {
+    const isValidPayload = SignUpFormSchema.safeParse(payload);
+    if (!isValidPayload.success) {
       return handleError(
-        new Error(validatedData.error.errors[0].message),
+        new Error(isValidPayload.error.errors[0].message),
         HttpStatus.BAD_REQUEST
       );
     }
