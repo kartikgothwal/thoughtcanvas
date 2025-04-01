@@ -61,7 +61,7 @@ export default function SignIn({
     signInMutation(userData, {
       onSuccess(response): void {
         ToasterSuccess(response.data.message, theme!);
-        authContext?.setUserProfile(response.data.user);
+        authContext?.setUserProfile(response.data.data);
         reset();
         setOpenSignInModal(false);
         router.push("/dashboard");

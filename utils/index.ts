@@ -1,2 +1,4 @@
+import { ApiJsonResponse } from "./ApiJsonResponse";
 import { getURL } from "./GetURL";
-export { getURL };
+
+export { getURL, ApiJsonResponse };

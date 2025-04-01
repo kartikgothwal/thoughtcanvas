@@ -10,6 +10,7 @@ import { cookies } from "next/headers";
 import { handleError } from "@/utils/ErrorHandler";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { HttpStatus, ResponseMessages } from "@/constant";
+import { ApiJsonResponse } from "@/utils";
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 /**
  * @swagger
@@ -105,11 +106,10 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
     });
     const user: IUsersSchema = await NewUsers.save();
-    return NextResponse.json(
-      { message: ResponseMessages.SIGN_UP_SUCCESS, user: user },
-      {
-        status: HttpStatus.CREATED,
-      }
+    return ApiJsonResponse(
+      ResponseMessages.SIGN_UP_SUCCESS,
+      HttpStatus.CREATED,
+      user
     );
   } catch (error: unknown) {
     return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);

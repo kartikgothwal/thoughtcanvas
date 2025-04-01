@@ -11,6 +11,7 @@ import { IUsersSchema } from "@/types";
 import fs from "fs";
 import path from "path";
 import { HttpStatus, ResponseMessages } from "@/constant";
+import { ApiJsonResponse } from "@/utils";
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 
 /**
@@ -109,13 +110,10 @@ export async function POST(request: Request) {
       html: emailTemplate,
     };
     await transporter.sendMail(mailOptions);
-    return NextResponse.json(
-      {
-        message: "Link to Reset you password is sent to your email",
-      },
-      {
-        status: HttpStatus.OK,
-      }
+
+    return ApiJsonResponse(
+      "Link to Reset you password is sent to your email",
+      HttpStatus.OK
     );
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);

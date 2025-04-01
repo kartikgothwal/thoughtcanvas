@@ -10,6 +10,7 @@ import bcrypt from "bcrypt";
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { IUsersSchema } from "@/types";
+import { ApiJsonResponse } from "@/utils";
 
 type SignInSchema = z.infer<typeof SignInFormSchema>;
 export async function POST(request: Request) {
@@ -58,11 +59,11 @@ export async function POST(request: Request) {
       isActive: isExisted.isactive,
       status: isExisted.status,
     };
-    return NextResponse.json(
-      { message: ResponseMessages.SIGN_IN_SUCCESS, user: userResponse },
-      {
-        status: HttpStatus.OK,
-      }
+
+    return ApiJsonResponse(
+      ResponseMessages.SIGN_IN_SUCCESS,
+      HttpStatus.CREATED,
+      userResponse
     );
   } catch (error) {
     return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
