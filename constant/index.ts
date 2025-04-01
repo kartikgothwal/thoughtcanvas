@@ -104,4 +104,5 @@ export enum ResponseMessages {
   SIGN_IN_SUCCESS = "Successfully Signed In",
   INVALID_TOKEN = "Invalid JWT token",
   AUTHORIZATION_TOKEN_MISSING = "Authorization token missing",
+  UNKNOWN_ERROR_OCCURRED = "Unknown error occurred",
 }

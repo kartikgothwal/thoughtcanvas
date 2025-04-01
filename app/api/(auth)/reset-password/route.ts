@@ -1,5 +1,6 @@
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { authenticateJWT } from "@/lib/middlware.ts/authMiddleware";
+import { PayloadErrorFormat } from "@/utils";
 import { handleError } from "@/utils/ErrorHandler";
 import { ResetPasswordSchema } from "@/zod";
 import { NextApiRequest } from "next";
@@ -12,17 +13,19 @@ async function handler(request: NextApiRequest) {
   try {
     const payload: ResetPasswordType = request.body;
     const isValidPayload = ResetPasswordSchema.safeParse(payload);
-    console.log("🚀 ~ handler ~ isValidPayload:", isValidPayload.error);
-    return NextResponse.json({
-      message: "Hey",
-      isValidPayload: isValidPayload?.error?.errors[0],
-    });
-    // if (!isValidPayload.success) {
-    //   return handleError(
-    //     new Error(isValidPayload?.error?.errors[0]),
-    //     HttpStatus.BAD_REQUEST
-    //   );
-    // }
+    if (!isValidPayload.success) {
+      const errors:
+        | {
+            message: string;
+          }[]
+        | undefined = PayloadErrorFormat(isValidPayload);
+      return handleError(
+        new Error(
+          errors?.[0]?.message || ResponseMessages.UNKNOWN_ERROR_OCCURRED
+        ),
+        HttpStatus.BAD_REQUEST
+      );
+    }
   } catch (error) {
     console.error("🚀 ~ PATCH ~ error:", error);
     return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
