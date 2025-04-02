@@ -55,3 +55,13 @@ export interface IUserProfile {
   isActive: boolean;
   status: string;
 }
+
+export interface IUserSignInResponse {
+  id: unknown;
+  name: string;
+  email: string;
+  profilePicture: string;
+  role: string;
+  isActive: boolean;
+  status: string;
+}

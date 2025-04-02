@@ -5,7 +5,7 @@ import { SignUpFormSchema } from "@/zod";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import { IUsersSchema } from "@/types";
+import { IUserSignInResponse, IUsersSchema } from "@/types";
 import { cookies } from "next/headers";
 import { handleError } from "@/utils/ErrorHandler";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
@@ -106,10 +106,19 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
     });
     const user: IUsersSchema = await NewUsers.save();
+    const userResponse: IUserSignInResponse = {
+      id: user._id,
+      name: user.firstname + " " + user.lastname,
+      email: user.email,
+      profilePicture: user.profilePicture,
+      role: user.role,
+      isActive: user.isactive,
+      status: user.status,
+    };
     return ApiJsonResponse(
       ResponseMessages.SIGN_UP_SUCCESS,
       HttpStatus.CREATED,
-      user
+      userResponse
     );
   } catch (error: unknown) {
     return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);

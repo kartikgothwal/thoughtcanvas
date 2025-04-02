@@ -3,7 +3,6 @@ import { UserModel } from "@/schema/users";
 import { JwtGenerator } from "@/utils/JwtGenerator";
 import { handleError } from "@/utils/ErrorHandler";
 import { ForgotPasswordSchema } from "@/zod";
-import { NextResponse } from "next/server";
 import { z } from "zod";
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";

@@ -9,7 +9,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import { IUsersSchema } from "@/types";
+import { IUserSignInResponse, IUsersSchema } from "@/types";
 import { ApiJsonResponse } from "@/utils";
 
 type SignInSchema = z.infer<typeof SignInFormSchema>;
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       secure: true,
       httpOnly: true,
     });
-    const userResponse = {
+    const userResponse: IUserSignInResponse = {
       id: isExisted._id,
       name: isExisted.firstname + " " + isExisted.lastname,
       email: isExisted.email,
