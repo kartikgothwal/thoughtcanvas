@@ -4,7 +4,6 @@ import { JwtGenerator } from "@/utils/JwtGenerator";
 import { handleError } from "@/utils/ErrorHandler";
 import { SignInFormSchema } from "@/zod";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { HttpStatus, ResponseMessages } from "@/constant";

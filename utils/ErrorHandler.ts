@@ -1,4 +1,4 @@
-import { HttpStatus } from "@/constant";
+import { HttpStatus, ResponseMessages } from "@/constant";
 import { IErrorResponse } from "@/types";
 import { NextResponse } from "next/server";
 
@@ -6,7 +6,7 @@ export function handleError(
   error: Error | unknown,
   statusCode: number = HttpStatus.INTERNAL_SERVER_ERROR
 ): NextResponse<IErrorResponse> {
-  const defaultMessage: string = "An unexpected error occurred.";
+  const defaultMessage: string = ResponseMessages.UNEXPECTED_ERROR;
   let errorMessage: string;
   let errorDetails: { name?: string; message: string };
 
@@ -32,7 +32,7 @@ export function handleError(
     success: false,
     message: errorMessage,
     error: errorDetails,
-    statusCode,
+    code: statusCode,
   };
 
   return NextResponse.json(errorResponse, {

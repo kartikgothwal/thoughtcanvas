@@ -1,11 +1,9 @@
 "use server";
-
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
 
 export async function getCookies(name: string): Promise<string | undefined> {
-  console.log("🚀 ~ getCookies ~ name:", name)
   const cookieHeader: ReadonlyRequestCookies = await cookies();
   const data: string | undefined = cookieHeader.get(name)?.value;
   return data;

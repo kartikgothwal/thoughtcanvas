@@ -38,7 +38,7 @@ export interface IErrorResponse {
   success: boolean;
   message: string;
   error?: unknown;
-  statusCode: number;
+  code: number;
 }
 export interface ISignInSignUpModalProps {
   openSignInModel: boolean;
@@ -64,4 +64,11 @@ export interface IUserSignInResponse {
   role: string;
   isActive: boolean;
   status: string;
+}
+
+export interface IApiResponse {
+  message: string;
+  code: number;
+  data?: IUserSignInResponse | any;
+  success: boolean;
 }

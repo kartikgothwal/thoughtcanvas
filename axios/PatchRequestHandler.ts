@@ -7,9 +7,7 @@ export async function PatchRequestHandler(
 ) {
   return await axios.patch(
     `${process.env.NEXT_PUBLIC_APP_API_URL}/${endpoint}`,
-    {
-      payload,
-    },
+    payload,
     {
       headers: {
         Authorization: `Bearer ${token}`,

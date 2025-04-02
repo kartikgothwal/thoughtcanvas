@@ -2,18 +2,14 @@ import { HttpStatus, ResponseMessages } from "@/constant";
 import { handleError } from "@/utils/ErrorHandler";
 import { JwtValidator } from "@/utils/JwtValidator";
 import { JwtPayload } from "jsonwebtoken";
-import { NextApiRequest, NextApiResponse } from "next";
 import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 import { headers } from "next/headers";
 
-interface AuthenticatedRequest extends NextApiRequest {
-  user?: string | JwtPayload;
-}
 
 export function authenticateJWT(
-  handler: (request: NextApiRequest, response: NextApiResponse) => any
+  handler: (request: Request, response: Response) => any
 ) {
-  return async (req: NextApiRequest, res: NextApiResponse): Promise<any> => {
+  return async (req: Request, res: Response): Promise<any> => {
     try {
       const headersList: ReadonlyHeaders = await headers();
       const token: string | undefined = headersList
