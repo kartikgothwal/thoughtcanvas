@@ -26,12 +26,14 @@ import useResetPassword from "@/apiquery/hooks/useResetPassword";
 import { RESET_USER_PASSWORD } from "@/constant";
 import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { useTheme } from "next-themes";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ToasterSuccess } from "@/utils/Toast";
 import { ButtonLoading } from "@/utils/ui/LoadingUI";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export default function Page(): JSX.Element {
   const { theme } = useTheme();
+  const router: AppRouterInstance = useRouter();
   const token: string = usePathname().split("/forgot-password/")[1];
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
@@ -49,6 +51,8 @@ export default function Page(): JSX.Element {
     mutate(newPassword, {
       onSuccess: (response) => {
         ToasterSuccess(response.data.message, theme);
+        router.push("/");
+        form.reset();
       },
       onError: (error: Error) => {
         console.error("Error resetting password", error);

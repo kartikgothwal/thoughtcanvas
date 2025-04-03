@@ -78,7 +78,7 @@ export async function POST(request: Request) {
     }
     const token: string = JwtGenerator(
       { email: isExisted.email, id: isExisted._id },
-      "30m"
+      "10m"
     );
     const resetLink: string = `${process.env.NEXT_PUBLIC_APP_URL}/forgot-password/${token}`;
     const emailTemplatePath: string = path.join(
