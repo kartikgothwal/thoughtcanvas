@@ -5,9 +5,8 @@ import { JwtPayload } from "jsonwebtoken";
 import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 import { headers } from "next/headers";
 
-
 export function authenticateJWT(
-  handler: (request: Request, response: Response) => any
+  handler: (request: Request, response: Response, decoded:any) => any
 ) {
   return async (req: Request, res: Response): Promise<any> => {
     try {
@@ -28,7 +27,7 @@ export function authenticateJWT(
           HttpStatus.UNAUTHORIZED
         );
       }
-      return handler(req, res);
+      return handler(req, res, decoded);
     } catch (error: unknown) {
       console.log("🚀 ~ return ~ error:", error);
       return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
