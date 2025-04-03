@@ -10,7 +10,6 @@ import bcrypt from "bcrypt";
 type ResetPasswordType = z.infer<typeof ResetPasswordSchema>;
 
 async function handler(request: Request, response: Response, decoded: any) {
-  console.log("🚀 ~ handler ~ decoded:", decoded);
   try {
     const payload: ResetPasswordType = await request.json();
     const isValidPayload = ResetPasswordSchema.safeParse(payload);
@@ -38,10 +37,9 @@ async function handler(request: Request, response: Response, decoded: any) {
     }
     const isOldPassword: boolean = bcrypt.compareSync(
       payload.password,
-      isExisted?.password!
+      isExisted.password
     );
-    console.log("🚀 ~ handler ~ isOldPassword:", isOldPassword);
-    if (!isOldPassword) {
+    if (isOldPassword) {
       return handleError(
         new Error("New password must be different from the current one."),
         HttpStatus.BAD_REQUEST
@@ -50,7 +48,7 @@ async function handler(request: Request, response: Response, decoded: any) {
     const hashedPassword: string = bcrypt.hashSync(payload.password, 10);
     isExisted.password = hashedPassword;
     await isExisted.save();
-    return ApiJsonResponse("Password has be reset", HttpStatus.OK);
+    return ApiJsonResponse("Password has be updated", HttpStatus.OK);
   } catch (error) {
     console.error("🚀 ~ PATCH ~ error:", error);
     return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
