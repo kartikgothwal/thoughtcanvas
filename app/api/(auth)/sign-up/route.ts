@@ -5,7 +5,12 @@ import { SignUpFormSchema } from "@/zod";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import { IUserSignInResponse, IUsersSchema } from "@/types";
+import {
+  IApiResponse,
+  IErrorResponse,
+  IUserSignInResponse,
+  IUsersSchema,
+} from "@/types";
 import { cookies } from "next/headers";
 import { handleError } from "@/utils/ErrorHandler";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
@@ -14,7 +19,7 @@ import { ApiJsonResponse } from "@/utils";
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 /**
  * @swagger
- * /api/auth/signup:
+ * /sign-up:
  *   post:
  *     summary: Create a new user account
  *     description: Register a new user with an email and password. Returns a JWT token and user details.
@@ -70,7 +75,9 @@ type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
  *       500:
  *         description: Internal server error
  */
-export async function POST(request: NextRequest) {
+export async function POST(
+  request: NextRequest
+): Promise<NextResponse<IErrorResponse> | IApiResponse> {
   try {
     const payload: SignUpFormSchemaType = await request.json();
     const isValidPayload = SignUpFormSchema.safeParse(payload);

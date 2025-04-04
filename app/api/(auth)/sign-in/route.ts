@@ -8,11 +8,14 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import { IUserSignInResponse, IUsersSchema } from "@/types";
+import { IApiResponse, IErrorResponse, IUserSignInResponse, IUsersSchema } from "@/types";
 import { ApiJsonResponse } from "@/utils";
+import { NextResponse } from "next/server";
 
 type SignInSchema = z.infer<typeof SignInFormSchema>;
-export async function POST(request: Request) {
+export async function POST(
+  request: Request
+): Promise<NextResponse<IErrorResponse> | IApiResponse> {
   try {
     const payload: SignInSchema = await request.json();
     const isValidPayload = SignInFormSchema.safeParse(payload);

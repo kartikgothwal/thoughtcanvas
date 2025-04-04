@@ -6,11 +6,12 @@ import { ForgotPasswordSchema } from "@/zod";
 import { z } from "zod";
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
-import { IUsersSchema } from "@/types";
+import { IApiResponse, IErrorResponse, IUsersSchema } from "@/types";
 import fs from "fs";
 import path from "path";
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { ApiJsonResponse } from "@/utils";
+import { NextResponse } from "next/server";
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 
 /**
@@ -56,7 +57,9 @@ type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
  *       500:
  *         description: Internal server error.
  */
-export async function POST(request: Request) {
+export async function POST(
+  request: Request
+): Promise<NextResponse<IErrorResponse> | IApiResponse> {
   try {
     const payload: ForgotPasswordType = await request.json();
     const isValidPayload = ForgotPasswordSchema.safeParse(payload);

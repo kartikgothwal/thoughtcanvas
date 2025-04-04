@@ -1,15 +1,21 @@
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { authenticateJWT } from "@/lib/middlware.ts/authMiddleware";
 import { UserModel } from "@/schema/users";
-import { IUsersSchema } from "@/types";
+import { IApiResponse, IErrorResponse, IUsersSchema } from "@/types";
 import { ApiJsonResponse, PayloadErrorFormat } from "@/utils";
 import { handleError } from "@/utils/ErrorHandler";
 import { ResetPasswordSchema } from "@/zod";
 import { z } from "zod";
 import bcrypt from "bcrypt";
+import { NextResponse } from "next/server";
+
 type ResetPasswordType = z.infer<typeof ResetPasswordSchema>;
 
-async function handler(request: Request, response: Response, decoded: any) {
+async function handler(
+  request: Request,
+  response: Response,
+  decoded: { email: string }
+): Promise<NextResponse<IApiResponse | IErrorResponse>> {
   try {
     const payload: ResetPasswordType = await request.json();
     const isValidPayload = ResetPasswordSchema.safeParse(payload);
@@ -41,7 +47,7 @@ async function handler(request: Request, response: Response, decoded: any) {
     );
     if (isOldPassword) {
       return handleError(
-        new Error("New password must be different from the current one."),
+        new Error("Choose a different password"),
         HttpStatus.BAD_REQUEST
       );
     }
