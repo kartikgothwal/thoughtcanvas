@@ -3,7 +3,11 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { handleError } from "@/utils/ErrorHandler";
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { JwtValidator } from "@/utils/JwtValidator";
-export async function POST(request: NextRequest) {
+import { IApiResponse, IErrorResponse } from "@/types";
+
+export async function POST(
+  request: NextRequest
+): Promise<NextResponse<IApiResponse | IErrorResponse>> {
   try {
     const authHeader: string | null = request.headers.get("Authorization");
     if (!authHeader) {

@@ -15,7 +15,8 @@ import { cookies } from "next/headers";
 import { handleError } from "@/utils/ErrorHandler";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { HttpStatus, ResponseMessages } from "@/constant";
-import { ApiJsonResponse } from "@/utils";
+import { ApiJsonResponse, PayloadErrorFormat } from "@/utils";
+
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 /**
  * @swagger
@@ -82,8 +83,15 @@ export async function POST(
     const payload: SignUpFormSchemaType = await request.json();
     const isValidPayload = SignUpFormSchema.safeParse(payload);
     if (!isValidPayload.success) {
+      const errors:
+        | {
+            message: string;
+          }[]
+        | undefined = PayloadErrorFormat(isValidPayload);
       return handleError(
-        new Error(isValidPayload.error.errors[0].message),
+        new Error(
+          errors?.[0]?.message || ResponseMessages.UNKNOWN_ERROR_OCCURRED
+        ),
         HttpStatus.BAD_REQUEST
       );
     }

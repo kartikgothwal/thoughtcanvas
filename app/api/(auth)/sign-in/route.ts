@@ -13,6 +13,7 @@ import { ApiJsonResponse } from "@/utils";
 import { NextResponse } from "next/server";
 
 type SignInSchema = z.infer<typeof SignInFormSchema>;
+
 export async function POST(
   request: Request
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {

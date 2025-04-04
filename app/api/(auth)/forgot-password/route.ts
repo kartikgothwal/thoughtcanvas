@@ -10,8 +10,9 @@ import { IApiResponse, IErrorResponse, IUsersSchema } from "@/types";
 import fs from "fs";
 import path from "path";
 import { HttpStatus, ResponseMessages } from "@/constant";
-import { ApiJsonResponse } from "@/utils";
+import { ApiJsonResponse, PayloadErrorFormat } from "@/utils";
 import { NextResponse } from "next/server";
+
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 
 /**
@@ -64,8 +65,15 @@ export async function POST(
     const payload: ForgotPasswordType = await request.json();
     const isValidPayload = ForgotPasswordSchema.safeParse(payload);
     if (!isValidPayload.success) {
+      const errors:
+        | {
+            message: string;
+          }[]
+        | undefined = PayloadErrorFormat(isValidPayload);
       return handleError(
-        new Error(isValidPayload.error.errors[0].message),
+        new Error(
+          errors?.[0]?.message || ResponseMessages.UNKNOWN_ERROR_OCCURRED
+        ),
         HttpStatus.BAD_REQUEST
       );
     }
