@@ -7,7 +7,7 @@ export function ApiJsonResponse(
   data?: IUserSignInResponse | any
 ) {
   return NextResponse.json(
-    { code: statusCode, message: message, data: data, success: true },
+    { code: statusCode, message, data, success: true },
     {
       status: statusCode,
     }

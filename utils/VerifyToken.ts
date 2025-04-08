@@ -12,7 +12,7 @@ export async function VerifyJwtToken(token: string): Promise<boolean> {
     if (!response?.data || typeof response.data !== "object") {
       return false;
     }
-    const data = response.data;
+    const data: { success: boolean } = response.data;
     return data.success;
   } catch (error) {
     if (
