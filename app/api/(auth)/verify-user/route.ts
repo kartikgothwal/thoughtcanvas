@@ -7,7 +7,7 @@ import { IApiResponse, IErrorResponse } from "@/types";
 
 export async function POST(
   request: NextRequest
-): Promise<NextResponse<IApiResponse | IErrorResponse>> {
+)  {
   try {
     const authHeader: string | null = request.headers.get("Authorization");
     if (!authHeader) {
