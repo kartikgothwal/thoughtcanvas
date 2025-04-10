@@ -47,7 +47,7 @@ async function handler(
     );
     if (isOldPassword) {
       return handleError(
-        new Error("Choose a different password"),
+        new Error("Choose a password you have not used before"),
         HttpStatus.BAD_REQUEST
       );
     }
