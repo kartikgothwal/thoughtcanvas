@@ -16,7 +16,7 @@ const AuthProvider = ({
   );
   useEffect(() => {
     if (userProfile) {
-      console.log("🚀 ~ useEffect ~ userProfile:", userProfile);
+      localStorage.setItem("userProfile", JSON.stringify(userProfile));
     }
   }, [userProfile]);
   return (
