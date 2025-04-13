@@ -111,7 +111,3 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
 const UserModel =
   mongoose.models.users || mongoose.model<IUsersSchema>("users", userSchema);
 export { UserModel };
-
-UserModel.createIndexes()
-  .then(() => console.log("Indexes created successfully"))
-  .catch((err) => console.error("Error creating indexes:", err));
