@@ -10,7 +10,8 @@ import React, {
 import { AuthContextType } from "../types";
 import { deleteCookies } from "@/utils/Cookies";
 import { ToasterError, ToasterSuccess } from "@/utils/Toast";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 
 export const AuthContext: Context<AuthContextType | undefined> = createContext<
   AuthContextType | undefined
@@ -25,7 +26,7 @@ const AuthProvider = ({
     undefined
   );
   const router = useRouter();
-
+  const theme = useTheme();
   useEffect(() => {
     if (userProfile) {
       localStorage.setItem("userProfile", JSON.stringify(userProfile));
@@ -36,10 +37,10 @@ const AuthProvider = ({
     try {
       deleteCookies("all");
       localStorage.removeItem("userProfile");
-      ToasterSuccess("You have been logged out");
+      ToasterSuccess("You have been logged out", theme.theme!);
       router.push("/");
     } catch (error: unknown) {
-      ToasterError("Failed to logout");
+      ToasterError("Failed to logout", theme.theme!);
     }
   };
   return (
@@ -49,3 +50,4 @@ const AuthProvider = ({
   );
 };
 export const useAuthContext = () => useContext(AuthContext);
+export default AuthProvider;
