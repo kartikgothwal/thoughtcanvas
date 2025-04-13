@@ -5,4 +5,5 @@ export interface AuthContextType {
   setUserProfile: React.Dispatch<
     React.SetStateAction<IUserProfile | undefined>
   >;
+  signOut: () => void;
 }

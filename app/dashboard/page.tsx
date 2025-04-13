@@ -10,14 +10,14 @@ import {
 
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { deleteCookies } from "@/utils/Cookies";
-import { ToasterError, ToasterSuccess } from "@/utils/Toast";
-import { useTheme, UseThemeProps } from "next-themes";
-import { useRouter } from "next/navigation";
 import { Logo, LogoIcon } from "@/app/dashboard/Logo";
 import { TopBar } from "./Topbar";
+import { ISidebarLink } from "@/types";
+import { useAuthContext } from "@/contexts/AuthProvider";
+import { AuthContextType } from "@/contexts/types";
 export default function SidebarDemo(): JSX.Element {
-  const links = [
+  const authContext: AuthContextType | undefined = useAuthContext();
+  const links: ISidebarLink[] = [
     {
       label: "Dashboard",
       href: "/dashboard",
@@ -45,22 +45,10 @@ export default function SidebarDemo(): JSX.Element {
       icon: (
         <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
-      onClick: () => handleLogOut(),
+      onClick: () => authContext?.signOut(),
     },
   ];
   const [open, setOpen] = useState(false);
-  const theme: UseThemeProps = useTheme();
-  const router = useRouter();
-  const handleLogOut = () => {
-    try {
-      deleteCookies("all");
-      ToasterSuccess("You have been logged out", theme.theme!);
-      router.push("/");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error: unknown) {
-      ToasterError("Failed to logout", theme.theme!);
-    }
-  };
   return (
     <div
       className={cn(
@@ -101,7 +89,7 @@ export default function SidebarDemo(): JSX.Element {
   );
 }
 
-const Dashboard = () => {
+const Dashboard = (): JSX.Element => {
   return (
     <div className="flex flex-1 ">
       <div className="p-2 md:p-5 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-4 flex-1 w-full h-full">

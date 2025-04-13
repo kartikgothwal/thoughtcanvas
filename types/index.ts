@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Document } from "mongoose";
+import { JSX } from "react";
 export interface DbConnection {
   isConnected?: number;
 }
@@ -71,4 +72,11 @@ export interface IApiResponse {
   code: number;
   data?: IUserSignInResponse | any;
   success: boolean;
+}
+
+export interface ISidebarLink {
+  label: string;
+  href: string;
+  icon: JSX.Element;
+  onClick?: () => void;
 }

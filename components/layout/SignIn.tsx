@@ -23,7 +23,7 @@ import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import ProviderAuth from "./ProviderAuth";
 import { Button } from "../ui/button";
-import { AuthContext } from "@/contexts/AuthProvider";
+import { AuthContext, useAuthContext } from "@/contexts/AuthProvider";
 import { USER_SIGN_IN } from "@/constant";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { AuthContextType } from "@/contexts/types";
@@ -52,7 +52,7 @@ export default function SignIn({
   });
   const { theme } = useTheme();
 
-  const authContext: AuthContextType | undefined = useContext(AuthContext);
+  const authContext: AuthContextType | undefined = useAuthContext();
 
   const router: AppRouterInstance = useRouter();
   const { mutate: signInMutation, isPending } =
