@@ -25,7 +25,6 @@ import ProviderAuth from "./ProviderAuth";
 import { Button } from "../ui/button";
 import { AuthContext } from "@/contexts/AuthProvider";
 import { USER_SIGN_IN } from "@/constant";
-import { getURL } from "@/utils";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { AuthContextType } from "@/contexts/types";
 
@@ -54,6 +53,7 @@ export default function SignIn({
   const { theme } = useTheme();
 
   const authContext: AuthContextType | undefined = useContext(AuthContext);
+
   const router: AppRouterInstance = useRouter();
   const { mutate: signInMutation, isPending } =
     useMutationQueries(USER_SIGN_IN);

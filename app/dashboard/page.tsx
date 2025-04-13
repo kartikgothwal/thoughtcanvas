@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { JSX, useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import {
   IconArrowLeft,
@@ -7,16 +7,16 @@ import {
   IconSettings,
   IconUserBolt,
 } from "@tabler/icons-react";
- 
+
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { deleteCookies } from "@/utils/Cookies";
 import { ToasterError, ToasterSuccess } from "@/utils/Toast";
-import { useTheme } from "next-themes";
+import { useTheme, UseThemeProps } from "next-themes";
 import { useRouter } from "next/navigation";
 import { Logo, LogoIcon } from "@/app/dashboard/Logo";
 import { TopBar } from "./Topbar";
-export default function SidebarDemo() {
+export default function SidebarDemo(): JSX.Element {
   const links = [
     {
       label: "Dashboard",
@@ -49,16 +49,13 @@ export default function SidebarDemo() {
     },
   ];
   const [open, setOpen] = useState(false);
-  const theme = useTheme();
+  const theme: UseThemeProps = useTheme();
   const router = useRouter();
   const handleLogOut = () => {
     try {
-      console.log("Inside handleLogOut");
       deleteCookies("all");
       ToasterSuccess("You have been logged out", theme.theme!);
-      console.log("Before router.push");
       router.push("/");
-      console.log("After router.push");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: unknown) {
       ToasterError("Failed to logout", theme.theme!);
