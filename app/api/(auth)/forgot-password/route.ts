@@ -1,4 +1,4 @@
-import dbConnect from "@/config/dbConnect";
+ 
 import { UserModel } from "@/schema/users";
 import { JwtGenerator } from "@/utils/JwtGenerator";
 import { handleError } from "@/utils/ErrorHandler";
@@ -12,6 +12,7 @@ import path from "path";
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { ApiJsonResponse, PayloadErrorFormat } from "@/utils";
 import { NextResponse } from "next/server";
+import { dbConnect } from "@/config";
 
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 

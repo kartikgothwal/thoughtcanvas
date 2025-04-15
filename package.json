@@ -27,6 +27,7 @@
     "clsx": "^2.1.1",
     "firebase": "^11.1.0",
     "framer-motion": "^11.18.0",
+    "ioredis": "^5.6.1",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.471.1",
     "mongoose": "^8.9.4",

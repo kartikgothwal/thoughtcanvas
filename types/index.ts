@@ -80,3 +80,10 @@ export interface ISidebarLink {
   icon: JSX.Element;
   onClick?: () => void;
 }
+
+export interface IRateLimit {
+  identifier: string,
+  type: string,
+  maxRequests: number,
+  windowSeconds: number
+}

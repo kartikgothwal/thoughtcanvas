@@ -1,4 +1,4 @@
-import dbConnect from "@/config/dbConnect";
+import { dbConnect } from "@/config";
 import { UserModel } from "@/schema/users";
 import { JwtGenerator } from "@/utils/JwtGenerator";
 import { SignUpFormSchema } from "@/zod";
