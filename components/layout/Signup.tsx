@@ -26,6 +26,8 @@ import ProviderAuth from "@/components/layout/ProviderAuth";
 import { Button } from "@/components/ui/button";
 import { USER_SIGN_UP } from "@/constant";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useAuthContext } from "@/contexts/AuthProvider";
+import { AuthContextType } from "@/contexts/types";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -35,6 +37,7 @@ export function SignUpForm({
   setOpenSignupModal,
   setOpenSignInModal,
 }: ISignInSignUpModalProps): JSX.Element {
+  const authContext: AuthContextType | undefined = useAuthContext();
   const [visibiltyToggle, setVisibilityToggle] = useState<boolean>(false);
   const {
     mutate: signUpMutation,
@@ -55,8 +58,10 @@ export function SignUpForm({
     signUpMutation(userData, {
       onSuccess: (response) => {
         ToasterSuccess(response.data.message, theme!);
+        authContext?.setUserProfile(response.data.data);
         reset();
         setOpenSignupModal(false);
+        router.push("/dashboard");
       },
       onError: (error: unknown) => {
         ToastErrorHandler(error, theme);
