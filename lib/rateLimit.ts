@@ -1,3 +1,4 @@
+import { redis } from "@/config";
 import { IRateLimit } from "@/types";
 
 const WINDOW_SIZE_IN_SECONDS = 60;
@@ -9,5 +10,6 @@ export async function rateLimit({
   maxRequests,
   windowSeconds,
 }: IRateLimit) {
+  redis.set(`${identifier}:requests`,0)
   return true;
 }
