@@ -11,7 +11,6 @@ import path from "path";
 import {
   HttpStatus,
   WINDOW_SIZE_IN_SECONDS,
-  MAX_REQUESTS_PER_WINDOW,
   ResponseMessages,
 } from "@/constant";
 import { ApiJsonResponse, PayloadErrorFormat } from "@/utils";

@@ -13,7 +13,7 @@ type ResetPasswordType = z.infer<typeof ResetPasswordSchema>;
 
 async function handler(
   request: Request,
-  response: Response,
+  _: any,
   decoded: { email: string }
 ): Promise<NextResponse<IApiResponse | IErrorResponse>> {
   try {
