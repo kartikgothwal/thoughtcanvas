@@ -83,7 +83,4 @@ export interface ISidebarLink {
 
 export interface IRateLimit {
   identifier: string,
-  type: string,
-  maxRequests: number,
-  windowSeconds: number
 }
