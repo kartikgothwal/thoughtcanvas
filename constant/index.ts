@@ -2,8 +2,7 @@ import { RouteProps, statsProps } from "@/types";
 
 export const WINDOW_SIZE_IN_SECONDS = 60;
 export const MAX_REQUESTS_PER_WINDOW = 10;
-export const MAX_PER_REQUEST_TTL = 60 * 10;
-
+ 
 export const USER_SIGN_IN = "USER SIGN IN";
 export const USER_SIGN_UP = "USER SIGN UP";
 export const FORGOT_USER_PASSWORD = "FORGOT USER PASSWORD";
@@ -112,3 +111,7 @@ export enum ResponseMessages {
   UNEXPECTED_ERROR = "An unexpected error occurred.",
   TOO_MANY_REQUESTS = "Too many requests, please try after some time.",
 }
+
+ 
+
+ 

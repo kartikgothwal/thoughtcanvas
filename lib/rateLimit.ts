@@ -1,18 +1,19 @@
 import { redis } from "@/config";
 import { IRateLimit } from "@/types";
 
-const WINDOW_SIZE_IN_SECONDS = 60;
-const MAX_REQUESTS_PER_WINDOW = 5;
-
-export async function rateLimit({ identifier }: IRateLimit): Promise<boolean> {
+export async function rateLimit({
+  identifier,
+  maxRequest = 10,
+  windowSizeInSeconds = 60,
+}: IRateLimit): Promise<boolean> {
   const requests: string | null = await redis.get(`${identifier}:requests`);
   console.log("🚀 ~ rateL imit ~ requests:", requests);
   if (!requests) {
-    await redis.set(`${identifier}:requests`, 1, "EX", WINDOW_SIZE_IN_SECONDS);
+    await redis.set(`${identifier}:requests`, 1, "EX", windowSizeInSeconds);
     return true;
   }
   const requestsCount: number = parseInt(requests, 10);
-  if (requestsCount > MAX_REQUESTS_PER_WINDOW) {
+  if (requestsCount > maxRequest) {
     return false;
   }
   await redis.incr(`${identifier}:requests`);

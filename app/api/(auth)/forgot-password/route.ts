@@ -8,7 +8,12 @@ import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { IApiResponse, IErrorResponse, IUsersSchema } from "@/types";
 import fs from "fs";
 import path from "path";
-import { HttpStatus, ResponseMessages } from "@/constant";
+import {
+  HttpStatus,
+  WINDOW_SIZE_IN_SECONDS,
+  MAX_REQUESTS_PER_WINDOW,
+  ResponseMessages,
+} from "@/constant";
 import { ApiJsonResponse, PayloadErrorFormat } from "@/utils";
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/config";
@@ -91,16 +96,12 @@ export async function POST(
     const ip: string | null =
       request.headers.get("x-forwarded-for") ||
       request.headers.get("remote-addr");
-    let isLimitReached: boolean = false;
-    if (!ip) {
-      isLimitReached = await rateLimit({
-        identifier: isExisted._id as string,
-      });
-    } else {
-      isLimitReached = await rateLimit({
-        identifier: ip,
-      });
-    }
+
+    let isLimitReached: boolean = await rateLimit({
+      identifier: ip ? ip : (isExisted._id as string),
+      maxRequest: 3,
+      windowSizeInSeconds: WINDOW_SIZE_IN_SECONDS,
+    });
     if (!isLimitReached) {
       return handleError(
         new Error(ResponseMessages.TOO_MANY_REQUESTS),
