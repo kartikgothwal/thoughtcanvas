@@ -1,4 +1,3 @@
- 
 import { UserModel } from "@/schema/users";
 import { JwtGenerator } from "@/utils/JwtGenerator";
 import { handleError } from "@/utils/ErrorHandler";
@@ -13,6 +12,7 @@ import { HttpStatus, ResponseMessages } from "@/constant";
 import { ApiJsonResponse, PayloadErrorFormat } from "@/utils";
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/config";
+import { rateLimit } from "@/lib/rateLimit";
 
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 
@@ -86,6 +86,25 @@ export async function POST(
       return handleError(
         new Error(ResponseMessages.USER_NOT_FOUND),
         HttpStatus.NOT_FOUND
+      );
+    }
+    const ip: string | null =
+      request.headers.get("x-forwarded-for") ||
+      request.headers.get("remote-addr");
+    let isLimitReached: boolean = false;
+    if (!ip) {
+      isLimitReached = await rateLimit({
+        identifier: isExisted._id as string,
+      });
+    } else {
+      isLimitReached = await rateLimit({
+        identifier: ip,
+      });
+    }
+    if (!isLimitReached) {
+      return handleError(
+        new Error(ResponseMessages.TOO_MANY_REQUESTS),
+        HttpStatus.TOO_MANY_REQUESTS
       );
     }
     const token: string = JwtGenerator(
