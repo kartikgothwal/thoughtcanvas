@@ -2,10 +2,11 @@ import { ApiJsonResponse } from "./ApiJsonResponse";
 import { handleError } from "./ErrorHandler";
 import { getURL } from "./GetURL";
 import { PayloadErrorFormat } from "./PayloadErrorFormat";
-import { ToasterSuccess } from "./Toast";
+import { ToasterError, ToasterSuccess } from "./Toast";
 import ToastErrorHandler from "./ToastErrorHandler";
 import { ButtonLoading, LoadingSpinner } from "./ui/LoadingUI";
 export {
+  ToasterError,
   handleError,
   ToastErrorHandler,
   getURL,

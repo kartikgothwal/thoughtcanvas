@@ -13,7 +13,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { ToasterSuccess } from "@/utils/Toast";
+import { ToasterSuccess, ToastErrorHandler } from "@/utils";
 import { ButtonLoading } from "@/utils/ui/LoadingUI";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { useForm } from "react-hook-form";
@@ -21,7 +21,6 @@ import { z } from "zod";
 import { ForgotPasswordSchema } from "@/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTheme } from "next-themes";
-import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { FORGOT_USER_PASSWORD } from "@/constant";
 
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
@@ -51,7 +50,7 @@ const ForgotPassword = ({
         reset();
         setForgotPasswordModal(!forgotPasswordModel);
       },
-      onError: (error:Error) => {
+      onError: (error: Error) => {
         ToastErrorHandler(error, theme);
       },
     });

@@ -14,12 +14,11 @@ import {
 import { cn } from "@/lib/utils";
 import { SignUpFormSchema } from "@/zod";
 import { useTheme } from "next-themes";
-import { ToasterSuccess } from "@/utils/Toast";
+import { ToasterSuccess, ToastErrorHandler } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { JSX, useEffect, useState } from "react";
 import { ButtonLoading } from "@/utils/ui/LoadingUI";
-import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { ISignInSignUpModalProps } from "@/types";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import ProviderAuth from "@/components/layout/ProviderAuth";

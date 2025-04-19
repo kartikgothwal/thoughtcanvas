@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { AuthContextType } from "../types";
 import { deleteCookies } from "@/utils/Cookies";
-import { ToasterError, ToasterSuccess } from "@/utils/Toast";
+import { ToasterError, ToasterSuccess } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 
