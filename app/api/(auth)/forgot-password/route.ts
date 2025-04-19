@@ -1,6 +1,6 @@
 import { UserModel } from "@/schema/users";
 import { JwtGenerator } from "@/utils/JwtGenerator";
-import { handleError } from "@/utils/ErrorHandler";
+import { handleError } from "@/utils";
 import { ForgotPasswordSchema } from "@/zod";
 import { z } from "zod";
 import nodemailer from "nodemailer";

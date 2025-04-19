@@ -24,12 +24,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { JSX, useState } from "react";
 import useResetPassword from "@/apiquery/hooks/useResetPassword";
 import { RESET_USER_PASSWORD } from "@/constant";
-import ToastErrorHandler from "@/utils/ToastErrorHandler";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import { ToasterSuccess } from "@/utils/Toast";
-import { ButtonLoading } from "@/utils/ui/LoadingUI";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { ButtonLoading, ToastErrorHandler, ToasterSuccess } from "@/utils";
 
 export default function Page(): JSX.Element {
   const { theme } = useTheme();

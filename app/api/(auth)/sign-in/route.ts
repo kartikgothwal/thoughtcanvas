@@ -1,7 +1,6 @@
 import { dbConnect, redis } from "@/config";
 import { UserModel } from "@/schema/users";
 import { JwtGenerator } from "@/utils/JwtGenerator";
-import { handleError } from "@/utils/ErrorHandler";
 import { SignInFormSchema } from "@/zod";
 import { cookies } from "next/headers";
 import { z } from "zod";
@@ -18,7 +17,7 @@ import {
   IUserSignInResponse,
   IUsersSchema,
 } from "@/types";
-import { ApiJsonResponse } from "@/utils";
+import { ApiJsonResponse, handleError } from "@/utils";
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
 
