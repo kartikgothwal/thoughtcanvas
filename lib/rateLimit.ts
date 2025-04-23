@@ -7,7 +7,6 @@ export async function rateLimit({
   windowSizeInSeconds = 60,
 }: IRateLimit): Promise<boolean> {
   const requests: string | null = await redis.get(`${identifier}:requests`);
-  console.log("🚀 ~ rateL imit ~ requests:", requests);
   if (!requests) {
     await redis.set(`${identifier}:requests`, 1, "EX", windowSizeInSeconds);
     return true;

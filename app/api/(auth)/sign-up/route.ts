@@ -1,4 +1,4 @@
-import { dbConnect } from "@/config";
+import { dbConnect, redis } from "@/config";
 import { UserModel } from "@/schema/users";
 import { JwtGenerator } from "@/utils/JwtGenerator";
 import { SignUpFormSchema } from "@/zod";
@@ -130,6 +130,9 @@ export async function POST(
       isActive: user.isactive,
       status: user.status,
     };
+    
+    redis.setex(userResponse.email, 60 * 60 * 1, JSON.stringify(userResponse));
+
     return ApiJsonResponse(
       ResponseMessages.SIGN_UP_SUCCESS,
       HttpStatus.CREATED,
