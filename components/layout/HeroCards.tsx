@@ -42,8 +42,6 @@ export const HeroCards = () => {
 
         <CardContent>Checkout my portfolio</CardContent>
       </Card>
-
-      {/* Team */}
       <Card className="absolute right-[20px] top-4 w-80 flex flex-col justify-center items-center drop-shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader className="mt-8 flex justify-center items-center pb-2">
           <Image
@@ -116,8 +114,6 @@ export const HeroCards = () => {
           </div>
         </CardFooter>
       </Card>
-
-      {/* Pricing */}
       <Card className="absolute top-[150px] left-[50px] w-72  drop-shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader>
           <CardTitle className="flex item-center justify-between">
@@ -155,8 +151,6 @@ export const HeroCards = () => {
           </div>
         </CardFooter>
       </Card>
-
-      {/* Service */}
       <Card className="absolute w-[350px] -right-[10px] bottom-[35px]  drop-shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader className="space-y-1 flex md:flex-row justify-start items-start gap-4">
           <div className="mt-1 bg-primary/20 p-1 rounded-2xl">

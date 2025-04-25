@@ -39,10 +39,8 @@ export const Navbar = ({ routeList }: { routeList: RouteProps[] }) => {
               ThoughtCanvas
             </Link>
           </NavigationMenuItem>
-
           <span className="flex md:hidden">
             <ModeToggle />
-
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger className="px-2">
                 <Menu
@@ -88,8 +86,6 @@ export const Navbar = ({ routeList }: { routeList: RouteProps[] }) => {
               </SheetContent>
             </Sheet>
           </span>
-
-          {/* desktop */}
           <nav className="hidden md:flex gap-2">
             {routeList.map((route: RouteProps, i) => (
               <a
@@ -104,7 +100,6 @@ export const Navbar = ({ routeList }: { routeList: RouteProps[] }) => {
               </a>
             ))}
           </nav>
-
           <div className="hidden md:flex gap-2">
             <a
               rel="noreferrer noopener"
@@ -115,7 +110,6 @@ export const Navbar = ({ routeList }: { routeList: RouteProps[] }) => {
               <FaGithub className="mr-2 w-5 h-5" />
               Github
             </a>
-
             <ModeToggle />
           </div>
         </NavigationMenuList>

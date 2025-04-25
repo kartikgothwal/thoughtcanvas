@@ -110,7 +110,9 @@ export async function POST(
       isActive: isExisted.isactive,
       status: isExisted.status,
     };
+
     redis.setex(userResponse.email, 60 * 60 * 1, JSON.stringify(userResponse));
+    
     return ApiJsonResponse(
       ResponseMessages.SIGN_IN_SUCCESS,
       HttpStatus.OK,

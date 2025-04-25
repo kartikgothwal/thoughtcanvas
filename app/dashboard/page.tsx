@@ -7,7 +7,6 @@ import {
   IconSettings,
   IconUserBolt,
 } from "@tabler/icons-react";
-
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Logo, LogoIcon } from "@/app/dashboard/Logo";

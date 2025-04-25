@@ -4,11 +4,12 @@ import { buttonVariants } from "@/components/ui/button";
 import { HeroCards } from "@/components/layout/HeroCards";
 import Link from "next/link";
 import { styles } from "@/utils/Style";
-import { useState } from "react";
+import { JSX, useState } from "react";
 import { SignUpForm } from "@/components/layout/Signup";
 import SignIn from "@/components/layout/SignIn";
 import ForgotPassword from "@/components/layout/ForgotPassword";
-export const Hero = () => {
+
+export const Hero = ():JSX.Element => {
   const [openSignUpModel, setOpenSignupModal] = useState<boolean>(false);
   const [forgotPasswordModel, setForgotPasswordModal] =
     useState<boolean>(false);

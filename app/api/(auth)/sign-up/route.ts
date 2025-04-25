@@ -102,11 +102,9 @@ export async function POST(
     if (!!isExisted) {
       return handleError(
         new Error(ResponseMessages.USER_ALREADY_EXISTS),
-
         HttpStatus.UNAUTHORIZED
       );
     }
-
     const hashPassword: string = bcrypt.hashSync(payload.password, 10);
     const NewUsers: IUsersSchema = new UserModel({
       ...payload,
