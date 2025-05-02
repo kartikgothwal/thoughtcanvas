@@ -30,6 +30,7 @@ export interface IUsersSchema extends Document {
   following?: mongoose.Types.ObjectId[];
   drafts?: mongoose.Types.ObjectId[];
   status: "active" | "banned" | "suspended";
+  authProvider: "credentials" | "google";
   lastLogin: Date;
   liked?: mongoose.Types.ObjectId[];
   comments?: mongoose.Types.ObjectId[];

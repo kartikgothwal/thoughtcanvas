@@ -102,6 +102,11 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
     lastLogin: { type: Date },
     liked: [{ type: mongoose.Schema.Types.ObjectId, ref: "posts" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comments" }],
+    authProvider: {
+      type: String,
+      enum: ["credentials", "google"],
+      default: "credentials",
+    },
   },
   {
     timestamps: true,
