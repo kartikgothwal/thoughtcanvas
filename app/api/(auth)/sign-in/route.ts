@@ -112,7 +112,7 @@ export async function POST(
     };
 
     redis.setex(userResponse.email, 60 * 60 * 1, JSON.stringify(userResponse));
-    
+
     return ApiJsonResponse(
       ResponseMessages.SIGN_IN_SUCCESS,
       HttpStatus.OK,
