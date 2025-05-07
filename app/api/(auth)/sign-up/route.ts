@@ -7,6 +7,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import {
   IApiResponse,
+  IAuthProviderPayload,
   IErrorResponse,
   IUserSignInResponse,
   IUsersSchema,
@@ -80,7 +81,13 @@ export async function POST(
   request: NextRequest
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {
   try {
-    const payload: SignUpFormSchemaType = await request.json();
+    const payload: SignUpFormSchemaType | IAuthProviderPayload =
+      await request.json();
+    if (
+      payload.authProvider === "google" ||
+      payload.authProvider === "github"
+    ) {
+    }
     const isValidPayload = SignUpFormSchema.safeParse(payload);
     if (!isValidPayload.success) {
       const errors:
@@ -128,7 +135,7 @@ export async function POST(
       isActive: user.isactive,
       status: user.status,
     };
-    
+
     redis.setex(userResponse.email, 60 * 60 * 1, JSON.stringify(userResponse));
 
     return ApiJsonResponse(

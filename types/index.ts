@@ -87,3 +87,10 @@ export interface IRateLimit {
   maxRequest: number;
   windowSizeInSeconds: number;
 }
+
+export interface IAuthProviderPayload {
+  firstname: string;
+  lastname: string;
+  email: string;
+  authProvider: "google" | "github";
+}

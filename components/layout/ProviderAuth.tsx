@@ -8,12 +8,38 @@ import {
 import { auth } from "@/config/firebase";
 import { JSX } from "react";
 import { Button } from "../ui/button";
+import { USER_SIGN_UP } from "@/constant";
+import { useMutationQueries } from "@/apiquery/useApiQuery";
+import { ToastErrorHandler } from "@/utils";
+import { useTheme } from "next-themes";
 
 const ProviderAuth = ({ isPending }: { isPending: boolean }): JSX.Element => {
+  const {
+    mutate: signUpMutation,
+    isSuccess: signUpSuccess,
+    isPending: signUpPending,
+  } = useMutationQueries(USER_SIGN_UP);
+
+  const { theme } = useTheme();
+
   const handleGoogleSignup = async () => {
     const provider: GoogleAuthProvider = new GoogleAuthProvider();
     const response = await signInWithPopup(auth, provider);
-    console.log("🚀 ~ handleGoogleSignup ~ response:", response);
+    const userData = {
+      firstname: response.user.displayName?.split(" ")[0] || "",
+      lastname: response.user.displayName?.split(" ")[1] || "",
+      email: response.user.email || "",
+      authProvider: "google",
+      profilePicture: response.user.photoURL || "",
+    };
+    signUpMutation(userData, {
+      onSuccess: (response) => {
+        console.log("🚀 ~ onSuccess ~ onSuccess:", response);
+      },
+      onError: (error: unknown) => {
+        ToastErrorHandler(error, theme);
+      },
+    });
   };
   const handleGithubSignup = async () => {
     const provider: GithubAuthProvider = new GithubAuthProvider();
