@@ -92,5 +92,6 @@ export interface IAuthProviderPayload {
   firstname: string;
   lastname: string;
   email: string;
-  authProvider: "google" | "github";
+  password: string;
+  authProvider: string;
 }

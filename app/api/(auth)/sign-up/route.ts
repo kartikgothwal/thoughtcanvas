@@ -83,10 +83,9 @@ export async function POST(
   try {
     const payload: SignUpFormSchemaType | IAuthProviderPayload =
       await request.json();
-    if (
-      payload.authProvider === "google" ||
-      payload.authProvider === "github"
-    ) {
+    const isOAuth =
+      payload?.authProvider === "google" || payload?.authProvider === "github";
+    if (isOAuth) {
     }
     const isValidPayload = SignUpFormSchema.safeParse(payload);
     if (!isValidPayload.success) {
