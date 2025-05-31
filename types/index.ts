@@ -71,7 +71,7 @@ export interface IUserSignInResponse {
 export interface IApiResponse {
   message: string;
   code: number;
-  data?: IUserSignInResponse | any;
+  data?: IUserSignInResponse;
   success: boolean;
 }
 
@@ -86,12 +86,4 @@ export interface IRateLimit {
   identifier: string;
   maxRequest: number;
   windowSizeInSeconds: number;
-}
-
-export interface IAuthProviderPayload {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  authProvider: string;
 }

@@ -1,3 +1,4 @@
+import { auth } from "@/config/firebase";
 import { z } from "zod";
 
 export const SignUpFormSchema = z.object({
@@ -26,6 +27,7 @@ export const SignUpFormSchema = z.object({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%*?&]{8,12}$/,
       "must be 8-12 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
+  authProvider: z.string().optional().default("credentials"),
 });
 
 export const SignInFormSchema = z.object({
@@ -38,6 +40,7 @@ export const SignInFormSchema = z.object({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%*?&]{8,12}$/,
       "must be 8-12 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
+  authProvider: z.string().optional().default("credentials"),
 });
 export const ForgotPasswordSchema = z.object({
   email: z.string().email("Email must be a valid email address"),

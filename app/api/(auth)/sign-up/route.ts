@@ -7,7 +7,6 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import {
   IApiResponse,
-  IAuthProviderPayload,
   IErrorResponse,
   IUserSignInResponse,
   IUsersSchema,
@@ -83,13 +82,10 @@ export async function POST(
   request: NextRequest
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {
   try {
-    const payload: IAuthProviderPayload | SignUpFormSchemaType =
-      await request.json();
+    const payload: SignUpFormSchemaType = await request.json();
 
     const isOAuth =
-      ("authProvider" in payload &&
-        (payload as IAuthProviderPayload).authProvider === "google") ||
-      (payload as IAuthProviderPayload).authProvider === "github";
+      payload.authProvider === "google" || payload.authProvider === "github";
     if (isOAuth) {
       const isCachedUser: string | null = await redis.get(payload.email);
       if (isCachedUser) {

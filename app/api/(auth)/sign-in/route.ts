@@ -28,7 +28,7 @@ export async function POST(
   request: Request
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {
   try {
-    const payload: SignInSchema = await request.json();
+    const payload: SignInSchema  = await request.json();
     console.log("🚀 ~ payload:", payload);
     const isValidPayload = SignInFormSchema.safeParse(payload);
     if (!isValidPayload.success) {
