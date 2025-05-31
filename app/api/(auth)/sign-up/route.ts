@@ -17,6 +17,8 @@ import { handleError } from "@/utils/ErrorHandler";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { ApiJsonResponse, PayloadErrorFormat } from "@/utils";
+import { PostRequestHandler } from "@/axios/PostRequestHandler";
+import { cachedUser } from "../_utils";
 
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 /**
@@ -83,17 +85,22 @@ export async function POST(
   try {
     const payload: IAuthProviderPayload | SignUpFormSchemaType =
       await request.json();
+
     const isOAuth =
       ("authProvider" in payload &&
         (payload as IAuthProviderPayload).authProvider === "google") ||
       (payload as IAuthProviderPayload).authProvider === "github";
     if (isOAuth) {
+      const isCachedUser: string | null = await redis.get(payload.email);
+      if (isCachedUser) {
+        return cachedUser(isCachedUser);
+      }
       const isExisted: IUsersSchema | null = await UserModel.findOne({
         email: payload.email,
       });
-     if (!!isExisted) {
-      return 
-     }
+      if (!!isExisted) {
+        PostRequestHandler("/sign-in", payload);
+      }
     }
     const isValidPayload = SignUpFormSchema.safeParse(payload);
     if (!isValidPayload.success) {

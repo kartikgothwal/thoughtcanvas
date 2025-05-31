@@ -20,6 +20,7 @@ import {
 import { ApiJsonResponse, handleError } from "@/utils";
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
+import { cachedUser } from "../_utils";
 
 type SignInSchema = z.infer<typeof SignInFormSchema>;
 
@@ -28,6 +29,7 @@ export async function POST(
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {
   try {
     const payload: SignInSchema = await request.json();
+    console.log("🚀 ~ payload:", payload);
     const isValidPayload = SignInFormSchema.safeParse(payload);
     if (!isValidPayload.success) {
       return handleError(
@@ -37,22 +39,7 @@ export async function POST(
     }
     const isCachedUser: string | null = await redis.get(payload.email);
     if (isCachedUser) {
-      const parsedUser: IUserSignInResponse = JSON.parse(isCachedUser);
-      const token: string = JwtGenerator({
-        email: parsedUser.email,
-        expiresIn: "1d",
-      });
-      const cookieStore: ReadonlyRequestCookies = await cookies();
-      cookieStore.set("token", token, { secure: true, httpOnly: true });
-      cookieStore.set("userId", String(parsedUser.id), {
-        secure: true,
-        httpOnly: true,
-      });
-      return ApiJsonResponse(
-        ResponseMessages.SIGN_IN_SUCCESS,
-        HttpStatus.OK,
-        JSON.parse(isCachedUser)
-      );
+      return cachedUser(isCachedUser);
     }
 
     await dbConnect();
