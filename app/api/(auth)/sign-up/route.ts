@@ -81,11 +81,19 @@ export async function POST(
   request: NextRequest
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {
   try {
-    const payload: SignUpFormSchemaType | IAuthProviderPayload =
+    const payload: IAuthProviderPayload | SignUpFormSchemaType =
       await request.json();
     const isOAuth =
-      payload?.authProvider === "google" || payload?.authProvider === "github";
+      ("authProvider" in payload &&
+        (payload as IAuthProviderPayload).authProvider === "google") ||
+      (payload as IAuthProviderPayload).authProvider === "github";
     if (isOAuth) {
+      const isExisted: IUsersSchema | null = await UserModel.findOne({
+        email: payload.email,
+      });
+     if (!!isExisted) {
+      return 
+     }
     }
     const isValidPayload = SignUpFormSchema.safeParse(payload);
     if (!isValidPayload.success) {
