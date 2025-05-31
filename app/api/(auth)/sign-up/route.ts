@@ -1,5 +1,4 @@
 import { dbConnect, redis } from "@/config";
-import { UserModel } from "@/schema/users";
 import { JwtGenerator } from "@/utils/JwtGenerator";
 import { SignUpFormSchema } from "@/zod";
 import { NextRequest, NextResponse } from "next/server";
@@ -16,8 +15,8 @@ import { handleError } from "@/utils/ErrorHandler";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { ApiJsonResponse, PayloadErrorFormat } from "@/utils";
-import { PostRequestHandler } from "@/axios/PostRequestHandler";
-import { cachedUser } from "../_utils";
+import { authHelpers, cachedUser } from "../_utils";
+import { UserModel } from "@/schema";
 
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 /**
@@ -86,18 +85,28 @@ export async function POST(
 
     const isOAuth =
       payload.authProvider === "google" || payload.authProvider === "github";
+    console.log("🚀 ~ isOAuth:", isOAuth);
     if (isOAuth) {
       const isCachedUser: string | null = await redis.get(payload.email);
+      console.log("🚀 ~ isCachedUser:", isCachedUser);
       if (isCachedUser) {
         return cachedUser(isCachedUser);
       }
+      await dbConnect();
       const isExisted: IUsersSchema | null = await UserModel.findOne({
         email: payload.email,
       });
       if (!!isExisted) {
-        PostRequestHandler("/sign-in", payload);
+        return authHelpers(isExisted, "sign-in");
+      } else {
+        const NewUsers: IUsersSchema = new UserModel({
+          ...payload,
+        });
+        const user: IUsersSchema = await NewUsers.save();
+        return authHelpers(user, "sign-up");
       }
     }
+
     const isValidPayload = SignUpFormSchema.safeParse(payload);
     if (!isValidPayload.success) {
       const errors:
@@ -154,6 +163,7 @@ export async function POST(
       userResponse
     );
   } catch (error: unknown) {
+    console.log("🚀 ~ error:", error);
     return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

@@ -1,8 +1,6 @@
 import { dbConnect, redis } from "@/config";
 import { UserModel } from "@/schema/users";
-import { JwtGenerator } from "@/utils/JwtGenerator";
 import { SignInFormSchema } from "@/zod";
-import { cookies } from "next/headers";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import {
@@ -10,17 +8,11 @@ import {
   ResponseMessages,
   WINDOW_SIZE_IN_SECONDS,
 } from "@/constant";
-import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import {
-  IApiResponse,
-  IErrorResponse,
-  IUserSignInResponse,
-  IUsersSchema,
-} from "@/types";
-import { ApiJsonResponse, handleError } from "@/utils";
+import { IApiResponse, IErrorResponse, IUsersSchema } from "@/types";
+import { handleError } from "@/utils";
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
-import { cachedUser } from "../_utils";
+import { authHelpers, cachedUser } from "../_utils";
 
 type SignInSchema = z.infer<typeof SignInFormSchema>;
 
@@ -28,8 +20,8 @@ export async function POST(
   request: Request
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {
   try {
-    const payload: SignInSchema  = await request.json();
-    console.log("🚀 ~ payload:", payload);
+    const payload: SignInSchema = await request.json();
+
     const isValidPayload = SignInFormSchema.safeParse(payload);
     if (!isValidPayload.success) {
       return handleError(
@@ -37,6 +29,7 @@ export async function POST(
         HttpStatus.BAD_REQUEST
       );
     }
+
     const isCachedUser: string | null = await redis.get(payload.email);
     if (isCachedUser) {
       return cachedUser(isCachedUser);
@@ -78,33 +71,34 @@ export async function POST(
         HttpStatus.UNAUTHORIZED
       );
     }
-    const token: string = JwtGenerator({
-      email: isExisted.email,
-      expiresIn: "1d",
-    });
-    const cookieStore: ReadonlyRequestCookies = await cookies();
-    cookieStore.set("token", token, { secure: true, httpOnly: true });
-    cookieStore.set("userId", String(isExisted._id), {
-      secure: true,
-      httpOnly: true,
-    });
-    const userResponse: IUserSignInResponse = {
-      id: isExisted._id,
-      name: isExisted.firstname + " " + isExisted.lastname,
-      email: isExisted.email,
-      profilePicture: isExisted.profilePicture,
-      role: isExisted.role,
-      isActive: isExisted.isactive,
-      status: isExisted.status,
-    };
+    return authHelpers(isExisted, "sign-in");
+    // const token: string = JwtGenerator({
+    //   email: isExisted.email,
+    //   expiresIn: "1d",
+    // });
+    // const cookieStore: ReadonlyRequestCookies = await cookies();
+    // cookieStore.set("token", token, { secure: true, httpOnly: true });
+    // cookieStore.set("userId", String(isExisted._id), {
+    //   secure: true,
+    //   httpOnly: true,
+    // });
+    // const userResponse: IUserSignInResponse = {
+    //   id: isExisted._id,
+    //   name: isExisted.firstname + " " + isExisted.lastname,
+    //   email: isExisted.email,
+    //   profilePicture: isExisted.profilePicture,
+    //   role: isExisted.role,
+    //   isActive: isExisted.isactive,
+    //   status: isExisted.status,
+    // };
 
-    redis.setex(userResponse.email, 60 * 60 * 1, JSON.stringify(userResponse));
+    // redis.setex(userResponse.email, 60 * 60 * 1, JSON.stringify(userResponse));
 
-    return ApiJsonResponse(
-      ResponseMessages.SIGN_IN_SUCCESS,
-      HttpStatus.OK,
-      userResponse
-    );
+    // return ApiJsonResponse(
+    //   ResponseMessages.SIGN_IN_SUCCESS,
+    //   HttpStatus.OK,
+    //   userResponse
+    // );
   } catch (error) {
     return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
   }

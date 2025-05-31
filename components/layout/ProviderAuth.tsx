@@ -10,8 +10,10 @@ import { JSX } from "react";
 import { Button } from "../ui/button";
 import { USER_SIGN_UP } from "@/constant";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
-import { ToastErrorHandler } from "@/utils";
+import { ToastErrorHandler, ToasterSuccess } from "@/utils";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const ProviderAuth = ({ isPending }: { isPending: boolean }): JSX.Element => {
   const {
@@ -21,7 +23,7 @@ const ProviderAuth = ({ isPending }: { isPending: boolean }): JSX.Element => {
   } = useMutationQueries(USER_SIGN_UP);
 
   const { theme } = useTheme();
-
+  const router: AppRouterInstance = useRouter();
   const handleGoogleSignup = async () => {
     const provider: GoogleAuthProvider = new GoogleAuthProvider();
     const response = await signInWithPopup(auth, provider);
@@ -33,10 +35,14 @@ const ProviderAuth = ({ isPending }: { isPending: boolean }): JSX.Element => {
       profilePicture: response.user.photoURL || "",
     };
     signUpMutation(userData, {
-      onSuccess: (response) => {
-        console.log("🚀 ~ onSuccess ~ onSuccess:", response);
+      onSuccess(response): void {
+        ToasterSuccess(response.data.message, theme!);
+        // useAuthContext?.setUserProfile(response.data.data);
+        // reset();
+        // setOpenSignInModal(false);
+        router.push("/dashboard");
       },
-      onError: (error: unknown) => {
+      onError: (error: unknown): void => {
         ToastErrorHandler(error, theme);
       },
     });

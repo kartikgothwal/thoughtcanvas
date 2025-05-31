@@ -27,16 +27,24 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
     },
     password: {
       type: String,
-      required: true,
       trim: true,
-      // validate: {
-      //   validator: (value: string) => {
-      //     return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
-      //       value
-      //     );
-      //   },
-      //   message: "Please enter a valid password",
-      // },
+      required: function (this: IUsersSchema) {
+        return this.authProvider === "credentials";
+      },
+      validate: {
+        validator: function (this: IUsersSchema, value: string): boolean {
+          if (this.authProvider === "credentials") {
+            return (
+              !!value &&
+              /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
+                value
+              )
+            );
+          }
+          return true; // for OAuth users, validation passes
+        },
+        message: "Password is required and must meet complexity requirements.",
+      },
     },
     profilePicture: {
       type: String,
