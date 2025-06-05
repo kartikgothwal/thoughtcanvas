@@ -85,13 +85,11 @@ export async function POST(
 
     const isOAuth =
       payload.authProvider === "google" || payload.authProvider === "github";
-    console.log("🚀 ~ isOAuth:", isOAuth);
     if (isOAuth) {
-      const isCachedUser: string | null = await redis.get(payload.email);
-      console.log("🚀 ~ isCachedUser:", isCachedUser);
-      if (isCachedUser) {
-        return cachedUser(isCachedUser);
-      }
+      // const isCachedUser: string | null = await redis.get(payload.email);
+      // if (isCachedUser) {
+      //   return cachedUser(isCachedUser);
+      // }
       await dbConnect();
       const isExisted: IUsersSchema | null = await UserModel.findOne({
         email: payload.email,
