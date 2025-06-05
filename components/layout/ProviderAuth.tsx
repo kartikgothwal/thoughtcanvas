@@ -49,8 +49,27 @@ const ProviderAuth = ({ isPending }: { isPending: boolean }): JSX.Element => {
   };
   const handleGithubSignup = async () => {
     const provider: GithubAuthProvider = new GithubAuthProvider();
+
     const response = await signInWithPopup(auth, provider);
-    console.log("🚀 ~ handleGithubSignup ~ response:", response);
+    const userData = {
+      firstname: response.user.displayName?.split(" ")[0] || "",
+      lastname: response.user.displayName?.split(" ")[1] || "",
+      email: response.user.email || "",
+      authProvider: "github",
+      profilePicture: response.user.photoURL || "",
+    };
+    signUpMutation(userData, {
+      onSuccess(response): void {
+        ToasterSuccess(response.data.message, theme!);
+        // useAuthContext?.setUserProfile(response.data.data);
+        // reset();
+        // setOpenSignInModal(false);
+        router.push("/dashboard");
+      },
+      onError: (error: unknown): void => {
+        ToastErrorHandler(error, theme);
+      },
+    });
   };
   return (
     <div className="flex flex-col gap-4">
