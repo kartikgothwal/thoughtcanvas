@@ -61,9 +61,9 @@ const ProviderAuth = ({ isPending }: { isPending: boolean }): JSX.Element => {
     signUpMutation(userData, {
       onSuccess(response): void {
         ToasterSuccess(response.data.message, theme!);
-        useAuthContext?.setUserProfile(response.data.data);
-        reset();
-        setOpenSignInModal(false);
+        // useAuthContext?.setUserProfile(response.data.data);
+        // reset();
+        // setOpenSignInModal(false);
         router.push("/dashboard");
       },
       onError: (error: unknown): void => {
