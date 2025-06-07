@@ -13,10 +13,15 @@ import {
 import { cookies } from "next/headers";
 import { handleError } from "@/utils/ErrorHandler";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import { HttpStatus, ResponseMessages } from "@/constant";
+import {
+  HttpStatus,
+  ResponseMessages,
+  WINDOW_SIZE_IN_SECONDS,
+} from "@/constant";
 import { ApiJsonResponse, PayloadErrorFormat } from "@/utils";
-import { authHelpers, cachedUser } from "../_utils";
+import { authHelpers } from "../_utils";
 import { UserModel } from "@/schema";
+import { rateLimit } from "@/lib/rateLimit";
 
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 /**
@@ -82,7 +87,22 @@ export async function POST(
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {
   try {
     const payload: SignUpFormSchemaType = await request.json();
+    const ip: string | null =
+      request.headers.get("x-forwarded-for") ||
+      request.headers.get("remote-addr");
 
+    const isLimitReached: boolean = await rateLimit({
+      identifier: ip!,
+      maxRequest: 3,
+      windowSizeInSeconds: WINDOW_SIZE_IN_SECONDS,
+    });
+
+    if (!isLimitReached) {
+      return handleError(
+        new Error(ResponseMessages.TOO_MANY_REQUESTS),
+        HttpStatus.TOO_MANY_REQUESTS
+      );
+    }
     const isOAuth =
       payload.authProvider === "google" || payload.authProvider === "github";
     if (isOAuth) {

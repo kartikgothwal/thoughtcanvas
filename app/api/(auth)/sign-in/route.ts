@@ -34,6 +34,22 @@ export async function POST(
     if (isCachedUser) {
       return cachedUser(isCachedUser);
     }
+    const ip: string | null =
+      request.headers.get("x-forwarded-for") ||
+      request.headers.get("remote-addr");
+
+    const isLimitReached: boolean = await rateLimit({
+      identifier: ip!,
+      maxRequest: 3,
+      windowSizeInSeconds: WINDOW_SIZE_IN_SECONDS,
+    });
+
+    if (!isLimitReached) {
+      return handleError(
+        new Error(ResponseMessages.TOO_MANY_REQUESTS),
+        HttpStatus.TOO_MANY_REQUESTS
+      );
+    }
 
     await dbConnect();
     const isExisted: IUsersSchema | null = await UserModel.findOne({
@@ -45,22 +61,7 @@ export async function POST(
         HttpStatus.NOT_FOUND
       );
     }
-    const ip: string | null =
-      request.headers.get("x-forwarded-for") ||
-      request.headers.get("remote-addr");
 
-    const isLimitReached: boolean = await rateLimit({
-      identifier: ip ? ip : (isExisted._id as string),
-      maxRequest: 3,
-      windowSizeInSeconds: WINDOW_SIZE_IN_SECONDS,
-    });
-
-    if (!isLimitReached) {
-      return handleError(
-        new Error(ResponseMessages.TOO_MANY_REQUESTS),
-        HttpStatus.TOO_MANY_REQUESTS
-      );
-    }
     const isPasswordValid: boolean = await bcrypt.compare(
       payload.password,
       isExisted.password
@@ -72,33 +73,6 @@ export async function POST(
       );
     }
     return authHelpers(isExisted, "sign-in");
-    // const token: string = JwtGenerator({
-    //   email: isExisted.email,
-    //   expiresIn: "1d",
-    // });
-    // const cookieStore: ReadonlyRequestCookies = await cookies();
-    // cookieStore.set("token", token, { secure: true, httpOnly: true });
-    // cookieStore.set("userId", String(isExisted._id), {
-    //   secure: true,
-    //   httpOnly: true,
-    // });
-    // const userResponse: IUserSignInResponse = {
-    //   id: isExisted._id,
-    //   name: isExisted.firstname + " " + isExisted.lastname,
-    //   email: isExisted.email,
-    //   profilePicture: isExisted.profilePicture,
-    //   role: isExisted.role,
-    //   isActive: isExisted.isactive,
-    //   status: isExisted.status,
-    // };
-
-    // redis.setex(userResponse.email, 60 * 60 * 1, JSON.stringify(userResponse));
-
-    // return ApiJsonResponse(
-    //   ResponseMessages.SIGN_IN_SUCCESS,
-    //   HttpStatus.OK,
-    //   userResponse
-    // );
   } catch (error) {
     return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
   }
