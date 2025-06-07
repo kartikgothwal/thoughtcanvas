@@ -26,7 +26,9 @@ const AuthProvider = ({
     undefined
   );
   const router = useRouter();
-  const theme = useTheme();
+
+  const { theme } = useTheme();
+
   useEffect(() => {
     if (userProfile) {
       localStorage.setItem("userProfile", JSON.stringify(userProfile));
@@ -37,10 +39,11 @@ const AuthProvider = ({
     try {
       deleteCookies("all");
       localStorage.removeItem("userProfile");
-      ToasterSuccess("You have been logged out", theme.theme!);
+      ToasterSuccess("You have been logged out", theme!);
       router.push("/");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: unknown) {
-      ToasterError("Failed to logout", theme.theme!);
+      ToasterError("Failed to logout", theme!);
     }
   };
   return (

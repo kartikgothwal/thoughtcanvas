@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 
-function toastStyles(theme?: string) {
+function toastStyles(theme: string) {
+  console.log("🚀 ~ toastStyles ~ theme:", theme);
   return {
     style: {
       borderRadius: "10px",
@@ -15,9 +16,9 @@ function toastStyles(theme?: string) {
     },
   };
 }
-export function ToasterSuccess(message: string, theme?: string) {
+export function ToasterSuccess(message: string, theme: string) {
   toast.success(message, toastStyles(theme));
 }
-export function ToasterError(message: string, theme?: string) {
+export function ToasterError(message: string, theme: string) {
   toast.error(message, toastStyles(theme));
 }

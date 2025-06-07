@@ -6,7 +6,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "@/config/firebase";
-import { JSX, useEffect } from "react";
+import { JSX } from "react";
 import { Button } from "../ui/button";
 import { USER_SIGN_UP } from "@/constant";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
@@ -47,6 +47,7 @@ const ProviderAuth = ({ isPending }: { isPending: boolean }): JSX.Element => {
     const provider: GithubAuthProvider = new GithubAuthProvider();
 
     const response = await signInWithPopup(auth, provider);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const tokenResponse = (response as any)._tokenResponse;
 
     const userData = {
