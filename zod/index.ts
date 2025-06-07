@@ -1,4 +1,3 @@
-import { auth } from "@/config/firebase";
 import { z } from "zod";
 
 export const SignUpFormSchema = z.object({

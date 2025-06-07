@@ -6,7 +6,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "@/config/firebase";
-import { JSX } from "react";
+import { JSX, useEffect } from "react";
 import { Button } from "../ui/button";
 import { USER_SIGN_UP } from "@/constant";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
@@ -16,11 +16,7 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const ProviderAuth = ({ isPending }: { isPending: boolean }): JSX.Element => {
-  const {
-    mutate: signUpMutation,
-    isSuccess: signUpSuccess,
-    isPending: signUpPending,
-  } = useMutationQueries(USER_SIGN_UP);
+  const { mutate: signUpMutation } = useMutationQueries(USER_SIGN_UP);
 
   const { theme } = useTheme();
   const router: AppRouterInstance = useRouter();
@@ -51,10 +47,12 @@ const ProviderAuth = ({ isPending }: { isPending: boolean }): JSX.Element => {
     const provider: GithubAuthProvider = new GithubAuthProvider();
 
     const response = await signInWithPopup(auth, provider);
+    const tokenResponse = (response as any)._tokenResponse;
+
     const userData = {
       firstname: response.user.displayName?.split(" ")[0] || "",
       lastname: response.user.displayName?.split(" ")[1] || "",
-      email: response.user.email || "",
+      email: tokenResponse.email || "",
       authProvider: "github",
       profilePicture: response.user.photoURL || "",
     };
@@ -71,6 +69,7 @@ const ProviderAuth = ({ isPending }: { isPending: boolean }): JSX.Element => {
       },
     });
   };
+
   return (
     <div className="flex flex-col gap-4">
       <Button
