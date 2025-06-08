@@ -19,6 +19,45 @@ import { dbConnect } from "@/config";
 import { rateLimit } from "@/lib/rateLimit";
 
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
+/**
+ * @swagger
+ * /forgot-password:
+ *   post:
+ *     summary: Send a password reset link to user's email
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: user@example.com
+ *     responses:
+ *       200:
+ *         description: Password reset link sent successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Link to Reset your password is sent to your email
+ *       400:
+ *         description: Invalid email format or bad request
+ *       404:
+ *         description: User not found
+ *       429:
+ *         description: Too many requests - rate limit exceeded
+ *       500:
+ *         description: Internal server error
+ */
 
 export async function POST(
   request: Request

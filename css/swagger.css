@@ -1,6 +1,6 @@
-/* Global text color */
-.swagger-ui * {
+Global text color .swagger-ui * {
   color: #ffffff !important;
+  font-size: 16px;
 }
 
 /* Background and section styles */
@@ -83,7 +83,7 @@
   color: #ffffff !important;
   background-color: #0c276b !important;
   padding: 5px;
-  /* font-size: 13px; */
+ font-size: 16px;
 }
 
 /* Ensure dropdowns and buttons are readable */
@@ -93,11 +93,15 @@
   background-color: #273c75 !important;
   border: 1px solid #ffffff !important;
 }
-.swagger-ui .opblock .opblock-section-header   {
+.swagger-ui .opblock .opblock-section-header {
   background-color: #010615 !important;
   border: 1px solid #ffffff !important;
 }
 .swagger-ui .scheme-container {
-    background-color: #010615 !important;
-    border: 1px solid #ffffff !important;
+  background-color: #010615 !important;
+  border: 1px solid #ffffff !important;
+}
+.swagger-ui textarea {
+  background: hsl(0deg 37.58% 2.14% / 80%);
+  font-size: 16px;
 }
