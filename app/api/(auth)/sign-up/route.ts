@@ -26,7 +26,7 @@ import { rateLimit } from "@/lib/rateLimit";
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 /**
  * @swagger
- * /sign-up:
+ * /api/sign-up:
  *   post:
  *     summary: Register a new user or sign in an existing OAuth user
  *     tags: [Auth]
@@ -55,8 +55,9 @@ type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
  *                 example: SecurePassword123!
  *               authProvider:
  *                 type: string
- *                 enum: [local, google, github]
- *                 example: local
+ *                 enum: [credentials, google]
+ *                 example: credentials
+ *                 default: credentials
  *               profilePicture:
  *                 type: string
  *                 format: uri
@@ -113,7 +114,6 @@ type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
  *       500:
  *         description: Internal server error
  */
-
 export async function POST(
   request: NextRequest
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {

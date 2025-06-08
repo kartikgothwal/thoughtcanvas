@@ -21,7 +21,7 @@ import { rateLimit } from "@/lib/rateLimit";
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 /**
  * @swagger
- * /forgot-password:
+ * api/forgot-password:
  *   post:
  *     summary: Send a password reset link to user's email
  *     tags: [Auth]

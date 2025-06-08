@@ -11,7 +11,7 @@ import { NextResponse } from "next/server";
 type ResetPasswordType = z.infer<typeof ResetPasswordSchema>;
 /**
  * @swagger
- * /reset-password:
+ * api/reset-password:
  *   patch:
  *     summary: Reset user password using token
  *     tags: [Auth]
