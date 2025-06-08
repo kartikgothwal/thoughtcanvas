@@ -17,7 +17,7 @@ import { authHelpers, cachedUser } from "../_utils";
 type SignInSchema = z.infer<typeof SignInFormSchema>;
 /**
  * @swagger
- * api/sign-in:
+ * /api/sign-in:
  *   post:
  *     summary: Authenticate a user and return tokens
  *     tags: [Auth]

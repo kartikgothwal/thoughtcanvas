@@ -20,7 +20,7 @@ const options = {
     security: [{ bearerAuth: [] }],
     servers: [
       {
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/api`,
+        url: `${process.env.NEXT_PUBLIC_APP_URL}`,
         description: "API Server",
       },
     ],
