@@ -8,14 +8,20 @@ const options = {
       version: "1.0.0",
       description: "API documentation for ThoughtCanvas",
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [{ bearerAuth: [] }],
     servers: [
       {
         url: `${process.env.NEXT_PUBLIC_APP_URL}/api`,
-        description: "Local Development Server",
-      },
-      {
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/api`,
-        description: "Production Server",
+        description: "API Server",
       },
     ],
   },

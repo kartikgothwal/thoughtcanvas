@@ -9,6 +9,44 @@ import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 
 type ResetPasswordType = z.infer<typeof ResetPasswordSchema>;
+/**
+ * @swagger
+ * /reset-password:
+ *   patch:
+ *     summary: Reset user password using token
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - password
+ *             properties:
+ *               password:
+ *                 type: string
+ *                 example: NewSecurePassword123!
+ *     responses:
+ *       200:
+ *         description: Password updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Password has be updated
+ *       400:
+ *         description: Invalid input or password already used
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
 
 async function handler(
   request: Request,

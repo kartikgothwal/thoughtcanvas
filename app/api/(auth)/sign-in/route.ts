@@ -15,7 +15,55 @@ import { rateLimit } from "@/lib/rateLimit";
 import { authHelpers, cachedUser } from "../_utils";
 
 type SignInSchema = z.infer<typeof SignInFormSchema>;
-
+/**
+ * @swagger
+ * /sign-in:
+ *   post:
+ *     summary: Authenticate a user and return tokens
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: user@example.com
+ *               password:
+ *                 type: string
+ *                 example: SecurePassword123!
+ *     responses:
+ *       200:
+ *         description: Successfully authenticated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 accessToken:
+ *                   type: string
+ *                 refreshToken:
+ *                   type: string
+ *                 message:
+ *                   type: string
+ *                   example: Sign-in successful
+ *       400:
+ *         description: Invalid request body or missing fields
+ *       401:
+ *         description: Incorrect password
+ *       404:
+ *         description: User not found
+ *       429:
+ *         description: Too many login attempts
+ *       500:
+ *         description: Internal server error
+ */
 export async function POST(
   request: Request
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {

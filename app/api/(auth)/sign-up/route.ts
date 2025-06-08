@@ -24,6 +24,95 @@ import { UserModel } from "@/schema";
 import { rateLimit } from "@/lib/rateLimit";
 
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
+/**
+ * @swagger
+ * /sign-up:
+ *   post:
+ *     summary: Register a new user or sign in an existing OAuth user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               firstname:
+ *                 type: string
+ *                 example: John
+ *               lastname:
+ *                 type: string
+ *                 example: Doe
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: user@example.com
+ *               password:
+ *                 type: string
+ *                 example: SecurePassword123!
+ *               authProvider:
+ *                 type: string
+ *                 enum: [local, google, github]
+ *                 example: local
+ *               profilePicture:
+ *                 type: string
+ *                 format: uri
+ *                 example: https://example.com/profile.jpg
+ *               role:
+ *                 type: string
+ *                 example: user
+ *     responses:
+ *       201:
+ *         description: User successfully registered
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Sign up successful
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 201
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: 64e0c0f9b9b1234567890abc
+ *                     name:
+ *                       type: string
+ *                       example: John Doe
+ *                     email:
+ *                       type: string
+ *                       format: email
+ *                       example: user@example.com
+ *                     profilePicture:
+ *                       type: string
+ *                       format: uri
+ *                       example: https://example.com/profile.jpg
+ *                     role:
+ *                       type: string
+ *                       example: user
+ *                     isActive:
+ *                       type: boolean
+ *                       example: true
+ *                     status:
+ *                       type: string
+ *                       example: active
+ *       400:
+ *         description: Invalid request body or validation errors
+ *       401:
+ *         description: User already exists
+ *       429:
+ *         description: Too many requests, rate limit exceeded
+ *       500:
+ *         description: Internal server error
+ */
 
 export async function POST(
   request: NextRequest
