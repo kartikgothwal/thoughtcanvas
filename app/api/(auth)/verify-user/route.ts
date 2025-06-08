@@ -8,35 +8,10 @@ import { IApiResponse, IErrorResponse } from "@/types";
 async function handler(
   request: Request,
   response: Response,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   decoded: any
 ): Promise<NextResponse<IErrorResponse | IApiResponse>> {
   try {
-    // const authHeader: string | null = request.headers.get("Authorization");
-    // if (!authHeader) {
-    //   return handleError(
-    //     new Error(ResponseMessages.AUTHORIZATION_TOKEN_MISSING),
-    //     HttpStatus.UNAUTHORIZED
-    //   );
-    // }
-    // const token: string = authHeader.split(" ")[1];
-    // if (!token) {
-    //   return handleError(
-    //     new Error(ResponseMessages.AUTHORIZATION_TOKEN_MISSING),
-    //     HttpStatus.UNAUTHORIZED
-    //   );
-    // }
-    // const decoded: string | JwtPayload | null = JwtValidator(token);
-    // if (!decoded) {
-    //   return handleError(
-    //     new Error(ResponseMessages.INVALID_TOKEN),
-    //     HttpStatus.UNAUTHORIZED
-    //   );
-    // }
-    // return NextResponse.json({
-    //   success: true,
-    //   isValid: true,
-    //   decoded,
-    // });
     return ApiJsonResponse("Token is verified", HttpStatus.OK, decoded);
   } catch (error: unknown) {
     return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);

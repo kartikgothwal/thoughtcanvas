@@ -24,64 +24,7 @@ import { UserModel } from "@/schema";
 import { rateLimit } from "@/lib/rateLimit";
 
 type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
-/**
- * @swagger
- * /sign-up:
- *   post:
- *     summary: Create a new user account
- *     description: Register a new user with an email and password. Returns a JWT token and user details.
- *     tags:
- *       - Authentication
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - email
- *               - password
- *             properties:
- *               name:
- *                 type: string
- *                 example: "John Doe"
- *               email:
- *                 type: string
- *                 format: email
- *                 example: "john@example.com"
- *               password:
- *                 type: string
- *                 format: password
- *                 example: "password123"
- *     responses:
- *       200:
- *         description: Account successfully created
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Account Successfully Created"
- *                 user:
- *                   type: object
- *                   properties:
- *                     _id:
- *                       type: string
- *                       example: "60c72b2f5f1b2c001c8e4d6c"
- *                     name:
- *                       type: string
- *                       example: "John Doe"
- *                     email:
- *                       type: string
- *                       example: "john@example.com"
- *       400:
- *         description: Bad request - Validation error or user already exists
- *       500:
- *         description: Internal server error
- */
+
 export async function POST(
   request: NextRequest
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {
