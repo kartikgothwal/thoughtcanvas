@@ -20,49 +20,6 @@ import { rateLimit } from "@/lib/rateLimit";
 
 type ForgotPasswordType = z.infer<typeof ForgotPasswordSchema>;
 
-/**
- * @swagger
- * /forgot-password:
- *   post:
- *     summary: Send a password reset email
- *     description: This API sends a password reset email to the user if their email exists in the database.
- *     tags:
- *       - Authentication
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *                 example: user@example.com
- *     responses:
- *       200:
- *         description: Password reset email sent successfully.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Link to reset your password is sent to your email"
- *       400:
- *         description: Bad request (invalid email or user does not exist).
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: "User with this email doesn't exist"
- *       500:
- *         description: Internal server error.
- */
 export async function POST(
   request: Request
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {
