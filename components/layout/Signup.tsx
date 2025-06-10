@@ -14,7 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { SignUpFormSchema } from "@/zod";
 import { useTheme } from "next-themes";
-import { ToasterSuccess, ToastErrorHandler } from "@/utils";
+import { ToasterSuccess, ToastErrorHandler, InputOTPDemo } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useMutationQueries } from "@/apiquery/useApiQuery";
 import { JSX, useEffect, useState } from "react";
@@ -27,7 +27,6 @@ import { USER_SIGN_UP } from "@/constant";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useAuthContext } from "@/contexts/AuthProvider";
 import { AuthContextType } from "@/contexts/types";
-import { InputOTPForm } from "@/utils/ui/InputOTP";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -77,7 +76,7 @@ export function SignUpForm({
   const handleVisibilityToggle = () => {
     setVisibilityToggle(!visibiltyToggle);
   };
-  
+
   return (
     <>
       <Dialog
@@ -96,7 +95,7 @@ export function SignUpForm({
             </DialogDescription>
 
             {!isOTPModalOpen ? (
-              <InputOTPForm />
+              <InputOTPDemo />
             ) : (
               <form className="mt-4 mb-8" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">

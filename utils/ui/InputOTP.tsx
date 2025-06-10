@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-// import { toast } from "sonner"
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -27,7 +26,7 @@ const FormSchema = z.object({
   }),
 });
 
-export function InputOTPForm() {
+export default function InputOTPDemo() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -35,24 +34,20 @@ export function InputOTPForm() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    // toast("You submitted the following values", {
-    //   description: (
-    //     <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // })
-  }
+  function onSubmit(data: z.infer<typeof FormSchema>) {}
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-2">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-2/3 space-y-6"
+        style={{ margin: "15px 0px" }}
+      >
         <FormField
           control={form.control}
           name="pin"
           render={({ field }) => (
-            <FormItem  >
+            <FormItem>
               <FormLabel>One-Time Password</FormLabel>
               <FormControl>
                 <InputOTP maxLength={6} {...field}>
