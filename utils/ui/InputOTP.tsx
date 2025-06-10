@@ -40,14 +40,14 @@ export default function InputOTPDemo() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-2/3 space-y-6"
-        style={{ margin: "15px 0px" }}
+        className="w-2/3 space-y-6 flex flex-col gap-5 text-sm"
+        style={{ padding: "1.5rem 0" }}
       >
         <FormField
           control={form.control}
           name="pin"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex flex-col gap-4">
               <FormLabel>One-Time Password</FormLabel>
               <FormControl>
                 <InputOTP maxLength={6} {...field}>
