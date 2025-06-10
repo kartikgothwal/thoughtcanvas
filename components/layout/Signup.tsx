@@ -27,6 +27,7 @@ import { USER_SIGN_UP } from "@/constant";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useAuthContext } from "@/contexts/AuthProvider";
 import { AuthContextType } from "@/contexts/types";
+import { InputOTPForm } from "@/utils/ui/InputOTP";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
 
@@ -38,6 +39,7 @@ export function SignUpForm({
 }: ISignInSignUpModalProps): JSX.Element {
   const authContext: AuthContextType | undefined = useAuthContext();
   const [visibiltyToggle, setVisibilityToggle] = useState<boolean>(false);
+  const [isOTPModalOpen, setIsOTPModalOpen] = useState<boolean>(false);
   const {
     mutate: signUpMutation,
     isSuccess,
@@ -59,6 +61,7 @@ export function SignUpForm({
         ToasterSuccess(response.data.message, theme!);
         authContext?.setUserProfile(response.data.data);
         reset();
+        setIsOTPModalOpen(!isOTPModalOpen);
         setOpenSignupModal(false);
         router.push("/dashboard");
       },
@@ -74,6 +77,7 @@ export function SignUpForm({
   const handleVisibilityToggle = () => {
     setVisibilityToggle(!visibiltyToggle);
   };
+  
   return (
     <>
       <Dialog
@@ -91,114 +95,118 @@ export function SignUpForm({
               Please Register Yourself!!
             </DialogDescription>
 
-            <form className="mt-4 mb-8" onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-                <LabelInputContainer>
-                  <Label htmlFor="firstname">First name</Label>
-                  <Input
-                    id="firstname"
-                    placeholder="Tyler"
-                    type="text"
-                    {...register("firstname")}
-                    disabled={isPending}
-                  />
-                  {errors?.firstname?.message && (
-                    <p className="text-red-700 mb-4 text-[12px]">
-                      {errors.firstname.message}
-                    </p>
-                  )}
-                </LabelInputContainer>
-                <LabelInputContainer>
-                  <Label htmlFor="lastname">Last name</Label>
-                  <Input
-                    id="lastname"
-                    placeholder="Durden"
-                    type="text"
-                    {...register("lastname")}
-                    disabled={isPending}
-                  />
-                  {errors?.lastname?.message && (
-                    <p className="text-red-700 mb-4 text-[12px]">
-                      {errors.lastname.message}
-                    </p>
-                  )}
-                </LabelInputContainer>
-              </div>
-              <LabelInputContainer className="mb-4">
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  id="email"
-                  placeholder="projectmayhem@fc.com"
-                  type="email"
-                  {...register("email")}
-                  disabled={isPending}
-                />
-                {errors?.email?.message && (
-                  <p className="text-red-700 mb-4 text-[12px]">
-                    {errors.email.message}
-                  </p>
-                )}
-              </LabelInputContainer>
-              <LabelInputContainer className="mb-4">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative w-full">
-                  <Input
-                    id="password"
-                    placeholder="••••••••"
-                    type={visibiltyToggle ? "text" : "password"}
-                    {...register("password")}
-                    disabled={isPending}
-                  />
-                  {visibiltyToggle ? (
-                    <FaRegEye
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4 cursor-pointer"
-                      onClick={handleVisibilityToggle}
+            {!isOTPModalOpen ? (
+              <InputOTPForm />
+            ) : (
+              <form className="mt-4 mb-8" onSubmit={handleSubmit(onSubmit)}>
+                <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+                  <LabelInputContainer>
+                    <Label htmlFor="firstname">First name</Label>
+                    <Input
+                      id="firstname"
+                      placeholder="Tyler"
+                      type="text"
+                      {...register("firstname")}
+                      disabled={isPending}
                     />
-                  ) : (
-                    <FaEyeSlash
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4 cursor-pointer"
-                      onClick={handleVisibilityToggle}
+                    {errors?.firstname?.message && (
+                      <p className="text-red-700 mb-4 text-[12px]">
+                        {errors.firstname.message}
+                      </p>
+                    )}
+                  </LabelInputContainer>
+                  <LabelInputContainer>
+                    <Label htmlFor="lastname">Last name</Label>
+                    <Input
+                      id="lastname"
+                      placeholder="Durden"
+                      type="text"
+                      {...register("lastname")}
+                      disabled={isPending}
                     />
-                  )}
+                    {errors?.lastname?.message && (
+                      <p className="text-red-700 mb-4 text-[12px]">
+                        {errors.lastname.message}
+                      </p>
+                    )}
+                  </LabelInputContainer>
                 </div>
-                {errors?.password?.message && (
-                  <p className="text-red-700 mb-4 text-[12px]">
-                    {errors.password.message}
-                  </p>
-                )}
-              </LabelInputContainer>
-              <DialogFooter style={{ flexDirection: "column" }}>
-                <Button
-                  className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600  dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] flex justify-center items-center"
-                  type="submit"
-                  disabled={isPending}
-                >
-                  {isPending ? (
-                    <>
-                      <span className="mx-2">Submitting...</span>{" "}
-                      <ButtonLoading />
-                    </>
-                  ) : (
-                    <>Sign up &rarr;</>
+                <LabelInputContainer className="mb-4">
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input
+                    id="email"
+                    placeholder="projectmayhem@fc.com"
+                    type="email"
+                    {...register("email")}
+                    disabled={isPending}
+                  />
+                  {errors?.email?.message && (
+                    <p className="text-red-700 mb-4 text-[12px]">
+                      {errors.email.message}
+                    </p>
                   )}
-                  <BottomGradient />
-                </Button>
-                <div className="mt-4 text-center text-sm">
-                  Already have an account?{" "}
-                  <span
-                    className="underline underline-offset-4 cursor-pointer"
-                    onClick={() => {
-                      setOpenSignupModal(!openSignUpModel);
-                      setOpenSignInModal(!openSignInModel);
-                    }}
+                </LabelInputContainer>
+                <LabelInputContainer className="mb-4">
+                  <Label htmlFor="password">Password</Label>
+                  <div className="relative w-full">
+                    <Input
+                      id="password"
+                      placeholder="••••••••"
+                      type={visibiltyToggle ? "text" : "password"}
+                      {...register("password")}
+                      disabled={isPending}
+                    />
+                    {visibiltyToggle ? (
+                      <FaRegEye
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4 cursor-pointer"
+                        onClick={handleVisibilityToggle}
+                      />
+                    ) : (
+                      <FaEyeSlash
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4 cursor-pointer"
+                        onClick={handleVisibilityToggle}
+                      />
+                    )}
+                  </div>
+                  {errors?.password?.message && (
+                    <p className="text-red-700 mb-4 text-[12px]">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </LabelInputContainer>
+                <DialogFooter style={{ flexDirection: "column" }}>
+                  <Button
+                    className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600  dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] flex justify-center items-center"
+                    type="submit"
+                    disabled={isPending}
                   >
-                    Sign in
-                  </span>
-                </div>
-                <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-                <ProviderAuth isPending={isPending} />
-              </DialogFooter>
-            </form>
+                    {isPending ? (
+                      <>
+                        <span className="mx-2">Submitting...</span>{" "}
+                        <ButtonLoading />
+                      </>
+                    ) : (
+                      <>Sign up &rarr;</>
+                    )}
+                    <BottomGradient />
+                  </Button>
+                  <div className="mt-4 text-center text-sm">
+                    Already have an account?{" "}
+                    <span
+                      className="underline underline-offset-4 cursor-pointer"
+                      onClick={() => {
+                        setOpenSignupModal(!openSignUpModel);
+                        setOpenSignInModal(!openSignInModel);
+                      }}
+                    >
+                      Sign in
+                    </span>
+                  </div>
+                  <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+                  <ProviderAuth isPending={isPending} />
+                </DialogFooter>
+              </form>
+            )}
           </div>
         </DialogContent>
       </Dialog>
