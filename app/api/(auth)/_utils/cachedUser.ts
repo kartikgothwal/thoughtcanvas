@@ -5,7 +5,7 @@ import { JwtGenerator } from "@/utils/JwtGenerator";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
 
-export async function cachedUser(isCachedUser:string) {
+export default async function cachedUser(isCachedUser:string) {
   const parsedUser: IUserSignInResponse = JSON.parse(isCachedUser);
   const token: string = JwtGenerator({
     email: parsedUser.email,

@@ -5,7 +5,7 @@ import { IUsersSchema, IUserSignInResponse } from "@/types";
 import { ApiJsonResponse } from "@/utils";
 import { HttpStatus, ResponseMessages } from "@/constant";
 
-export async function authHelpers(user: IUsersSchema, method: string) {
+export default async function authHelpers(user: IUsersSchema, method: string) {
   const token = JwtGenerator({
     email: user.email,
     expiresIn: "1d",
