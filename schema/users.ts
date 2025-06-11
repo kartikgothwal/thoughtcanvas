@@ -112,7 +112,7 @@ const userSchema = new mongoose.Schema<IUsersSchema>(
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comments" }],
     authProvider: {
       type: String,
-      enum: ["credentials", "google"],
+      enum: ["credentials", "google", "github"],
       default: "credentials",
     },
   },

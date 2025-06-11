@@ -119,6 +119,20 @@ export async function POST(
 ): Promise<NextResponse<IErrorResponse> | IApiResponse> {
   try {
     const payload: SignUpFormSchemaType = await request.json();
+    const isValidPayload = SignUpFormSchema.safeParse(payload);
+    if (!isValidPayload.success) {
+      const errors:
+        | {
+            message: string;
+          }[]
+        | undefined = PayloadErrorFormat(isValidPayload);
+      return handleError(
+        new Error(
+          errors?.[0]?.message + "ddes" || ResponseMessages.UNKNOWN_ERROR_OCCURRED
+        ),
+        HttpStatus.BAD_REQUEST
+      );
+    }
     const ip: string | null =
       request.headers.get("x-forwarded-for") ||
       request.headers.get("remote-addr");
@@ -155,21 +169,6 @@ export async function POST(
         const user: IUsersSchema = await NewUsers.save();
         return authHelpers(user, "sign-up");
       }
-    }
-
-    const isValidPayload = SignUpFormSchema.safeParse(payload);
-    if (!isValidPayload.success) {
-      const errors:
-        | {
-            message: string;
-          }[]
-        | undefined = PayloadErrorFormat(isValidPayload);
-      return handleError(
-        new Error(
-          errors?.[0]?.message || ResponseMessages.UNKNOWN_ERROR_OCCURRED
-        ),
-        HttpStatus.BAD_REQUEST
-      );
     }
     await dbConnect();
     const isExisted: IUsersSchema | null = await UserModel.findOne({
