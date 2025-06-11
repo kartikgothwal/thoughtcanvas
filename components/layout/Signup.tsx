@@ -94,7 +94,7 @@ export function SignUpForm({
               Please Register Yourself!!
             </DialogDescription>
 
-            {!isOTPModalOpen ? (
+            {isOTPModalOpen ? (
               <InputOTPDemo />
             ) : (
               <form className="mt-4 mb-8" onSubmit={handleSubmit(onSubmit)}>
