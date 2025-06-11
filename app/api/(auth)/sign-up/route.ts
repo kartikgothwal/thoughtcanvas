@@ -128,7 +128,8 @@ export async function POST(
         | undefined = PayloadErrorFormat(isValidPayload);
       return handleError(
         new Error(
-          errors?.[0]?.message + "ddes" || ResponseMessages.UNKNOWN_ERROR_OCCURRED
+          errors?.[0]?.message + "ddes" ||
+            ResponseMessages.UNKNOWN_ERROR_OCCURRED
         ),
         HttpStatus.BAD_REQUEST
       );
@@ -180,7 +181,7 @@ export async function POST(
         HttpStatus.UNAUTHORIZED
       );
     }
-    const hashPassword: string = bcrypt.hashSync(payload.password, 10);
+    const hashPassword: string = bcrypt.hashSync(payload.password!, 10);
     const NewUsers: IUsersSchema = new UserModel({
       ...payload,
       password: hashPassword,
