@@ -17,5 +17,5 @@ export async function POST(request: Request) {
     );
   }
   const otp: number = generateOTP(6);
-  redis.set(`otp:${payload.email}`, otp, "EX", 300);
+  redis.set(`sign-up-otp:${payload.email}`, otp, "EX", 300);
 }
