@@ -1,4 +1,4 @@
-import { dbConnect } from "@/config";
+import { dbConnect, redis } from "@/config";
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { UserModel } from "@/schema";
 import { handleError } from "@/utils";
@@ -17,5 +17,5 @@ export async function POST(request: Request) {
     );
   }
   const otp: number = generateOTP(6);
-  
+  redis.set(`otp:${payload.email}`, otp, "EX", 300);
 }

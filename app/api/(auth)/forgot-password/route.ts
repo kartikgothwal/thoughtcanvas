@@ -92,7 +92,7 @@ export async function POST(
       request.headers.get("x-forwarded-for") ||
       request.headers.get("remote-addr");
 
-    let isLimitReached: boolean = await rateLimit({
+    const isLimitReached: boolean = await rateLimit({
       identifier: ip ? ip : (isExisted._id as string),
       maxRequest: 3,
       windowSizeInSeconds: WINDOW_SIZE_IN_SECONDS,
