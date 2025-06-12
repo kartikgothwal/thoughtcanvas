@@ -15,5 +15,4 @@ export async function POST(request: Request) {
       HttpStatus.UNAUTHORIZED
     );
   }
-  
 }
