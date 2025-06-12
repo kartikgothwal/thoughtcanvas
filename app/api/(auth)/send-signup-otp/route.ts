@@ -2,6 +2,7 @@ import { dbConnect } from "@/config";
 import { HttpStatus, ResponseMessages } from "@/constant";
 import { UserModel } from "@/schema";
 import { handleError } from "@/utils";
+import { generateOTP } from "../_utils";
 
 export async function POST(request: Request) {
   const payload = await request.json();
@@ -15,5 +16,6 @@ export async function POST(request: Request) {
       HttpStatus.UNAUTHORIZED
     );
   }
-  const otp = gene
+  const otp: number = generateOTP(6);
+  
 }
