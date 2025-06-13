@@ -29,7 +29,6 @@ import { useAuthContext } from "@/contexts/AuthProvider";
 import { AuthContextType } from "@/contexts/types";
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
-
 export function SignUpForm({
   openSignUpModel,
   openSignInModel,
