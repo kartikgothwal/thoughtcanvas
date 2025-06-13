@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     const mailOptions = {
       from: "donotreply.thoughtcanvas.com",
       to: isExisted.email,
-      subject: "ThoughtCanvas: Reset Password",
+      subject: "ThoughtCanvas: OTP Verification",
       html: emailTemplate,
     };
     await transporter.sendMail(mailOptions);
