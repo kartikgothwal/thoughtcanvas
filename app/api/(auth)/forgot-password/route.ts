@@ -142,7 +142,6 @@ export async function POST(
       HttpStatus.OK
     );
   } catch (error: unknown) {
-    console.log("🚀 ~ POST ~ error:", error);
     return handleError(
       new Error(error instanceof Error ? error.message : String(error)),
       HttpStatus.INTERNAL_SERVER_ERROR
