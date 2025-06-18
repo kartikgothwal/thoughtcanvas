@@ -90,7 +90,9 @@ export function SignUpForm({
     setVisibilityToggle(!visibiltyToggle);
   };
   useEffect(() => {
-    setIsOTPModalOpen(true);
+    if (sendSignUpOtpMutationSuccess) {
+      setIsOTPModalOpen(true);
+    }
   }, [sendSignUpOtpMutationSuccess]);
   return (
     <>
@@ -105,14 +107,14 @@ export function SignUpForm({
             <DialogTitle className="font-bold text-xl text-neutral-800 dark:text-neutral-200 mb-4">
               Welcome to ThoughtCanvas!
             </DialogTitle>
-            <DialogDescription className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-              Please Register Yourself!!
-            </DialogDescription>
 
             {isOTPModalOpen ? (
               <InputOTPDemo />
             ) : (
               <form className="mt-4 mb-8" onSubmit={handleSubmit(onSubmit)}>
+                <DialogDescription className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+                  Please Register Yourself!!
+                </DialogDescription>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                   <LabelInputContainer>
                     <Label htmlFor="firstname">First name</Label>

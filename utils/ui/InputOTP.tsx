@@ -62,7 +62,7 @@ export default function InputOTPDemo() {
                 </InputOTP>
               </FormControl>
               <FormDescription>
-                Please enter the one-time password sent to your phone.
+                Please enter the one-time password sent to your mail.
               </FormDescription>
               <FormMessage />
             </FormItem>

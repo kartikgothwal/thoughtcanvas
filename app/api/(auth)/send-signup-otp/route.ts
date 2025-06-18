@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       "/assets/template/otp-verification.html"
     );
     let emailTemplate: string = fs.readFileSync(emailTemplatePath, "utf-8");
-    const userName = `${isExisted.firstname} ${isExisted.lastname}`;
+    const userName = `${payload.firstname} ${payload.lastname}`;
     emailTemplate = emailTemplate
       .replace("{{OTP_CODE}}", otp)
       .replace(/{{USER_NAME}}/g, userName);
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     });
     const mailOptions = {
       from: "donotreply.thoughtcanvas.com",
-      to: isExisted.email,
+      to: payload.email,
       subject: "ThoughtCanvas: OTP Verification",
       html: emailTemplate,
     };
