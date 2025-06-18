@@ -44,7 +44,11 @@ export function SignUpForm({
     isSuccess,
     isPending,
   } = useMutationQueries(USER_SIGN_UP);
-  const { mutate: sendSignupOtpMutation } = useMutationQueries(SEND_SIGNUP_OTP);
+  const {
+    mutate: sendSignupOtpMutation,
+    isSuccess: sendSignUpOtpMutationSuccess,
+    isPending: sendSignOtpMutationPending,
+  } = useMutationQueries(SEND_SIGNUP_OTP);
   const router: AppRouterInstance = useRouter();
   const { theme } = useTheme();
   const {
@@ -85,7 +89,9 @@ export function SignUpForm({
   const handleVisibilityToggle = () => {
     setVisibilityToggle(!visibiltyToggle);
   };
-
+  useEffect(() => {
+    setIsOTPModalOpen(true);
+  }, [sendSignUpOtpMutationSuccess]);
   return (
     <>
       <Dialog
