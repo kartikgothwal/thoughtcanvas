@@ -44,7 +44,7 @@ export function SignUpForm({
     isSuccess,
     isPending,
   } = useMutationQueries(USER_SIGN_UP);
-  const { mutate: OtpVerificationMutation } =
+  const { mutate: OtpGenerationMutation } =
     useMutationQueries(OTP_VERIFICATION);
   const router: AppRouterInstance = useRouter();
   const { theme } = useTheme();
@@ -57,19 +57,27 @@ export function SignUpForm({
     resolver: zodResolver(SignUpFormSchema),
   });
   const onSubmit = async (userData: z.infer<typeof SignUpFormSchema>) => {
-    signUpMutation(userData, {
+    OtpGenerationMutation(userData.email, {
       onSuccess: (response) => {
         ToasterSuccess(response.data.message, theme!);
-        authContext?.setUserProfile(response.data.data);
-        reset();
-        setIsOTPModalOpen(!isOTPModalOpen);
-        setOpenSignupModal(false);
-        router.push("/dashboard");
       },
       onError: (error: unknown) => {
         ToastErrorHandler(error, theme);
       },
     });
+    // signUpMutation(userData, {
+    //   onSuccess: (response) => {
+    //     ToasterSuccess(response.data.message, theme!);
+    //     authContext?.setUserProfile(response.data.data);
+    //     reset();
+    //     setIsOTPModalOpen(!isOTPModalOpen);
+    //     setOpenSignupModal(false);
+    //     router.push("/dashboard");
+    //   },
+    //   onError: (error: unknown) => {
+    //     ToastErrorHandler(error, theme);
+    //   },
+    // });
   };
   useEffect(() => {
     router.push("/dashboard");
