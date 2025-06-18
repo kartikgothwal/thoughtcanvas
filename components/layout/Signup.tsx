@@ -23,7 +23,7 @@ import { ISignInSignUpModalProps } from "@/types";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import ProviderAuth from "@/components/layout/ProviderAuth";
 import { Button } from "@/components/ui/button";
-import { USER_SIGN_UP } from "@/constant";
+import { OTP_VERIFICATION, USER_SIGN_UP } from "@/constant";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useAuthContext } from "@/contexts/AuthProvider";
 import { AuthContextType } from "@/contexts/types";
@@ -44,7 +44,7 @@ export function SignUpForm({
     isSuccess,
     isPending,
   } = useMutationQueries(USER_SIGN_UP);
-  const { mutate: OtpVerificationMutation } = useMutationQueries(USER_SIGN_UP);
+  const { mutate: OtpVerificationMutation } = useMutationQueries(OTP_VERIFICATION);
   const router: AppRouterInstance = useRouter();
   const { theme } = useTheme();
   const {
