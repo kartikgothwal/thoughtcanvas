@@ -50,7 +50,8 @@ export async function POST(request: Request) {
       subject: "ThoughtCanvas: OTP Verification",
       html: emailTemplate,
     };
-    await transporter.sendMail(mailOptions);
+    const data = await transporter.sendMail(mailOptions);
+    console.log("🚀 ~ POST ~ data:", data);
     return ApiJsonResponse("OTP sent to your email", HttpStatus.OK);
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);
