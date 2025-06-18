@@ -8,7 +8,7 @@ export const USER_SIGN_UP = "USER SIGN UP";
 export const FORGOT_USER_PASSWORD = "FORGOT USER PASSWORD";
 export const RESET_USER_PASSWORD = "RESET USER PASSWORD";
 export const CHECK_AUTH_TOKEN = "CHECK AUTH TOKEN";
-export const OTP_GENERATION_VERIFICATION = "OTP GENERATION VERIFICATION";
+export const SEND_SIGNUP_OTP = "SEND SIGNUP OTP";
 export const stats: statsProps[] = [
   {
     quantity: "2.7K+",

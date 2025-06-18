@@ -23,7 +23,7 @@ import { ISignInSignUpModalProps } from "@/types";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import ProviderAuth from "@/components/layout/ProviderAuth";
 import { Button } from "@/components/ui/button";
-import { OTP_GENERATION_VERIFICATION, USER_SIGN_UP } from "@/constant";
+import { SEND_SIGNUP_OTP, USER_SIGN_UP } from "@/constant";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useAuthContext } from "@/contexts/AuthProvider";
 import { AuthContextType } from "@/contexts/types";
@@ -44,8 +44,7 @@ export function SignUpForm({
     isSuccess,
     isPending,
   } = useMutationQueries(USER_SIGN_UP);
-  const { mutate: OtpGenerationMutation } =
-    useMutationQueries(OTP_GENERATION_VERIFICATION);
+  const { mutate: sendSignupOtpMutation } = useMutationQueries(SEND_SIGNUP_OTP);
   const router: AppRouterInstance = useRouter();
   const { theme } = useTheme();
   const {
@@ -57,7 +56,7 @@ export function SignUpForm({
     resolver: zodResolver(SignUpFormSchema),
   });
   const onSubmit = async (userData: z.infer<typeof SignUpFormSchema>) => {
-    OtpGenerationMutation(userData.email, {
+    sendSignupOtpMutation(userData, {
       onSuccess: (response) => {
         ToasterSuccess(response.data.message, theme!);
       },
