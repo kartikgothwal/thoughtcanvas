@@ -44,7 +44,8 @@ export function SignUpForm({
     isSuccess,
     isPending,
   } = useMutationQueries(USER_SIGN_UP);
-  const { mutate: OtpVerificationMutation } = useMutationQueries(OTP_VERIFICATION);
+  const { mutate: OtpVerificationMutation } =
+    useMutationQueries(OTP_VERIFICATION);
   const router: AppRouterInstance = useRouter();
   const { theme } = useTheme();
   const {
