@@ -1,8 +1,7 @@
 import toast from "react-hot-toast";
 
 function toastStyles(theme: string) {
-  // console.log("🚀 ~ toastStyles ~ theme:", theme);
-  return {
+   return {
     style: {
       borderRadius: "10px",
       background:

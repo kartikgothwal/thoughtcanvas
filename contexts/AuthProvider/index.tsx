@@ -29,11 +29,7 @@ const AuthProvider = ({
   const router = useRouter();
 
   const { theme } = useTheme();
-  useEffect(() => {
-    if (theme) {
-      console.log("🚀 ~ theme:useEffect", theme);
-    }
-  }, [theme]);
+
   useEffect(() => {
     if (userProfile) {
       localStorage.setItem("userProfile", JSON.stringify(userProfile));
