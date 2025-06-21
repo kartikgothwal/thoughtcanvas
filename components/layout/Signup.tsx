@@ -41,8 +41,8 @@ export function SignUpForm({
   const [isOTPModalOpen, setIsOTPModalOpen] = useState<boolean>(false);
   const {
     mutate: signUpMutation,
-    isSuccess,
-    isPending,
+    isSuccess: signUpSuccess,
+    isPending: signUpPending,
   } = useMutationQueries(USER_SIGN_UP);
   const {
     mutate: sendSignupOtpMutation,
@@ -84,7 +84,7 @@ export function SignUpForm({
   };
   useEffect(() => {
     router.push("/dashboard");
-  }, [isSuccess, router]);
+  }, [signUpSuccess, router]);
 
   const handleVisibilityToggle = () => {
     setVisibilityToggle(!visibiltyToggle);
@@ -94,12 +94,13 @@ export function SignUpForm({
       setIsOTPModalOpen(true);
     }
   }, [sendSignUpOtpMutationSuccess]);
+
   return (
     <>
       <Dialog
         open={openSignUpModel}
         onOpenChange={(isOpen: boolean) =>
-          !isPending && setOpenSignupModal(isOpen)
+          !signUpPending && setOpenSignupModal(isOpen)
         }
       >
         <DialogContent className="sm:max-w-[550px] px-0">
@@ -123,7 +124,7 @@ export function SignUpForm({
                       placeholder="Tyler"
                       type="text"
                       {...register("firstname")}
-                      disabled={isPending}
+                      disabled={sendSignOtpMutationPending}
                     />
                     {errors?.firstname?.message && (
                       <p className="text-red-700 mb-4 text-[12px]">
@@ -138,7 +139,7 @@ export function SignUpForm({
                       placeholder="Durden"
                       type="text"
                       {...register("lastname")}
-                      disabled={isPending}
+                      disabled={sendSignOtpMutationPending}
                     />
                     {errors?.lastname?.message && (
                       <p className="text-red-700 mb-4 text-[12px]">
@@ -154,7 +155,7 @@ export function SignUpForm({
                     placeholder="projectmayhem@fc.com"
                     type="email"
                     {...register("email")}
-                    disabled={isPending}
+                    disabled={sendSignOtpMutationPending}
                   />
                   {errors?.email?.message && (
                     <p className="text-red-700 mb-4 text-[12px]">
@@ -170,7 +171,7 @@ export function SignUpForm({
                       placeholder="••••••••"
                       type={visibiltyToggle ? "text" : "password"}
                       {...register("password")}
-                      disabled={isPending}
+                      disabled={sendSignOtpMutationPending}
                     />
                     {visibiltyToggle ? (
                       <FaRegEye
@@ -194,9 +195,9 @@ export function SignUpForm({
                   <Button
                     className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600  dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] flex justify-center items-center"
                     type="submit"
-                    disabled={isPending}
+                    disabled={sendSignOtpMutationPending}
                   >
-                    {isPending ? (
+                    {sendSignOtpMutationPending ? (
                       <>
                         <span className="mx-2">Submitting...</span>{" "}
                         <ButtonLoading />
@@ -219,7 +220,7 @@ export function SignUpForm({
                     </span>
                   </div>
                   <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-                  <ProviderAuth isPending={isPending} />
+                  <ProviderAuth isPending={sendSignOtpMutationPending} />
                 </DialogFooter>
               </form>
             )}

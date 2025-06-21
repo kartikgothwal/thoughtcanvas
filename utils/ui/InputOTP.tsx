@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -34,7 +34,9 @@ export default function InputOTPDemo() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {}
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log("🚀 ~ onSubmit ~ data:", data);
+  }
 
   return (
     <Form {...form}>
@@ -50,7 +52,7 @@ export default function InputOTPDemo() {
             <FormItem className="flex flex-col gap-4">
               <FormLabel>One-Time Password</FormLabel>
               <FormControl>
-                <InputOTP maxLength={6} {...field}>
+                <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS} {...field}>
                   <InputOTPGroup>
                     <InputOTPSlot index={0} />
                     <InputOTPSlot index={1} />

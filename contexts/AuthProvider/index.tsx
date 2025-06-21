@@ -29,7 +29,6 @@ const AuthProvider = ({
   const router = useRouter();
 
   const { theme } = useTheme();
-  console.log("🚀 ~ theme:", theme);
   useEffect(() => {
     if (theme) {
       console.log("🚀 ~ theme:useEffect", theme);
