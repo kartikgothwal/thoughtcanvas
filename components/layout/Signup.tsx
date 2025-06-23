@@ -87,7 +87,7 @@ export function SignUpForm({
   }, [signUpSuccess, router]);
 
   const handleVisibilityToggle = () => {
-    setVisibilityToggle(!visibiltyToggle);
+    setVisibilityToggle(!visibiltyToggle)
   };
   useEffect(() => {
     if (sendSignUpOtpMutationSuccess) {
