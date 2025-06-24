@@ -48,7 +48,7 @@ export function SignUpForm({
     isSuccess: signUpSuccess,
     isPending: signUpPending,
   } = useMutationQueries(USER_SIGN_UP);
-  
+
   const {
     mutate: sendSignupOtpMutation,
     isSuccess: sendSignUpOtpMutationSuccess,
@@ -57,8 +57,8 @@ export function SignUpForm({
 
   const {
     mutate: verifySignupOTPMutation,
-    isSuccess,
-    isPending,
+    isSuccess: isVerifySignupOTPMutationSuccess,
+    isPending: isVerifySignupOTPMutationPending,
   } = useMutationQueries(VERIFY_SIGNUP_OTP);
 
   const router: AppRouterInstance = useRouter();
@@ -82,19 +82,6 @@ export function SignUpForm({
         ToastErrorHandler(error, theme);
       },
     });
-    // signUpMutation(userData, {
-    //   onSuccess: (response) => {
-    //     ToasterSuccess(response.data.message, theme!);
-    //     authContext?.setUserProfile(response.data.data);
-    //     reset();
-    //     setIsOTPModalOpen(!isOTPModalOpen);
-    //     setOpenSignupModal(false);
-    //     router.push("/dashboard");
-    //   },
-    //   onError: (error: unknown) => {
-    //     ToastErrorHandler(error, theme);
-    //   },
-    // });
   };
   useEffect(() => {
     router.push("/dashboard");
@@ -103,12 +90,25 @@ export function SignUpForm({
   const handleVisibilityToggle = () => {
     setVisibilityToggle(!visibiltyToggle);
   };
-  // useEffect(() => {
-  //   if (sendSignUpOtpMutationSuccess) {
-  //     setIsOTPModalOpen(true);
-  //   }
-  // }, [sendSignUpOtpMutationSuccess]);
-
+ 
+  useEffect(() => {
+    if (isVerifySignupOTPMutationSuccess) {
+      signUpMutation(pendingUserData, {
+        onSuccess: (response) => {
+          ToasterSuccess(response.data.message, theme!);
+          authContext?.setUserProfile(response.data.data);
+          reset();
+          setIsOTPModalOpen(!isOTPModalOpen);
+          setOpenSignupModal(false);
+          router.push("/dashboard");
+        },
+        onError: (error: unknown) => {
+          ToastErrorHandler(error, theme);
+        },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isVerifySignupOTPMutationSuccess]);
   return (
     <>
       <Dialog
@@ -124,7 +124,7 @@ export function SignUpForm({
             </DialogTitle>
 
             {isOTPModalOpen ? (
-              <InputOTPDemo verifySignupOTPMutation={(data: any) => verifySignupOTPMutation(data)} />
+              <InputOTPDemo verifySignupOTPMutation={verifySignupOTPMutation} />
             ) : (
               <form className="mt-4 mb-8" onSubmit={handleSubmit(onSubmit)}>
                 <DialogDescription className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">

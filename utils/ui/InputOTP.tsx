@@ -20,6 +20,9 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useTheme } from "next-themes";
+import { AxiosResponse } from "axios";
+import { UseMutateFunction } from "@tanstack/react-query";
+import ToastErrorHandler from "../ToastErrorHandler";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -30,7 +33,12 @@ const FormSchema = z.object({
 export default function InputOTPDemo({
   verifySignupOTPMutation,
 }: {
-  verifySignupOTPMutation: (data: any) => void;
+  verifySignupOTPMutation: UseMutateFunction<
+    AxiosResponse<unknown, unknown>,
+    Error,
+    unknown,
+    unknown
+  >;
 }) {
   const { theme } = useTheme();
 
@@ -42,7 +50,11 @@ export default function InputOTPDemo({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    verifySignupOTPMutation(data);
+    verifySignupOTPMutation(data, {
+      onError: (error: unknown) => {
+        ToastErrorHandler(error, theme);
+      },
+    });
   }
 
   return (
