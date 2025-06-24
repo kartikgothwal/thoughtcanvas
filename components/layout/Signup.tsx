@@ -63,6 +63,7 @@ export function SignUpForm({
     sendSignupOtpMutation(userData, {
       onSuccess: (response) => {
         ToasterSuccess(response.data.message, theme!);
+        setIsOTPModalOpen(true);
       },
       onError: (error: unknown) => {
         ToastErrorHandler(error, theme);
@@ -89,11 +90,11 @@ export function SignUpForm({
   const handleVisibilityToggle = () => {
     setVisibilityToggle(!visibiltyToggle);
   };
-  useEffect(() => {
-    if (sendSignUpOtpMutationSuccess) {
-      setIsOTPModalOpen(true);
-    }
-  }, [sendSignUpOtpMutationSuccess]);
+  // useEffect(() => {
+  //   if (sendSignUpOtpMutationSuccess) {
+  //     setIsOTPModalOpen(true);
+  //   }
+  // }, [sendSignUpOtpMutationSuccess]);
 
   return (
     <>
