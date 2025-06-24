@@ -26,7 +26,11 @@ const FormSchema = z.object({
   }),
 });
 
-export default function InputOTPDemo() {
+export default function InputOTPDemo({
+  verifySignupOTPMutation,
+}: {
+  verifySignupOTPMutation: () => void;
+}) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -35,7 +39,9 @@ export default function InputOTPDemo() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("🚀 ~ onSubmit ~ data:", data);
+    verifySignupOTPMutation(data, {
+
+    })
   }
 
   return (

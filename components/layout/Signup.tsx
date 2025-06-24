@@ -23,7 +23,7 @@ import { ISignInSignUpModalProps } from "@/types";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import ProviderAuth from "@/components/layout/ProviderAuth";
 import { Button } from "@/components/ui/button";
-import { SEND_SIGNUP_OTP, USER_SIGN_UP } from "@/constant";
+import { SEND_SIGNUP_OTP, USER_SIGN_UP, VERIFY_SIGNUP_OTP } from "@/constant";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useAuthContext } from "@/contexts/AuthProvider";
 import { AuthContextType } from "@/contexts/types";
@@ -48,11 +48,19 @@ export function SignUpForm({
     isSuccess: signUpSuccess,
     isPending: signUpPending,
   } = useMutationQueries(USER_SIGN_UP);
+  
   const {
     mutate: sendSignupOtpMutation,
     isSuccess: sendSignUpOtpMutationSuccess,
     isPending: sendSignOtpMutationPending,
   } = useMutationQueries(SEND_SIGNUP_OTP);
+
+  const {
+    mutate: verifySignupOTPMutation,
+    isSuccess,
+    isPending,
+  } = useMutationQueries(VERIFY_SIGNUP_OTP);
+
   const router: AppRouterInstance = useRouter();
   const { theme } = useTheme();
   const {
@@ -116,7 +124,7 @@ export function SignUpForm({
             </DialogTitle>
 
             {isOTPModalOpen ? (
-              <InputOTPDemo />
+              <InputOTPDemo verifySignupOTPMutation={verifySignupOTPMutation} />
             ) : (
               <form className="mt-4 mb-8" onSubmit={handleSubmit(onSubmit)}>
                 <DialogDescription className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
