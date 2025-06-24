@@ -2,13 +2,15 @@ import { RouteProps, statsProps } from "@/types";
 
 export const WINDOW_SIZE_IN_SECONDS = 60;
 export const MAX_REQUESTS_PER_WINDOW = 10;
- 
+
 export const USER_SIGN_IN = "USER SIGN IN";
 export const USER_SIGN_UP = "USER SIGN UP";
 export const FORGOT_USER_PASSWORD = "FORGOT USER PASSWORD";
 export const RESET_USER_PASSWORD = "RESET USER PASSWORD";
 export const CHECK_AUTH_TOKEN = "CHECK AUTH TOKEN";
 export const SEND_SIGNUP_OTP = "SEND SIGNUP OTP";
+export const VERIFY_SIGNUP_OTP = "VERIFY SIGNUP OTP";
+
 export const stats: statsProps[] = [
   {
     quantity: "2.7K+",
@@ -111,7 +113,3 @@ export enum ResponseMessages {
   UNEXPECTED_ERROR = "An unexpected error occurred.",
   TOO_MANY_REQUESTS = "Too many requests, please try after some time.",
 }
-
- 
-
- 
