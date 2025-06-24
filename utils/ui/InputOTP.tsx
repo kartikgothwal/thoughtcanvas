@@ -19,6 +19,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { useTheme } from "next-themes";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -29,8 +30,10 @@ const FormSchema = z.object({
 export default function InputOTPDemo({
   verifySignupOTPMutation,
 }: {
-  verifySignupOTPMutation: () => void;
+  verifySignupOTPMutation: (data: any) => void;
 }) {
+  const { theme } = useTheme();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -39,9 +42,7 @@ export default function InputOTPDemo({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    verifySignupOTPMutation(data, {
-
-    })
+    verifySignupOTPMutation(data);
   }
 
   return (
