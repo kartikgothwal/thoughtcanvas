@@ -39,6 +39,10 @@ export function SignUpForm({
   const authContext: AuthContextType | undefined = useAuthContext();
   const [visibiltyToggle, setVisibilityToggle] = useState<boolean>(false);
   const [isOTPModalOpen, setIsOTPModalOpen] = useState<boolean>(false);
+  const [pendingUserData, setPendingUserData] = useState<z.infer<
+    typeof SignUpFormSchema
+  > | null>(null);
+
   const {
     mutate: signUpMutation,
     isSuccess: signUpSuccess,
@@ -60,6 +64,7 @@ export function SignUpForm({
     resolver: zodResolver(SignUpFormSchema),
   });
   const onSubmit = async (userData: z.infer<typeof SignUpFormSchema>) => {
+    setPendingUserData(userData);
     sendSignupOtpMutation(userData, {
       onSuccess: (response) => {
         ToasterSuccess(response.data.message, theme!);
