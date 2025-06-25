@@ -96,3 +96,8 @@ export const ResetPasswordSchema = z
     path: ["confirmPassword"],
     message: "Password do not match",
   });
+export const verifySignupOTP = z.object({
+  pin: z.string().min(6, {
+    message: "Your one-time password must be 6 characters.",
+  }),
+});

@@ -1,10 +1,11 @@
 import { HttpStatus } from "@/constant";
 import { ApiJsonResponse, handleError } from "@/utils";
+type verifyOTP = z.infer<typeof SignInFormSchema>;
 
 export async function POST(request: Request) {
   try {
     const payload = await request.json();
-    console.log("🚀 ~ POST ~ payload:", payload);
+
     return ApiJsonResponse("OTP Recieved", HttpStatus.OK);
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);

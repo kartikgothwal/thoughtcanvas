@@ -23,12 +23,7 @@ import { useTheme } from "next-themes";
 import { AxiosResponse } from "axios";
 import { UseMutateFunction } from "@tanstack/react-query";
 import ToastErrorHandler from "../ToastErrorHandler";
-
-const FormSchema = z.object({
-  pin: z.string().min(6, {
-    message: "Your one-time password must be 6 characters.",
-  }),
-});
+import { verifySignupOTP } from "@/zod";
 
 export default function InputOTPDemo({
   verifySignupOTPMutation,
@@ -42,14 +37,14 @@ export default function InputOTPDemo({
 }) {
   const { theme } = useTheme();
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof verifySignupOTP>>({
+    resolver: zodResolver(verifySignupOTP),
     defaultValues: {
       pin: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof verifySignupOTP>) {
     verifySignupOTPMutation(data, {
       onError: (error: unknown) => {
         ToastErrorHandler(error, theme);
