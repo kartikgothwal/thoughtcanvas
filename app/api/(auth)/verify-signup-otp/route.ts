@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const payload = await request.json();
     console.log("🚀 ~ POST ~ payload:", payload);
-    return ApiJsonResponse("OTP sent to your email", HttpStatus.OK);
+    return ApiJsonResponse("OTP Recieved", HttpStatus.OK);
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);
     return handleError(
