@@ -23,10 +23,11 @@ import { useTheme } from "next-themes";
 import { AxiosResponse } from "axios";
 import { UseMutateFunction } from "@tanstack/react-query";
 import ToastErrorHandler from "../ToastErrorHandler";
-import { verifySignupOTP } from "@/zod";
+import { SignUpFormSchema, verifySignupOTP } from "@/zod";
 
 export default function InputOTPDemo({
   verifySignupOTPMutation,
+  pendingUserData,
 }: {
   verifySignupOTPMutation: UseMutateFunction<
     AxiosResponse<unknown, unknown>,
@@ -34,6 +35,7 @@ export default function InputOTPDemo({
     unknown,
     unknown
   >;
+  pendingUserData: z.infer<typeof SignUpFormSchema> | null;
 }) {
   const { theme } = useTheme();
 
@@ -45,11 +47,14 @@ export default function InputOTPDemo({
   });
 
   function onSubmit(data: z.infer<typeof verifySignupOTP>) {
-    verifySignupOTPMutation(data, {
-      onError: (error: unknown) => {
-        ToastErrorHandler(error, theme);
-      },
-    });
+    verifySignupOTPMutation(
+      { ...data, email: pendingUserData?.email },
+      {
+        onError: (error: unknown) => {
+          ToastErrorHandler(error, theme);
+        },
+      }
+    );
   }
 
   return (

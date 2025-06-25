@@ -90,7 +90,7 @@ export function SignUpForm({
   const handleVisibilityToggle = () => {
     setVisibilityToggle(!visibiltyToggle);
   };
- 
+
   useEffect(() => {
     if (isVerifySignupOTPMutationSuccess) {
       signUpMutation(pendingUserData, {
@@ -124,7 +124,10 @@ export function SignUpForm({
             </DialogTitle>
 
             {isOTPModalOpen ? (
-              <InputOTPDemo verifySignupOTPMutation={verifySignupOTPMutation} />
+              <InputOTPDemo
+                pendingUserData={pendingUserData}
+                verifySignupOTPMutation={verifySignupOTPMutation}
+              />
             ) : (
               <form className="mt-4 mb-8" onSubmit={handleSubmit(onSubmit)}>
                 <DialogDescription className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
