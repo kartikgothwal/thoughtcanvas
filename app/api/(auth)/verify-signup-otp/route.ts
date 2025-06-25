@@ -1,6 +1,9 @@
 import { HttpStatus } from "@/constant";
 import { ApiJsonResponse, handleError } from "@/utils";
-type verifyOTP = z.infer<typeof SignInFormSchema>;
+import { verifySignupOTP } from "@/zod";
+import { z } from "zod";
+
+type verifyOTP = z.infer<typeof verifySignupOTP>;
 
 export async function POST(request: Request) {
   try {
