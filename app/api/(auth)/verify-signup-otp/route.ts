@@ -1,15 +1,20 @@
 import { HttpStatus } from "@/constant";
-import { ApiJsonResponse, handleError } from "@/utils";
+import { handleError } from "@/utils";
 import { verifySignupOTP } from "@/zod";
 import { z } from "zod";
 
-type verifyOTP = z.infer<typeof verifySignupOTP>;
+type TVerifySignupOTP = z.infer<typeof verifySignupOTP>;
 
 export async function POST(request: Request) {
   try {
-    const payload = await request.json();
-
-    return ApiJsonResponse("OTP Recieved", HttpStatus.OK);
+    const payload: TVerifySignupOTP = await request.json();
+    const isValidPayload = verifySignupOTP.safeParse(payload);
+    if (!isValidPayload.success) {
+      return handleError(
+        new Error(isValidPayload.error.errors[0].message),
+        HttpStatus.BAD_REQUEST
+      );
+    }
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);
     return handleError(
