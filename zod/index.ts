@@ -100,5 +100,10 @@ export const verifySignupOTP = z.object({
   pin: z.string().min(6, {
     message: "Your one-time password must be 6 characters.",
   }),
-  email: z.string().email("Email must be a valid email address").optional(),
+});
+export const verifySignupOTPPayload = z.object({
+  pin: z.string().min(6, {
+    message: "Your one-time password must be 6 characters.",
+  }),
+  email: z.string().email("Email must be a valid email address"),
 });

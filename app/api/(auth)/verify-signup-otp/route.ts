@@ -1,13 +1,15 @@
 import { redis } from "@/config";
 import { HttpStatus } from "@/constant";
-import { IVerifySignupOTP } from "@/types";
 import { ApiJsonResponse, handleError } from "@/utils";
-import { verifySignupOTP } from "@/zod";
+import { verifySignupOTPPayload } from "@/zod";
+import { z } from "zod";
+
+type TVerifySignupOTPPayload = z.infer<typeof verifySignupOTPPayload>;
 
 export async function POST(request: Request) {
   try {
-    const payload: IVerifySignupOTP = await request.json();
-    const isValidPayload = verifySignupOTP.safeParse(payload);
+    const payload: TVerifySignupOTPPayload = await request.json();
+    const isValidPayload = verifySignupOTPPayload.safeParse(payload);
     if (!isValidPayload.success) {
       return handleError(
         new Error(isValidPayload.error.errors[0].message),
