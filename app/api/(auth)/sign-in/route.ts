@@ -110,7 +110,7 @@ export async function POST(
       );
     }
 
-    const isPasswordValid: boolean = await bcrypt.compare(
+    const isPasswordValid: boolean = bcrypt.compare(
       payload.password,
       isExisted.password
     );

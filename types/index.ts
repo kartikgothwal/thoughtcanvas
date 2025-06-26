@@ -87,3 +87,7 @@ export interface IRateLimit {
   maxRequest: number;
   windowSizeInSeconds: number;
 }
+export interface IVerifySignupOTP {
+  email: string;
+  otp: string;
+}

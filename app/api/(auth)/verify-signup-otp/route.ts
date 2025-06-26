@@ -1,15 +1,29 @@
 import { redis } from "@/config";
 import { HttpStatus } from "@/constant";
-import { handleError } from "@/utils";
+import { IVerifySignupOTP } from "@/types";
+import { ApiJsonResponse, handleError } from "@/utils";
 import { verifySignupOTP } from "@/zod";
-import { z } from "zod";
-
-type TVerifySignupOTP = z.infer<typeof verifySignupOTP>;
 
 export async function POST(request: Request) {
   try {
-    const payload = await request.json();
-    console.log("🚀 ~ POST ~ payload:", payload);
+    const payload: IVerifySignupOTP = await request.json();
+    const isValidPayload = verifySignupOTP.safeParse(payload);
+    if (!isValidPayload.success) {
+      return handleError(
+        new Error(isValidPayload.error.errors[0].message),
+        HttpStatus.BAD_REQUEST
+      );
+    }
+    const cachedOTP: string | null = await redis.get(
+      `sign-up-otp:${payload.email}`
+    );
+    if (!cachedOTP) {
+      return handleError(
+        new Error("OTP is expired or invalid"),
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+    return ApiJsonResponse("Token is verified", HttpStatus.OK, payload);
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);
     return handleError(

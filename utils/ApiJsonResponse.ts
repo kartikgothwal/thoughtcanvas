@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export function ApiJsonResponse(
   message: string,
   statusCode: number,
-  data?: IUserSignInResponse
+  data?: IUserSignInResponse | any
 ) {
   return NextResponse.json(
     { code: statusCode, message, data, success: true },
