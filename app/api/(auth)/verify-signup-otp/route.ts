@@ -25,7 +25,10 @@ export async function POST(request: Request) {
         HttpStatus.UNAUTHORIZED
       );
     }
-    return ApiJsonResponse("Token is verified", HttpStatus.OK, payload);
+    if (cachedOTP !== payload.pin) {
+      return handleError(new Error("Invalid OTP"), HttpStatus.UNAUTHORIZED);
+    }
+    return ApiJsonResponse("Token is verified", HttpStatus.OK);
   } catch (error: unknown) {
     console.log("🚀 ~ POST ~ error:", error);
     return handleError(
