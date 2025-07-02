@@ -5,7 +5,7 @@ import { AxiosError } from "axios";
 export async function VerifyJwtToken(token: string): Promise<boolean> {
   try {
     if (!token || typeof token !== "string" || token.split(".").length !== 3) {
-      console.error("Invalid token format");
+      console.log("Invalid token format");
       return false;
     }
     const response = await PostRequestHandler("verify-user", {}, token);
@@ -20,7 +20,7 @@ export async function VerifyJwtToken(token: string): Promise<boolean> {
       error.response?.status === HttpStatus.UNAUTHORIZED
     ) {
     } else {
-      console.error(
+      console.log(
         "Verification error:",
         error instanceof Error ? error.message : "Unknown error"
       );

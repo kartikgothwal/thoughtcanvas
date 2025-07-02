@@ -5,7 +5,7 @@ export function JwtValidator(token: string): string | JwtPayload | null {
   try {
     return jwt.verify(token, PUBLIC_KEY);
   } catch (error) {
-    console.error("JWT verification failed:", error);
+    console.log("JWT verification failed:", error);
     return null;
   }
 }

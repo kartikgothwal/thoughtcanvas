@@ -53,7 +53,7 @@ export default function Page(): JSX.Element {
         form.reset();
       },
       onError: (error: Error) => {
-        console.error("Error resetting password", error);
+        console.log("Error resetting password", error);
         ToastErrorHandler(error, theme);
       },
     });

@@ -12,7 +12,7 @@ export default async function dbConnect(): Promise<void> {
     connection.isConnected = db.connections[0].readyState;
     console.log("Database is successfully connected");
   } catch (error: unknown) {
-    console.error("Error connecting the database", error);
+    console.log("Error connecting the database", error);
     process.exit(1);
   }
 }

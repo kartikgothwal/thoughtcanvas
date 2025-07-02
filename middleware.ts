@@ -38,7 +38,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
   } catch (error: unknown) {
-    console.error("🚀 ~ middleware error:", error);
+    console.log("🚀 ~ middleware error:", error);
     return NextResponse.redirect(new URL("/", request.url));
   }
 }

@@ -93,7 +93,7 @@ async function handler(
     await isExisted.save();
     return ApiJsonResponse("Password has be updated", HttpStatus.OK);
   } catch (error) {
-    console.error("🚀 ~ PATCH ~ error:", error);
+    console.log("🚀 ~ PATCH ~ error:", error);
     return handleError(error, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
