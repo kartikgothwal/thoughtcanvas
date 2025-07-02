@@ -47,7 +47,7 @@ export function SignUpForm({
     mutate: signUpMutation,
     isSuccess: signUpSuccess,
     isPending: signUpPending,
-  } = useMutationQueries(USER_SIGN_UP)
+  } = useMutationQueries(USER_SIGN_UP);
 
   const {
     mutate: sendSignupOtpMutation,
