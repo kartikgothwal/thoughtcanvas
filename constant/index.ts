@@ -111,5 +111,5 @@ export enum ResponseMessages {
   AUTHORIZATION_TOKEN_MISSING = "Authorization token missing",
   UNKNOWN_ERROR_OCCURRED = "Unknown error occurred",
   UNEXPECTED_ERROR = "An unexpected error occurred.",
-  TOO_MANY_REQUESTS = "Too many requests, please try after some time.",
+  // TOO_MANY_REQUESTS = "Too many requests, please try after some time.",
 }
